@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TicketToRide.iml" filepath="$PROJECT_DIR$/TicketToRide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/TicketToRide.iml" filepath="$PROJECT_DIR$/.idea/TicketToRide.iml" />
+      <module fileurl="file://C:\Users\matto\AndroidStudioProjects\TicketToRide\TicketToRide.iml" filepath="C:\Users\matto\AndroidStudioProjects\TicketToRide\TicketToRide.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\matto\AndroidStudioProjects\TicketToRide\app\app.iml" filepath="C:\Users\matto\AndroidStudioProjects\TicketToRide\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://C:\Users\matto\AndroidStudioProjects\TicketToRide\common\common.iml" filepath="C:\Users\matto\AndroidStudioProjects\TicketToRide\common\common.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
+      <module fileurl="file://C:\Users\matto\AndroidStudioProjects\TicketToRide\server\server.iml" filepath="C:\Users\matto\AndroidStudioProjects\TicketToRide\server\server.iml" />
     </modules>
   </component>
 </project>

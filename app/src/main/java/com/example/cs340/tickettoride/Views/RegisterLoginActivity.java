@@ -1,5 +1,6 @@
 package com.example.cs340.tickettoride.Views;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -113,6 +114,12 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
     public void displayErrorMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    @Override
+    public void switchToView(Class<?> newViewClass) {
+        Intent intent = new Intent(this, newViewClass);
+        this.startActivity(intent);
     }
 
     // TextWatcher interface

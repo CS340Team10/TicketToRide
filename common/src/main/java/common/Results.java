@@ -9,6 +9,12 @@ public class Results {
     private String data;
     private String error;
 
+    public Results(boolean success, String data, String error) {
+        this.success = success;
+        this.data = data;
+        this.error = error;
+    }
+
     public boolean succeeded() {
         return success;
     }

@@ -1,7 +1,8 @@
 package com.example.cs340.tickettoride.Views;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -9,6 +10,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -33,10 +36,12 @@ public class CreateJoinGameActivity extends AppCompatActivity implements ICreate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_join_game);
+        setTitle("Create or Join Game");
 
         getSubviews();
         setupListeners();
         setupRecyclerView();
+        setupSpinner();
     }
 
     private void getSubviews() {
@@ -70,12 +75,31 @@ public class CreateJoinGameActivity extends AppCompatActivity implements ICreate
 
             }
         });
+
+        newGameNumPlayers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                presenter.textChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     private void setupRecyclerView() {
         gameList.setLayoutManager(new LinearLayoutManager(this));
         CustomAdapter adapter = new CustomAdapter();
         gameList.setAdapter(adapter);
+    }
+
+    private void setupSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.num_players_array, R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        newGameNumPlayers.setAdapter(adapter);
     }
 
     @Override
@@ -97,12 +121,18 @@ public class CreateJoinGameActivity extends AppCompatActivity implements ICreate
 
     @Override
     public int getNewGameNumPlayers() {
-        return 0;
+        return Integer.parseInt(newGameNumPlayers.getSelectedItem().toString());
     }
 
     @Override
     public void setCreateGameButtonEnabled(boolean enabled) {
         createGameButton.setEnabled(enabled);
+    }
+
+    @Override
+    public void switchToView(Class<?> newViewClass) {
+        Intent intent = new Intent(this, newViewClass);
+        this.startActivity(intent);
     }
 
     private class CustomViewHolder extends RecyclerView.ViewHolder {

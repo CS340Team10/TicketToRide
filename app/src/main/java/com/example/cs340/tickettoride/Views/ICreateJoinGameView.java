@@ -10,4 +10,5 @@ public interface ICreateJoinGameView {
     String getNewGameName();
     int getNewGameNumPlayers();
     void setCreateGameButtonEnabled(boolean enabled);
+    void switchToView(Class<?> newViewClass);
 }

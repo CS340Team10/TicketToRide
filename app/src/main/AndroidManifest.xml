@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.CreateJoinGameActivity"></activity>
+        <activity android:name=".Views.CreateJoinGameActivity" />
+        <activity android:name=".Views.WaitForGameActivity"></activity>
     </application>
 
 </manifest>

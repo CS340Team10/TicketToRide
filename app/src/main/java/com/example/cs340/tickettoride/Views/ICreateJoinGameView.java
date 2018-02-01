@@ -5,4 +5,9 @@ package com.example.cs340.tickettoride.Views;
  */
 
 public interface ICreateJoinGameView {
+    void displayErrorMessage(String message);
+    void setAvailableGames(String[] gameNames);
+    String getNewGameName();
+    int getNewGameNumPlayers();
+    void setCreateGameButtonEnabled(boolean enabled);
 }

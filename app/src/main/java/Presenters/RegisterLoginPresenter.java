@@ -37,7 +37,7 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
 
         // Call into the service
         GUIService.getInstance().login(this, username, password);
-        //onPostExecute(new Results(false, "", "Login failed"));
+        onPostExecute(new Results(true, "", "Login failed"));
     }
 
     @Override

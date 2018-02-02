@@ -3,6 +3,8 @@ package Handlers;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 
 /**
  * Created by Brian on 2/1/18.
@@ -18,5 +20,11 @@ public class DefaultHandler extends GenericHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException{
 
+        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+        OutputStream os = exchange.getResponseBody();
+        String outputString = "<html><title>Simple Java Server Default page</title><body><h1 style='text-align: center'>Simple Java Server Default Page</h1></html>";
+
+        os.write(outputString.getBytes());
+        os.close();
     }
 }

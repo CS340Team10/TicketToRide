@@ -1,10 +1,13 @@
 package Communication;
 
+import common.ICommand;
+import common.Results;
+
 /**
  * Created by matto on 2/1/2018.
  */
 
-public class ServerCommand {
+public class ServerCommand implements ICommand {
 
     private String _className;
     private String _methodName;
@@ -17,5 +20,10 @@ public class ServerCommand {
         this._methodName = methodName;
         this._paramTypes = paramTypes;
         this._paramValues = paramValues;
+    }
+
+    public Results execute()
+    {
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package common;
+package Communication;
 
 /**
  * Created by ephraimkunz on 1/31/18.

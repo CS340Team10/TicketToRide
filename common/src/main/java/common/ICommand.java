@@ -5,5 +5,5 @@ package common;
  */
 
 public interface ICommand {
-    Result execute();
+    Results execute();
 }

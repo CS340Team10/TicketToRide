@@ -1,5 +1,6 @@
 package common.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class Game
 {
-    List<Player> players;
+    List<Player> players = new ArrayList<>();
     String name;
     int requiredPlayerCount;
     CommandHistory gameHistory = new CommandHistory();
@@ -19,6 +20,11 @@ public class Game
 
     }
 
+    /**
+     * If the given player is not already participating in the game, then the player is
+     *  added to the game
+     * @param player the player to add to the game
+     */
     public void join(Player player)
     {
         if (!players.contains(player))
@@ -27,14 +33,28 @@ public class Game
         }
     }
 
+    /**
+     *
+     * @return whether the game has already started or not
+     */
     public boolean hasStarted()
     {
         return didStart;
     }
 
-    public void startGame()
+    /**
+     * If there are enough players (greater than or equal to the required player count)
+     * tell the game that it has started
+     * But if there are not enough players, the game will not start and the method will return false
+     * @return whether the game successfully started
+     */
+    public boolean startGame()
     {
-        didStart = true;
+        if (players.size() >= requiredPlayerCount)
+        {
+            didStart = true;
+        }
+        return didStart;
     }
 
     public void setName(String name)

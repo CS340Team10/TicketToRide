@@ -1,7 +1,9 @@
-package common.Model;
+package com.example.cs340.server;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import common.Model.Player;
 
 /**
  * Created by Joseph on 2/1/2018.
@@ -9,10 +11,10 @@ import java.util.List;
 
 public class Game
 {
+    CommandHistory gameHistory = new CommandHistory();
     List<Player> players = new ArrayList<>();
     String name;
     int requiredPlayerCount;
-    CommandHistory gameHistory = new CommandHistory();
     boolean didStart = false;
 
     public Game()

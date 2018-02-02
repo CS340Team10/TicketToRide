@@ -2,9 +2,8 @@ package Communication;
 
 import java.util.List;
 
+import ClientModel.Game;
 import common.Command;
-import common.ICommand;
-import common.Model.Game;
 
 /**
  * Created by Joseph on 2/2/2018.

@@ -2,8 +2,8 @@ package Server;
 
 import java.util.ArrayList;
 
-import common.Game;
-import common.Player;
+import Model.Game;
+import Model.Player;
 
 /**
  * Created by Brian on 2/1/18.

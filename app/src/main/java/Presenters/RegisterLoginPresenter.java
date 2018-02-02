@@ -1,11 +1,10 @@
 package Presenters;
 
-import android.content.Intent;
-import android.util.Log;
-
 import com.example.cs340.tickettoride.Views.CreateJoinGameActivity;
 import com.example.cs340.tickettoride.Views.IRegisterLoginView;
-import com.example.cs340.tickettoride.Views.RegisterLoginActivity;
+
+import java.util.Observable;
+import java.util.Observer;
 
 import Services.GUIService;
 import common.Results;
@@ -14,7 +13,7 @@ import common.Results;
  * Created by ephraimkunz on 1/31/18.
  */
 
-public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresenter {
+public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresenter, Observer {
     private final String tag = "RegisterLoginPresenter";
     private IRegisterLoginView view;
 
@@ -24,6 +23,9 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
 
     public RegisterLoginPresenter(IRegisterLoginView view) {
         this.view = view;
+
+        // TODO: Register as model observer
+
     }
 
     @Override
@@ -37,7 +39,7 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
 
         // Call into the service
         GUIService.getInstance().login(this, username, password);
-        //onPostExecute(new Results(false, "", "Login failed"));
+        onPostExecute(new Results(true, "", "Login failed"));
     }
 
     @Override
@@ -82,5 +84,10 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
             textChanged(); // Re-enable buttons immediately if necessary
             view.displayErrorMessage(result.getError());
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        // Nothing to do here
     }
 }

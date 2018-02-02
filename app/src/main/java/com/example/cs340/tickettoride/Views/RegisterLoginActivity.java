@@ -1,20 +1,16 @@
 package com.example.cs340.tickettoride.Views;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cs340.tickettoride.R;
-
-import org.w3c.dom.Text;
 
 import Presenters.IRegisterLoginPresenter;
 import Presenters.RegisterLoginPresenter;
@@ -36,6 +32,7 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_login);
+        setTitle("Register or Login");
 
         getSubviews();
         setupListeners();

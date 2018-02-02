@@ -23,4 +23,12 @@ public class GUIService {
     public void register(IPresenter presenter, String username, String password) {
         Log.d(tag, "Register with username: " + username + " password: " + password);
     }
+
+    public void createGame(IPresenter presenter, String gameName, int numPlayers) {
+        Log.d(tag, "Create game with name: " + gameName + " players: " + numPlayers);
+    }
+
+    public void joinGame(IPresenter presenter, String gameName) {
+        Log.d(tag, "Join game with name: " + gameName);
+    }
 }

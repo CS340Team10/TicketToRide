@@ -1,10 +1,13 @@
 package Communication;
 
+import common.IServer;
+import common.Results;
+
 /**
  * Created by matto on 2/1/2018.
  */
 
-public class ServerProxy implements IServer{
+public class ServerProxy implements IServer {
 
     @Override
     public Results register(String username, String password) {

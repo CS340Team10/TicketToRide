@@ -15,6 +15,18 @@ public class Results {
         this.error = error;
     }
 
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
     public boolean succeeded() {
         return success;
     }

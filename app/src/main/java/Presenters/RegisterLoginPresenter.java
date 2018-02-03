@@ -23,9 +23,7 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
 
     public RegisterLoginPresenter(IRegisterLoginView view) {
         this.view = view;
-
-        // TODO: Register as model observer
-
+        // No need to register an observer here, since we don't need model updates
     }
 
     @Override
@@ -39,7 +37,7 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
 
         // Call into the service
         GUIService.getInstance().login(this, username, password);
-        onPostExecute(new Results(true, "", "Login failed"));
+        //onPostExecute(new Results(true, "", "Login failed"));
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.example.cs340.tickettoride.Views.IWaitForGameView;
 import java.util.Observable;
 import java.util.Observer;
 
+import Services.GUIService;
 import common.Results;
 
 /**
@@ -16,7 +17,7 @@ public class WaitForGamePresenter implements IWaitForGamePresenter, IPresenter, 
     public WaitForGamePresenter(IWaitForGameView view) {
         this.view = view;
 
-        // TODO: Register as model observer
+        GUIService.getInstance().getClientModel().addObserver(this);
     }
 
     @Override
@@ -26,6 +27,8 @@ public class WaitForGamePresenter implements IWaitForGamePresenter, IPresenter, 
 
     @Override
     public void update(Observable observable, Object o) {
-        // TODO: Observe game started change in model and call view.displayMessage("Game began");
+        if (GUIService.getInstance().getClientModel().getGame().hasStarted()) {
+            view.displayMessage("Game began");
+        }
     }
 }

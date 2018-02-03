@@ -2,6 +2,7 @@ package Services;
 
 import android.util.Log;
 
+import ClientModel.ClientModel;
 import Presenters.IPresenter;
 
 /**
@@ -11,6 +12,7 @@ import Presenters.IPresenter;
 public class GUIService {
     private static GUIService instance = new GUIService();
     private final String tag = "GUIService";
+    private ClientModel model = new ClientModel();
 
     private GUIService(){}
 
@@ -30,5 +32,9 @@ public class GUIService {
 
     public void joinGame(IPresenter presenter, String gameName) {
         Log.d(tag, "Join game with name: " + gameName);
+    }
+
+    public ClientModel getClientModel() {
+        return model;
     }
 }

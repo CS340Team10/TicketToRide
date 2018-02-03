@@ -72,7 +72,7 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
 
     @Override
     public void update(Observable observable, Object o) {
-        List<String> games = GUIService.getInstance().getClientModel().getGameList();
+        List<String> games = GUIService.getInstance().getClientModel().getAvailableGames();
         view.setAvailableGames(games.toArray(new String[0]));
     }
 }

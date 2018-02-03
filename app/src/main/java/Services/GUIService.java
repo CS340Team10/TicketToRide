@@ -43,4 +43,9 @@ public class GUIService
     public void joinGame(IPresenter presenter, String gameName) {
         Log.d(tag, "Join game with name: " + gameName);
     }
+
+    public ClientModel getClientModel()
+    {
+        return ClientModel.get_instance();
+    }
 }

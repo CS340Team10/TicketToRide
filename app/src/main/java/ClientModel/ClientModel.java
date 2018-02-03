@@ -17,9 +17,9 @@ public class ClientModel extends Observable
     private static ClientModel _instance = new ClientModel();
     private List<Player> players = new ArrayList<>();
     private Game game = new Game();
-    private List<Game> games = new ArrayList<>();
+    private List<String> available_games = new ArrayList<>();
 
-    public ClientModel get_instance()
+    public static ClientModel get_instance()
     {
         return _instance;
     }
@@ -28,7 +28,7 @@ public class ClientModel extends Observable
         return game;
     }
 
-    public List<Game> getGameList() {
-        return games;
+    public List<String> getAvailableGames() {
+        return available_games;
     }
 }

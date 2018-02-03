@@ -7,7 +7,14 @@ import common.Results;
  * Created by matto on 2/1/2018.
  */
 
-public class ServerProxy implements IServer {
+public class ServerProxy implements IServer
+{
+    private static ServerProxy _instance = new ServerProxy();
+
+    public static ServerProxy get_instance()
+    {
+        return _instance;
+    }
 
     @Override
     public Results register(String username, String password) {

@@ -1,6 +1,7 @@
 package Services;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import Communication.ServerProxy;
 import Presenters.IPresenter;
@@ -34,6 +35,7 @@ public class LoginRegisterTask extends AsyncTask<String, Void, Results>
      */
     private IPresenter myPresenter;
     private OPTIONS option;
+    private final String tag = "LoginRegisterTask";
 
     /**
      * Create a new Login or Register Task
@@ -57,16 +59,26 @@ public class LoginRegisterTask extends AsyncTask<String, Void, Results>
         {
             String username = strings[0];   //Get the username (the first parameter in execute())
             String password = strings[1];   //Get the password (the second parameter in execute())
+            Results temp_res = null;
             switch (option)
             {
                 case LOGIN:                 //Login the user if that was the decided behavior
-                    result = ServerProxy.get_instance().login(username, password);
+                    temp_res = ServerProxy.get_instance().login(username, password);
                     break;
                 case REGISTER:              //Register the user if that was the decided behavior
-                    result = ServerProxy.get_instance().register(username,password);
+                    temp_res = ServerProxy.get_instance().register(username,password);
                     break;
                 default:                    //Otherwise do nothing and return the result with error
                     break;
+            }
+            if (temp_res == null)
+            {
+                Log.d(tag, "doInBackground: ERROR - null Results returned from ServerProxy");
+                result.setError("ERROR - null Results returned from ServerProxy");
+            }
+            else
+            {
+                result = temp_res;
             }
             return result;
         }

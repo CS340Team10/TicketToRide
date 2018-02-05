@@ -52,9 +52,9 @@ public class ClientCommunicator {
 
      @return an object of type ResultClass
      */
-    public Object post(String authToken, String body, Class ResultClass)
+    public Object post(String url, String authToken, String body, Class ResultClass)
     {
-        String response = getGSON("POST", authToken, body);
+        String response = getGSON(url, "POST", authToken, body);
         return new Gson().fromJson(response, ResultClass);
     }
 
@@ -66,9 +66,9 @@ public class ClientCommunicator {
 
      @return an object of type ResultClass
      */
-    public Object get(String authToken, String body, Class ResultClass)
+    public Object get(String url, String authToken, String body, Class ResultClass)
     {
-        String response = getGSON("GET", authToken, body);
+        String response = getGSON(url, "GET", authToken, body);
         return new Gson().fromJson(response, ResultClass);
     }
 
@@ -78,11 +78,11 @@ public class ClientCommunicator {
     }
 
 
-    private String getGSON(String method, String authToken, String body) {
+    private String getGSON(String urlAddon, String method, String authToken, String body) {
         try {
             // Create a URL indicating where the server is running, and which
             // web API operation we want to call
-            URL url = new URL(getURLString());
+            URL url = new URL(getURLString() + urlAddon);
 
             // Start constructing our HTTP request
             HttpURLConnection http = (HttpURLConnection)url.openConnection();

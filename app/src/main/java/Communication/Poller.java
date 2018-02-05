@@ -83,7 +83,7 @@ public class Poller {
         ServerCommand command = ServerCommandFactory.createGetCommandsCommand("playerID"); //create getCommands command
         String commandJSON = new Gson().toJson(command, ServerCommand.class); // put command into JSON
 
-        Results results = (Results) communicator.get("authToken", commandJSON, Results.class); // send command, get results
+        Results results = (Results) communicator.get("poll", "authToken", commandJSON, Results.class); // send command, get results
 
         if(!results.succeeded()) // will return null if there was some error
             return null;
@@ -105,7 +105,7 @@ public class Poller {
         ServerCommand command = ServerCommandFactory.createGetGamesCommand(); // create getGames command
         String commandJSON = new Gson().toJson(command, ServerCommand.class); // create JSON from command
 
-        Results results = (Results) communicator.get("authToken", commandJSON, Results.class); //send command, get result
+        Results results = (Results) communicator.get("poll", "authToken", commandJSON, Results.class); //send command, get result
 
         if(!results.succeeded()) // return null if there was an error
             return null;

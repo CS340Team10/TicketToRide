@@ -1,5 +1,7 @@
 package Communication;
 
+import com.google.gson.Gson;
+
 import common.IServer;
 import common.Results;
 
@@ -19,7 +21,10 @@ public class ServerProxy implements IServer
     @Override
     public Results register(String username, String password) {
         ServerCommand command = ServerCommandFactory.createRegisterCommand(username, password);
-        return null;
+        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        String commandJSON = new Gson().toJson(command, ServerCommand.class);
+        Results results = (Results) communicator.get("command", null, commandJSON, Results.class);
+        return results;
     }
 
     @Override

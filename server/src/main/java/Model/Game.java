@@ -11,9 +11,6 @@ public class Game {
     /**
      * Created by Joseph on 2/1/2018.
      */
-
-    public static class Game
-    {
         CommandHistory gameHistory = new CommandHistory();
         List<common.Model.Player> players = new ArrayList<>();
         String name;
@@ -97,4 +94,3 @@ public class Game {
             return false;
         }
     }
-}

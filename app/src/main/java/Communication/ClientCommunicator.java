@@ -20,7 +20,7 @@ public class ClientCommunicator {
     private String IPAddress;
     private String port;
 
-    public ClientCommunicator get_instance()
+    public static ClientCommunicator get_instance()
     {
         if(_instance == null)
             _instance = new ClientCommunicator();
@@ -43,13 +43,13 @@ public class ClientCommunicator {
         this.port = port;
     }
 
-    public Object post(String url, String authToken, String body, Class ResultClass)
+    public Object post(String authToken, String body, Class ResultClass)
     {
         String response = getGSON("POST", authToken, body);
         return new Gson().fromJson(response, ResultClass);
     }
 
-    public Object get(String url, String authToken, String body, Class ResultClass)
+    public Object get(String authToken, String body, Class ResultClass)
     {
         String response = getGSON("GET", authToken, body);
         return new Gson().fromJson(response, ResultClass);

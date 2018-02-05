@@ -20,8 +20,8 @@ import common.Results;
 
 public class Poller {
     private static Poller _instance = new Poller();
-    private int pollPeriodMS = 1000;
-    private static ScheduledExecutorService _threadInstance;
+    private int pollPeriodMS = 1000; // set poll period, default at 1 second
+    private static ScheduledExecutorService _threadInstance; // separate thread to complete polling
     protected enum pollTypes {COMMAND, GAME}
     private static pollTypes currentPollType = pollTypes.GAME;
 
@@ -29,59 +29,89 @@ public class Poller {
         return _instance;
     }
 
+
+    /**
+     * Starts a poller that will keep Command list updated
+     */
     public void startCommandPoll() {
         if(_threadInstance != null)
         {
             _threadInstance.shutdown();
         }
-        currentPollType = pollTypes.COMMAND;
-        _threadInstance = Executors.newSingleThreadScheduledExecutor();
-        ScheduledFuture future = _threadInstance.scheduleWithFixedDelay(new PollerThread(), 0, pollPeriodMS, TimeUnit.MILLISECONDS);
+        currentPollType = pollTypes.COMMAND; // set polling type
+        _threadInstance = Executors.newSingleThreadScheduledExecutor(); //create polling thread
+        ScheduledFuture future = _threadInstance.scheduleWithFixedDelay(new PollerThread(), 0, pollPeriodMS, TimeUnit.MILLISECONDS); //start polling thread
     }
 
+    /**
+     * Stops the poller that will keep Command list updated
+     */
     public void stopCommandPoll() {
         _threadInstance.shutdown();
     }
 
+    /**
+     * Starts a poller that will keep Game list updated
+     */
     public void startGamePoll()
     {
         if(_threadInstance != null)
         {
-            _threadInstance.shutdown();
+            _threadInstance.shutdown(); //shut down polling thread if it is active
         }
-        currentPollType = pollTypes.GAME;
-        _threadInstance = Executors.newSingleThreadScheduledExecutor();
-        ScheduledFuture future = _threadInstance.scheduleWithFixedDelay(new PollerThread(), 0, pollPeriodMS, TimeUnit.MILLISECONDS);
+        currentPollType = pollTypes.GAME; // set polling type
+        _threadInstance = Executors.newSingleThreadScheduledExecutor(); // create polling thread
+        ScheduledFuture future = _threadInstance.scheduleWithFixedDelay(new PollerThread(), 0, pollPeriodMS, TimeUnit.MILLISECONDS); // start polling thread
     }
 
+    /**
+     * Stops a poller that will keep Game list updated
+     */
     public void stopGamePoll()
     {
         _threadInstance.shutdown();
     }
 
+    /**
+     * Calls ClientCommunicator to get command list
+     *
+     * @return command list if successful, null otherwise
+     */
     private List<Command> fetchCommands()
     {
-        ClientCommunicator communicator = ClientCommunicator.get_instance();
-        ServerCommand command = ServerCommandFactory.createGetCommandsCommand("playerID");
-        String commandJSON = new Gson().toJson(command, ServerCommand.class);
-        Results results = (Results) communicator.get("authToken", commandJSON, Results.class);
-        if(!results.succeeded())
+        ClientCommunicator communicator = ClientCommunicator.get_instance(); // get communicator instance
+        ServerCommand command = ServerCommandFactory.createGetCommandsCommand("playerID"); //create getCommands command
+        String commandJSON = new Gson().toJson(command, ServerCommand.class); // put command into JSON
+
+        Results results = (Results) communicator.get("authToken", commandJSON, Results.class); // send command, get results
+
+        if(!results.succeeded()) // will return null if there was some error
             return null;
-        Type listType = new TypeToken<List<Command>>(){}.getType();
-        List<Command> commandList = new Gson().fromJson(results.getData(), listType);
+
+        Type listType = new TypeToken<List<Command>>(){}.getType(); // create deserialization type
+        List<Command> commandList = new Gson().fromJson(results.getData(), listType); // get list of commands from results JSON
         return commandList;
     }
 
+
+    /**
+     * Calls ClientCommunicator to get game list
+     *
+     * @return game list if successful, null otherwise
+     */
     private List<Game> fetchGames()
     {
         ClientCommunicator communicator = ClientCommunicator.get_instance();
-        ServerCommand command = ServerCommandFactory.createGetGamesCommand();
-        String commandJSON = new Gson().toJson(command, ServerCommand.class);
-        Results results = (Results) communicator.get("authToken", commandJSON, Results.class);
-        if(!results.succeeded())
+        ServerCommand command = ServerCommandFactory.createGetGamesCommand(); // create getGames command
+        String commandJSON = new Gson().toJson(command, ServerCommand.class); // create JSON from command
+
+        Results results = (Results) communicator.get("authToken", commandJSON, Results.class); //send command, get result
+
+        if(!results.succeeded()) // return null if there was an error
             return null;
-        Type listType = new TypeToken<List<Game>>(){}.getType();
-        List<Game> gameList = new Gson().fromJson(results.getData(), listType);
+
+        Type listType = new TypeToken<List<Game>>(){}.getType(); // get deserialization type for List<Game>
+        List<Game> gameList = new Gson().fromJson(results.getData(), listType); //get gameList from JSON
         return gameList;
     }
 
@@ -91,8 +121,8 @@ public class Poller {
         {
             if(currentPollType == pollTypes.GAME)
             {
-                List<Game> gameList = fetchGames();
-                ClientGameService.get_instance().updateGameList(gameList);
+                List<Game> gameList = fetchGames(); // get game list
+                ClientGameService.get_instance().updateGameList(gameList); // update client with fresh game list
             }
             else if(currentPollType == pollTypes.COMMAND)
             {

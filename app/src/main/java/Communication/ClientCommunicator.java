@@ -43,12 +43,29 @@ public class ClientCommunicator {
         this.port = port;
     }
 
+
+    /**
+    Posts information to the server
+     @param authToken authorization to post
+     @param body String (should be JSON) representation of the request body, usually a command
+     @param ResultClass Class type that should be expected as the result (usually Results class)
+
+     @return an object of type ResultClass
+     */
     public Object post(String authToken, String body, Class ResultClass)
     {
         String response = getGSON("POST", authToken, body);
         return new Gson().fromJson(response, ResultClass);
     }
 
+    /**
+     Posts information to the server
+     @param authToken authorization to get info
+     @param body String (should be JSON) representation of the request body, usually a command
+     @param ResultClass Class type that should be expected as the result (usually Results class)
+
+     @return an object of type ResultClass
+     */
     public Object get(String authToken, String body, Class ResultClass)
     {
         String response = getGSON("GET", authToken, body);

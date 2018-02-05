@@ -1,4 +1,4 @@
-package com.example.cs340.server;
+package Model;
 
 import java.util.ArrayList;
 import java.util.List;

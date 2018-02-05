@@ -3,6 +3,7 @@ package Presenters;
 import com.example.cs340.tickettoride.Views.ICreateJoinGameView;
 import com.example.cs340.tickettoride.Views.WaitForGameActivity;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,8 +22,7 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
     public CreateJoinGamePresenter(ICreateJoinGameView view) {
         this.view = view;
 
-        // TODO: Register as model observer
-
+        GUIService.getInstance().getClientModel().addObserver(this);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
         int numPlayers = view.getNewGameNumPlayers();
         GUIService.getInstance().createGame(this, name, numPlayers);
 
-        onPostExecute(new Results(true, "game5", ""));
+       // onPostExecute(new Results(true, "game5", ""));
     }
 
     @Override
@@ -72,6 +72,7 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
 
     @Override
     public void update(Observable observable, Object o) {
-        // TODO: Get the list of games and call view.setGameList()
+        List<String> games = GUIService.getInstance().getClientModel().getAvailableGames();
+        view.setAvailableGames(games.toArray(new String[0]));
     }
 }

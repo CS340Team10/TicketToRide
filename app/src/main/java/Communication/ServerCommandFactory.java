@@ -32,4 +32,16 @@ public class ServerCommandFactory {
         Object[] values = {gameName, playerID};
         return new ServerCommand("ServerCommand", "LoginCommand", objects, values);
     }
+
+    public static ServerCommand  createGetGamesCommand()
+    {
+        return new ServerCommand("ServerCommand", "GetGamesCommand", new Object[]{}, new Object[]{});
+    }
+
+    public static ServerCommand createGetCommandsCommand(String playerID)
+    {
+        Object[] objects = {String.class};
+        Object[] values = {playerID};
+        return new ServerCommand("ServerCommand", "LoginCommand", objects, values);
+    }
 }

@@ -20,6 +20,7 @@ import common.Results;
 
 public class Poller {
     private static Poller _instance = new Poller();
+
     private int pollPeriodMS = 1000; // set poll period, default at 1 second
     private static ScheduledExecutorService _threadInstance; // separate thread to complete polling
     protected enum pollTypes {COMMAND, GAME}
@@ -80,10 +81,9 @@ public class Poller {
     private List<Command> fetchCommands()
     {
         ClientCommunicator communicator = ClientCommunicator.get_instance(); // get communicator instance
-        ServerCommand command = ServerCommandFactory.createGetCommandsCommand("playerID"); //create getCommands command
-        String commandJSON = new Gson().toJson(command, ServerCommand.class); // put command into JSON
+        String playerID = "playerID";
 
-        Results results = (Results) communicator.get("poll", "authToken", commandJSON, Results.class); // send command, get results
+        Results results = (Results) communicator.get("poll", "authToken", playerID, Results.class); // send command, get results
 
         if(!results.succeeded()) // will return null if there was some error
             return null;
@@ -102,10 +102,8 @@ public class Poller {
     private List<Game> fetchGames()
     {
         ClientCommunicator communicator = ClientCommunicator.get_instance();
-        ServerCommand command = ServerCommandFactory.createGetGamesCommand(); // create getGames command
-        String commandJSON = new Gson().toJson(command, ServerCommand.class); // create JSON from command
 
-        Results results = (Results) communicator.get("poll", "authToken", commandJSON, Results.class); //send command, get result
+        Results results = (Results) communicator.get("gameList", "authToken", "", Results.class); //send command, get result
 
         if(!results.succeeded()) // return null if there was an error
             return null;
@@ -127,26 +125,12 @@ public class Poller {
             else if(currentPollType == pollTypes.COMMAND)
             {
                 List<Command> commandList = fetchCommands();
+                for(Command c : commandList)
+                {
+                    c.execute();
+                }
             }
         }
     }
 
-    public static void main(String[] args)
-    {
-        Poller poller = Poller.get_instance();
-        poller.startGamePoll();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        poller.stopGamePoll();
-        poller.startCommandPoll();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        poller.stopCommandPoll();
-    }
 }

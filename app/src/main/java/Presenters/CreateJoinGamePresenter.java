@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import Communication.Poller;
 import Services.GUIService;
 import common.Results;
 
@@ -21,6 +22,9 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
 
     public CreateJoinGamePresenter(ICreateJoinGameView view) {
         this.view = view;
+
+        // Start the poller for the game list that the associated view will display.
+        Poller.get_instance().startGamePoll();
 
         GUIService.getInstance().getClientModel().addObserver(this);
     }
@@ -61,6 +65,8 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
                 waitingForServer = false;
                 textChanged();
             } else { // Success in joining game
+                // Stop the game list poller
+                Poller.get_instance().stopGamePoll();
                 view.switchToView(WaitForGameActivity.class);
             }
         } else {

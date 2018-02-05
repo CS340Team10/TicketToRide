@@ -5,6 +5,7 @@ import com.example.cs340.tickettoride.Views.IWaitForGameView;
 import java.util.Observable;
 import java.util.Observer;
 
+import Communication.Poller;
 import Services.GUIService;
 import common.Results;
 
@@ -16,6 +17,8 @@ public class WaitForGamePresenter implements IWaitForGamePresenter, IPresenter, 
     IWaitForGameView view;
     public WaitForGamePresenter(IWaitForGameView view) {
         this.view = view;
+
+        Poller.get_instance().startCommandPoll(); // Stop this when the game ends later on.
 
         GUIService.getInstance().getClientModel().addObserver(this);
     }

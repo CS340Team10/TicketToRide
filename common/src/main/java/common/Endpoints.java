@@ -10,4 +10,5 @@ public class Endpoints {
     public static final String GAME_LIST_ENDPOINT        = "/gameList/";
     public static final String POLL_ENDPOINT             = "/poll/";
     public static final String EXEC_COMMAND_ENDPOINT     = "/execCommand/";
+
 }

@@ -15,7 +15,7 @@ import common.Results;
 
 public class ServerCommandService implements IServer {
 
-    private ServerCommandService _instance = new ServerCommandService();
+    private static ServerCommandService _instance = new ServerCommandService();
     private ServerModel _serverModel;
 
     /**
@@ -30,7 +30,7 @@ public class ServerCommandService implements IServer {
      *
      * @return the instance of ServerCommandInstance
      */
-    public ServerCommandService getInstance(){
+    public static ServerCommandService getInstance(){
         return _instance;
     }
 
@@ -54,12 +54,25 @@ public class ServerCommandService implements IServer {
      * @return
      */
     public Results login(String username, String password){
-        Results returnValue;
+        Results returnValue = new Results(false, "", "Invalid username");
+        Player tempPlayer = new Player(username, password);
 
         // iterate through the registered users to find the requested User
         ArrayList<Player> players = _serverModel.getRegisteredPlayers();
 
-        return null;
+        for (int count = 0; count < players.size(); count++){
+            Player currPlayer = players.get(count);
+            if (currPlayer.equals(tempPlayer)){
+                returnValue = new Results(true, "Login success", "");
+                break;
+            }
+            else if (currPlayer.getUsername().equals(tempPlayer.getUsername())){
+                returnValue = new Results(false, "", "Incorrect password");
+                break;
+            }
+        }
+
+        return returnValue;
     }
 
     /**

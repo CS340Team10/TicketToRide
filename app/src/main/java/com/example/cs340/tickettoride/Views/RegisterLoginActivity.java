@@ -38,6 +38,11 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
         setupListeners();
     }
 
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
+
     private void getSubviews() {
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);

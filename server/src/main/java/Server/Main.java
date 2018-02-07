@@ -33,6 +33,8 @@ public class Main {
         // Steps in method:
         // 1. Start the server
 
+        Gson gson = new Gson();
+
         if (args.length > 0){
             new ServerCommunicator().run(parseInt(args[0]));
         }

@@ -23,25 +23,34 @@ public class ServerProxy implements IServer
         ServerCommand command = ServerCommandFactory.createRegisterCommand(username, password);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
         String commandJSON = new Gson().toJson(command, ServerCommand.class);
-        Results results = (Results) communicator.get("command", null, commandJSON, Results.class);
+        Results results = (Results) communicator.get("execCommand", null, commandJSON, Results.class);
         return results;
     }
 
     @Override
     public Results login(String username, String password) {
         ServerCommand command = ServerCommandFactory.createLoginCommand(username, password);
-        return null;
+        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        String commandJSON = new Gson().toJson(command, ServerCommand.class);
+        Results results = (Results) communicator.get("execCommand", null, commandJSON, Results.class);
+        return results;
     }
 
     @Override
     public Results createGame(String gameName, int numPlayers) {
         ServerCommand command = ServerCommandFactory.createCreateGameCommand(gameName, numPlayers);
-        return null;
+        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        String commandJSON = new Gson().toJson(command, ServerCommand.class);
+        Results results = (Results) communicator.get("execCommand", null, commandJSON, Results.class);
+        return results;
     }
 
     @Override
     public Results joinGame(String gameName, String playerID) {
         ServerCommand command = ServerCommandFactory.createRegisterCommand(gameName, playerID);
-        return null;
+        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        String commandJSON = new Gson().toJson(command, ServerCommand.class);
+        Results results = (Results) communicator.get("execCommand", playerID, commandJSON, Results.class);
+        return results;
     }
 }

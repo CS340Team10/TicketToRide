@@ -22,7 +22,7 @@ public class DefaultHandler extends GenericHandler {
 
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
         OutputStream os = exchange.getResponseBody();
-        String outputString = "<html><title>Simple Java Server Default page</title><body><h1 style='text-align: center'>Simple Java Server Default Page</h1></html>";
+        String outputString = "<html><title>Ticket To Ride Default page</title><body><h1 style='text-align: center'>Ticket To Ride Default Page</h1></html>";
 
         os.write(outputString.getBytes());
         os.close();

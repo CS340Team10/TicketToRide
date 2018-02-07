@@ -1,5 +1,8 @@
 package Services;
 
+import java.util.ArrayList;
+
+import Model.Player;
 import Server.ServerModel;
 
 import Server.ServerModel;
@@ -51,6 +54,11 @@ public class ServerCommandService implements IServer {
      * @return
      */
     public Results login(String username, String password){
+        Results returnValue;
+
+        // iterate through the registered users to find the requested User
+        ArrayList<Player> players = _serverModel.getRegisteredPlayers();
+
         return null;
     }
 

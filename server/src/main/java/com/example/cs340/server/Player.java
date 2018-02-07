@@ -1,4 +1,4 @@
-package common.Model;
+package com.example.cs340.server;
 
 /**
  * Created by Joseph on 2/2/2018.

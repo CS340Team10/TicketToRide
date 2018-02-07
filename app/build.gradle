@@ -27,5 +27,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':common')
     implementation 'com.android.support:recyclerview-v7:27.0.2'
-    implementation files('libs/gson-2.8.2.jar')
 }

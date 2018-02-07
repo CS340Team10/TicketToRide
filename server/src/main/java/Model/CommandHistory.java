@@ -24,6 +24,10 @@ public class CommandHistory
         history.add(cmd);
     }
 
+    public void addStartGameCommand(){
+
+    }
+
     /**
      * Get all the commands starting at and after a certain given position
      * @param position starting position (inclusive) you want to get the command history from

@@ -2,6 +2,7 @@ package Services;
 
 import java.util.ArrayList;
 
+import Model.Game;
 import Model.Player;
 import Server.ServerModel;
 
@@ -43,7 +44,28 @@ public class ServerCommandService implements IServer {
      * @return a Result from the server
      */
     public Results register(String username, String password){
-        return null;
+        Results returnValue = null;
+        Player tempPlayer = new Player(username, password);
+
+        // iterate through the registered users to find the requested User
+        ArrayList<Player> players = _serverModel.getRegisteredPlayers();
+
+        for (int count = 0; count < players.size(); count++){
+            Player currPlayer = players.get(count);
+            if (currPlayer.getUsername().equals(tempPlayer.getUsername())){
+                returnValue = new Results(false, "", "That username is already in use");
+                break;
+            }
+        }
+
+        if (returnValue == null){
+            // the username has not been taken
+            tempPlayer.setPlayerID(username + "_registered");
+            _serverModel.register(tempPlayer);
+            _serverModel.setLoggedIn(tempPlayer);
+        }
+
+        return returnValue;
     }
 
     /**
@@ -63,6 +85,8 @@ public class ServerCommandService implements IServer {
         for (int count = 0; count < players.size(); count++){
             Player currPlayer = players.get(count);
             if (currPlayer.equals(tempPlayer)){
+                tempPlayer.setPlayerID(username + "_loggedIn");
+                _serverModel.setLoggedIn(tempPlayer);
                 returnValue = new Results(true, "Login success", "");
                 break;
             }
@@ -79,11 +103,22 @@ public class ServerCommandService implements IServer {
      * Creates a new game on the Server
      *
      * @param gameName
-     * @param numPlayers
+     * @param numOfPlayers
      * @return
      */
-    public Results createGame(String gameName, int numPlayers){
-        return null;
+    public Results createGame(String gameName, int numOfPlayers){
+        Results returnValue = new Results(false, "", "Unknown error occurred");
+
+        Game newGame = new Game(gameName, numOfPlayers);
+        if (_serverModel.gameExists(newGame)){
+            returnValue = new Results(false, "", "The game \"" + gameName + "\" already exists. Please try a different name");
+        }
+        else {
+            _serverModel.addGame(newGame);
+            returnValue = new Results(true, "Game \"" + gameName + "\" successfully created.", "");
+        }
+
+        return returnValue;
     }
 
     /**
@@ -94,6 +129,33 @@ public class ServerCommandService implements IServer {
      * @return
      */
     public Results joinGame(String gameName, String playerID){
-        return null;
+        Results returnValue = new Results(false, "", "Unknown error occurred");
+
+        if (_serverModel.isPlayerLoggedIn(playerID)){
+            // the player exists, so add them to the game
+            String gameMessage = _serverModel.addPlayerToGame(gameName, playerID);
+
+            if (gameMessage.equals("")){
+                // the player was added successfully
+            }
+            else {
+                returnValue = new Results(false, "", "Error message from Game: \"" + gameMessage + "\"");
+            }
+        }
+        else {
+            // there is no player with that ID
+            returnValue = new Results(false, "", "The player ID \"" + playerID + "\" is invalid");
+        }
+
+        return returnValue;
+    }
+
+    @Override
+    public String toString(){
+        return _serverModel.toString();
+    }
+
+    public static String getModelString(){
+        return getInstance().toString();
     }
 }

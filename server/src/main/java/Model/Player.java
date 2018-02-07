@@ -9,10 +9,13 @@ public class Player {
     private String _username;
     private String _password;
     private String _playerID;
+    private int _gameHistoryIndex;
 
     public Player(String username, String password){
         _username = username;
         _password = password;
+        _playerID = "";
+        _gameHistoryIndex = 0;
     }
 
 
@@ -70,6 +73,14 @@ public class Player {
         _playerID = playerID;
     }
 
+    public int getGameHistoryIndex(){
+        return _gameHistoryIndex;
+    }
+
+    public void setGameHistoryIndex(int historyIndex){
+        _gameHistoryIndex = historyIndex;
+    }
+
     /**
      * Returns whether the Object is equal to this Player
      *
@@ -101,5 +112,18 @@ public class Player {
 
         // if this point is reached, then the Objects are equal
         return true;
+    }
+
+    @Override
+    public String toString(){
+        String returnString = "";
+
+        returnString += "Username:\t\t\t" + _username + "\n";
+        returnString += "Password:\t\t\t" + _password + "\n";
+        returnString += "PlayerID:\t\t\t" + _playerID + "\n";
+        returnString += "Commands Position:\t" + _gameHistoryIndex;
+
+
+        return returnString;
     }
 }

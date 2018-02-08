@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TicketToRide.iml" filepath="$PROJECT_DIR$/TicketToRide.iml" />
-      <module fileurl="file://C:\Users\matto\AndroidStudioProjects\TicketToRide\TicketToRide.iml" filepath="C:\Users\matto\AndroidStudioProjects\TicketToRide\TicketToRide.iml" />
       <module fileurl="file://F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\.idea\TicketToRide.iml" filepath="F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\.idea\TicketToRide.iml" />
+      <module fileurl="file://C:\Users\matto\AndroidStudioProjects\TicketToRide\TicketToRide.iml" filepath="C:\Users\matto\AndroidStudioProjects\TicketToRide\TicketToRide.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />

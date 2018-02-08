@@ -24,6 +24,11 @@ public class WaitForGameActivity extends AppCompatActivity implements IWaitForGa
     }
 
     @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
+
+    @Override
     public void displayMessage(String message) {
         this.message.setText(message);
     }

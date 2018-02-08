@@ -44,6 +44,11 @@ public class CreateJoinGameActivity extends AppCompatActivity implements ICreate
         setupSpinner();
     }
 
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
+
     private void getSubviews() {
         createGameButton = findViewById(R.id.createGameButton);
         newGameName = findViewById(R.id.newGameName);

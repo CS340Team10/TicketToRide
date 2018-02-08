@@ -82,14 +82,10 @@ public class Poller {
     {
         ClientCommunicator communicator = ClientCommunicator.get_instance(); // get communicator instance
         String playerID = "playerID";
-
-        Results results = (Results) communicator.get("poll", "authToken", playerID, Results.class); // send command, get results
-
-        if(!results.succeeded()) // will return null if there was some error
-            return null;
-
         Type listType = new TypeToken<List<Command>>(){}.getType(); // create deserialization type
-        List<Command> commandList = new Gson().fromJson(results.getData(), listType); // get list of commands from results JSON
+
+        List<Command> commandList = (List<Command>) communicator.get("poll", "", playerID, listType); // send command, get results
+
         return commandList;
     }
 
@@ -99,17 +95,13 @@ public class Poller {
      *
      * @return game list if successful, null otherwise
      */
-    private List<Game> fetchGames()
+    private List<String> fetchGames()
     {
         ClientCommunicator communicator = ClientCommunicator.get_instance();
 
-        Results results = (Results) communicator.get("gameList", "authToken", "", Results.class); //send command, get result
+        Type listType = new TypeToken<List<String>>(){}.getType(); // get deserialization type for List<String>
+        List<String> gameList = (List<String>) communicator.get("gameList", "authToken", "", listType); //send command, get result
 
-        if(!results.succeeded()) // return null if there was an error
-            return null;
-
-        Type listType = new TypeToken<List<Game>>(){}.getType(); // get deserialization type for List<Game>
-        List<Game> gameList = new Gson().fromJson(results.getData(), listType); //get gameList from JSON
         return gameList;
     }
 
@@ -119,7 +111,7 @@ public class Poller {
         {
             if(currentPollType == pollTypes.GAME)
             {
-                List<Game> gameList = fetchGames(); // get game list
+                List<String> gameList = fetchGames(); // get game list
                 ClientGameService.get_instance().updateGameList(gameList); // update client with fresh game list
             }
             else if(currentPollType == pollTypes.COMMAND)

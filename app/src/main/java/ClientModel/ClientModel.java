@@ -31,4 +31,10 @@ public class ClientModel extends Observable
     public List<String> getAvailableGames() {
         return available_games;
     }
+
+    public void setAvailable_games(List<String> gameList)
+    {
+        available_games = gameList;
+        notify();
+    }
 }

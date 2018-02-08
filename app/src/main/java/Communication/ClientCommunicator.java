@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -66,7 +67,7 @@ public class ClientCommunicator {
 
      @return an object of type ResultClass
      */
-    public Object get(String url, String authToken, String body, Class ResultClass)
+    public Object get(String url, String authToken, String body, Type ResultClass)
     {
         String response = getGSON(url, "GET", authToken, body);
         return new Gson().fromJson(response, ResultClass);

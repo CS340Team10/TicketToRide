@@ -1,7 +1,9 @@
 package Communication;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import ClientModel.ClientModel;
 import ClientModel.Game;
 
 /**
@@ -9,7 +11,7 @@ import ClientModel.Game;
  */
 
 public class ClientGameService {
-    private static ClientGameService _instance;
+    private static ClientGameService _instance = new ClientGameService();
 
     public static ClientGameService get_instance()
     {
@@ -21,8 +23,9 @@ public class ClientGameService {
 
     }
 
-    public void updateGameList(List<Game> games)
+    public void updateGameList(List<String> games)
     {
-
+        ClientModel.get_instance().setAvailable_games(games);
+        notify();
     }
 }

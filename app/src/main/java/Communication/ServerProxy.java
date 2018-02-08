@@ -2,6 +2,7 @@ package Communication;
 
 import com.google.gson.Gson;
 
+import common.Command;
 import common.IServer;
 import common.Results;
 
@@ -20,36 +21,36 @@ public class ServerProxy implements IServer
 
     @Override
     public Results register(String username, String password) {
-        ServerCommand command = ServerCommandFactory.createRegisterCommand(username, password);
+        Command command = ServerCommandFactory.createRegisterCommand(username, password);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
-        String commandJSON = new Gson().toJson(command, ServerCommand.class);
+        String commandJSON = new Gson().toJson(command, Command.class);
         Results results = (Results) communicator.get("execCommand", null, commandJSON, Results.class);
         return results;
     }
 
     @Override
     public Results login(String username, String password) {
-        ServerCommand command = ServerCommandFactory.createLoginCommand(username, password);
+        Command command = ServerCommandFactory.createLoginCommand(username, password);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
-        String commandJSON = new Gson().toJson(command, ServerCommand.class);
+        String commandJSON = new Gson().toJson(command, Command.class);
         Results results = (Results) communicator.get("execCommand", null, commandJSON, Results.class);
         return results;
     }
 
     @Override
     public Results createGame(String gameName, int numPlayers) {
-        ServerCommand command = ServerCommandFactory.createCreateGameCommand(gameName, numPlayers);
+        Command command = ServerCommandFactory.createCreateGameCommand(gameName, numPlayers);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
-        String commandJSON = new Gson().toJson(command, ServerCommand.class);
+        String commandJSON = new Gson().toJson(command, Command.class);
         Results results = (Results) communicator.get("execCommand", null, commandJSON, Results.class);
         return results;
     }
 
     @Override
     public Results joinGame(String gameName, String playerID) {
-        ServerCommand command = ServerCommandFactory.createRegisterCommand(gameName, playerID);
+        Command command = ServerCommandFactory.createRegisterCommand(gameName, playerID);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
-        String commandJSON = new Gson().toJson(command, ServerCommand.class);
+        String commandJSON = new Gson().toJson(command, Command.class);
         Results results = (Results) communicator.get("execCommand", playerID, commandJSON, Results.class);
         return results;
     }

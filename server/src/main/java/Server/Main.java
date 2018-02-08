@@ -32,6 +32,8 @@ public class Main {
     public static void main(String[] args){
         // Steps in method:
         // 1. Start the server
+        Gson gson = new Gson();
+        System.out.println(gson.toString());
 
         Gson gson = new Gson();
 

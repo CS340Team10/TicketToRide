@@ -19,16 +19,15 @@ public class ClientGameService
 
     /**
      *
-     * @return whether the client's game has started already
+     * set that the game did start
      */
-    public boolean gameDidStart()
+    public void gameDidStart()
     {
         Game game = ClientModel.get_instance().getGame();
         if (game != null)
         {
-            return game.hasStarted();
+            game.startGame();
         }
-        return false;
     }
 
     /**

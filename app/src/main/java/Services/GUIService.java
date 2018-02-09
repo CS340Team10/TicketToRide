@@ -40,8 +40,11 @@ public class GUIService
         Log.d(tag, "Create game with name: " + gameName + " players: " + numPlayers);
     }
 
-    public void joinGame(IPresenter presenter, String gameName) {
+    public void joinGame(IPresenter presenter, String gameName)
+    {
         Log.d(tag, "Join game with name: " + gameName);
+        JoinGameTask joinTask = new JoinGameTask(presenter);
+        joinTask.execute(gameName, ClientModel.get_instance().getUser().getId());
     }
 
     public ClientModel getClientModel()

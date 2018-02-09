@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 
+import Server.Serializer;
+import common.Command;
+import common.Results;
+
 /**
  * Created by Brian on 2/1/18.
  */
@@ -20,11 +24,13 @@ public class ExecCommandHandler extends GenericHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException{
 
-        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-        OutputStream os = exchange.getResponseBody();
-        String outputString = "<html><title>ExecCommand Page</title><body><h1 style='text-align: center'>ExecCommand Page</h1></html>";
+        Command request = (Command) Serializer.deserializeInputStream(exchange.getRequestBody(), Command.class);
+        Results results = request.execute();
 
-        os.write(outputString.getBytes());
+        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+
+        OutputStream os = exchange.getResponseBody();
+        os.write(Serializer.serializeObject(results).getBytes());
         os.close();
     }
 }

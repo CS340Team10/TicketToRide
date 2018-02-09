@@ -38,4 +38,11 @@ public class Results {
     public String getError() {
         return error;
     }
+
+    @Override
+    public String toString(){
+        String returnValue = "Success:\t\"" + success + "\"\nData:\t\"" + data + "\"\nError:\t\"" + error + "\"";
+
+        return returnValue;
+    }
 }

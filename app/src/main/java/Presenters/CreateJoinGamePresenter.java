@@ -63,6 +63,7 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
         if (result.succeeded() ) {
             if (result.getData().isEmpty()) { // Success in creating game
                 waitingForServer = false;
+                view.clearNewGameName();
                 textChanged();
             } else { // Success in joining game
                 // Stop the game list poller

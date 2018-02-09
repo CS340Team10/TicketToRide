@@ -1,47 +1,39 @@
 package Communication;
 
+import common.Command;
+
 /**
  * Created by matto on 2/1/2018.
  */
 
 public class ServerCommandFactory {
-    public static ServerCommand createLoginCommand(String username, String password)
+    public static Command createLoginCommand(String username, String password)
     {
-        Object[] objects = {String.class, String.class};
+        String[] objects = {"java.lang.String", "java.lang.String"};
         Object[] values = {username, password};
-        return new ServerCommand("ServerCommand", "LoginCommand", objects, values);
+        return new Command("Services.ServerCommandService", "login", objects, values);
     }
 
-    public static ServerCommand createRegisterCommand(String username, String password)
+    public static Command createRegisterCommand(String username, String password)
     {
-        Object[] objects = {String.class, String.class};
+        String[] objects = {"java.lang.String" , "java.lang.String"};
         Object[] values = {username, password};
-        return new ServerCommand("ServerCommand", "RegisterCommand", objects, values);
+        return new Command("Services.ServerCommandService", "register", objects, values);
     }
 
-    public static ServerCommand createCreateGameCommand(String gameName, int numPlayers)
+    public static Command createCreateGameCommand(String gameName, int numPlayers)
     {
-        Object[] objects = {String.class, int.class};
+        // Deserializing an integer becomes a double, so pass double.
+        String[] objects = {"java.lang.String", "java.lang.Double"};
         Object[] values = {gameName, numPlayers};
-        return new ServerCommand("ServerCommand", "CreateGameCommand", objects, values);
+        return new Command("Services.ServerCommandService", "createGame", objects, values);
     }
 
-    public static ServerCommand createJoinGameCommand(String gameName, String playerID)
+    public static Command createJoinGameCommand(String gameName, String playerID)
     {
-        Object[] objects = {String.class, String.class};
+        String[] objects = {"java.lang.String", "java.lang.String"};
         Object[] values = {gameName, playerID};
-        return new ServerCommand("ServerCommand", "LoginCommand", objects, values);
+        return new Command("common.Command", "LoginCommand", objects, values);
     }
 
-    public static ServerCommand  createGetGamesCommand()
-    {
-        return new ServerCommand("ServerCommand", "GetGamesCommand", new Object[]{}, new Object[]{});
-    }
-
-    public static ServerCommand createGetCommandsCommand(String playerID)
-    {
-        Object[] objects = {String.class};
-        Object[] values = {playerID};
-        return new ServerCommand("ServerCommand", "LoginCommand", objects, values);
-    }
 }

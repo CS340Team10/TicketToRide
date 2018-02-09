@@ -38,6 +38,9 @@ public class GUIService
 
     public void createGame(IPresenter presenter, String gameName, int numPlayers) {
         Log.d(tag, "Create game with name: " + gameName + " players: " + numPlayers);
+        CreateGameParams params = new CreateGameParams(numPlayers, gameName);
+        CreateGameTask task = new CreateGameTask(presenter);
+        task.execute(params);
     }
 
     public void joinGame(IPresenter presenter, String gameName)

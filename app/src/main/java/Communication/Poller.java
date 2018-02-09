@@ -10,9 +10,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import ClientModel.Game;
 import common.Command;
-import common.Results;
+import common.Endpoints;
 
 /**
  * Created by Joseph on 2/2/2018.
@@ -20,6 +19,7 @@ import common.Results;
 
 public class Poller {
     private static Poller _instance = new Poller();
+
     private int pollPeriodMS = 1000; // set poll period, default at 1 second
     private static ScheduledExecutorService _threadInstance; // separate thread to complete polling
     protected enum pollTypes {COMMAND, GAME}
@@ -80,16 +80,11 @@ public class Poller {
     private List<Command> fetchCommands()
     {
         ClientCommunicator communicator = ClientCommunicator.get_instance(); // get communicator instance
-        ServerCommand command = ServerCommandFactory.createGetCommandsCommand("playerID"); //create getCommands command
-        String commandJSON = new Gson().toJson(command, ServerCommand.class); // put command into JSON
-
-        Results results = (Results) communicator.get("poll", "authToken", commandJSON, Results.class); // send command, get results
-
-        if(!results.succeeded()) // will return null if there was some error
-            return null;
-
+        String playerID = "playerID";
         Type listType = new TypeToken<List<Command>>(){}.getType(); // create deserialization type
-        List<Command> commandList = new Gson().fromJson(results.getData(), listType); // get list of commands from results JSON
+
+        List<Command> commandList = (List<Command>) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, listType); // send command, get results
+
         return commandList;
     }
 
@@ -99,19 +94,13 @@ public class Poller {
      *
      * @return game list if successful, null otherwise
      */
-    private List<Game> fetchGames()
+    private List<String> fetchGames()
     {
         ClientCommunicator communicator = ClientCommunicator.get_instance();
-        ServerCommand command = ServerCommandFactory.createGetGamesCommand(); // create getGames command
-        String commandJSON = new Gson().toJson(command, ServerCommand.class); // create JSON from command
 
-        Results results = (Results) communicator.get("poll", "authToken", commandJSON, Results.class); //send command, get result
+        Type listType = new TypeToken<List<String>>(){}.getType(); // get deserialization type for List<String>
+        List<String> gameList = (List<String>) communicator.get(Endpoints.GAME_LIST_ENDPOINT, "authToken", "", listType); //send command, get result
 
-        if(!results.succeeded()) // return null if there was an error
-            return null;
-
-        Type listType = new TypeToken<List<Game>>(){}.getType(); // get deserialization type for List<Game>
-        List<Game> gameList = new Gson().fromJson(results.getData(), listType); //get gameList from JSON
         return gameList;
     }
 
@@ -121,32 +110,18 @@ public class Poller {
         {
             if(currentPollType == pollTypes.GAME)
             {
-                List<Game> gameList = fetchGames(); // get game list
+                List<String> gameList = fetchGames(); // get game list
                 ClientGameService.get_instance().updateGameList(gameList); // update client with fresh game list
             }
             else if(currentPollType == pollTypes.COMMAND)
             {
                 List<Command> commandList = fetchCommands();
+                for(Command c : commandList)
+                {
+                    c.execute();
+                }
             }
         }
     }
 
-    public static void main(String[] args)
-    {
-        Poller poller = Poller.get_instance();
-        poller.startGamePoll();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        poller.stopGamePoll();
-        poller.startCommandPoll();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        poller.stopCommandPoll();
-    }
 }

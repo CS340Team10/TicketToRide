@@ -62,6 +62,7 @@ public class ServerCommandService implements IServer {
             tempPlayer.setPlayerID(username + "_registered");
             _serverModel.register(tempPlayer);
             _serverModel.setLoggedIn(tempPlayer);
+            returnValue = new Results(true, tempPlayer.getPlayerID(), "");
         }
 
         return returnValue;

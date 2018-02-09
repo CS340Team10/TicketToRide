@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -17,8 +18,8 @@ import java.net.URL;
 public class ClientCommunicator {
 
     private static ClientCommunicator _instance = null;
-    private String IPAddress;
-    private String port;
+    private String IPAddress = "10.4.108.138";
+    private String port = "8080";
 
     public static ClientCommunicator get_instance()
     {
@@ -66,7 +67,7 @@ public class ClientCommunicator {
 
      @return an object of type ResultClass
      */
-    public Object get(String url, String authToken, String body, Class ResultClass)
+    public Object get(String url, String authToken, String body, Type ResultClass)
     {
         String response = getGSON(url, "GET", authToken, body);
         return new Gson().fromJson(response, ResultClass);
@@ -74,7 +75,7 @@ public class ClientCommunicator {
 
     public String getURLString()
     {
-        return "http://" + IPAddress + ":" + port + "/";
+        return "http://" + IPAddress + ":" + port;
     }
 
 
@@ -92,6 +93,8 @@ public class ClientCommunicator {
             // Indicate that this request will contain an HTTP request body
             http.setDoOutput(true);
 
+            // Set Authorization token
+            http.setRequestProperty("Authorization", authToken);
             // Get the output stream containing the HTTP request body
             OutputStream reqBody = http.getOutputStream();
             // Write the JSON data to the request body
@@ -99,8 +102,6 @@ public class ClientCommunicator {
             // Close the request body output stream, indicating that the
             // request is complete
             reqBody.close();
-
-            http.setRequestProperty("Authorization", authToken);
 
             // Connect to the server and send the HTTP request
             http.connect();

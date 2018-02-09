@@ -33,7 +33,7 @@ public class ServerCommandFactory {
     {
         String[] objects = {"java.lang.String", "java.lang.String"};
         Object[] values = {gameName, playerID};
-        return new Command("common.Command", "LoginCommand", objects, values);
+        return new Command("Services.ServerCommandService", "joinGame", objects, values);
     }
 
 }

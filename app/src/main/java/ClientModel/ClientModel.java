@@ -30,6 +30,21 @@ public class ClientModel extends Observable
         return available_games;
     }
 
+    /**
+     * Sets available_games to any non-null List of strings holding the names of available games
+     * If null value is passed in, then this method will do nothing
+     * @param available_games the list holding the names of available games
+     */
+    public void setAvailableGames(List<String> available_games)
+    {
+        if (available_games != null)
+        {
+            this.available_games = available_games;
+            setChanged();
+            notifyObservers();
+        }
+    }
+
     public Player getUser() {
         return user;
     }

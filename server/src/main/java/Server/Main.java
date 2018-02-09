@@ -35,8 +35,6 @@ public class Main {
         Gson gson = new Gson();
         System.out.println(gson.toString());
 
-        Gson gson = new Gson();
-
         if (args.length > 0){
             new ServerCommunicator().run(parseInt(args[0]));
         }

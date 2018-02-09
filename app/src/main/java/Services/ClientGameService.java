@@ -24,10 +24,8 @@ public class ClientGameService
     public void gameDidStart()
     {
         Game game = ClientModel.get_instance().getGame();
-        if (game != null)
-        {
-            game.startGame();
-        }
+        game.startGame();
+        ClientModel.get_instance().notifyObservers();
     }
 
     /**
@@ -39,6 +37,7 @@ public class ClientGameService
         if (games != null)
         {
             ClientModel.get_instance().setAvailableGames(games);
+            ClientModel.get_instance().notifyObservers();
         }
     }
 }

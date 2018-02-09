@@ -10,9 +10,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import ClientModel.Game;
 import common.Command;
-import common.Results;
+import common.Endpoints;
 
 /**
  * Created by Joseph on 2/2/2018.
@@ -84,7 +83,7 @@ public class Poller {
         String playerID = "playerID";
         Type listType = new TypeToken<List<Command>>(){}.getType(); // create deserialization type
 
-        List<Command> commandList = (List<Command>) communicator.get("poll", "", playerID, listType); // send command, get results
+        List<Command> commandList = (List<Command>) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, listType); // send command, get results
 
         return commandList;
     }
@@ -100,7 +99,7 @@ public class Poller {
         ClientCommunicator communicator = ClientCommunicator.get_instance();
 
         Type listType = new TypeToken<List<String>>(){}.getType(); // get deserialization type for List<String>
-        List<String> gameList = (List<String>) communicator.get("gameList", "authToken", "", listType); //send command, get result
+        List<String> gameList = (List<String>) communicator.get(Endpoints.GAME_LIST_ENDPOINT, "authToken", "", listType); //send command, get result
 
         return gameList;
     }

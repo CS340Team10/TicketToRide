@@ -18,8 +18,8 @@ import java.net.URL;
 public class ClientCommunicator {
 
     private static ClientCommunicator _instance = null;
-    private String IPAddress;
-    private String port;
+    private String IPAddress = "localhost";
+    private String port = "8080";
 
     public static ClientCommunicator get_instance()
     {
@@ -75,7 +75,7 @@ public class ClientCommunicator {
 
     public String getURLString()
     {
-        return "http://" + IPAddress + ":" + port + "/";
+        return "http://" + IPAddress + ":" + port;
     }
 
 
@@ -93,6 +93,8 @@ public class ClientCommunicator {
             // Indicate that this request will contain an HTTP request body
             http.setDoOutput(true);
 
+            // Set Authorization token
+            http.setRequestProperty("Authorization", authToken);
             // Get the output stream containing the HTTP request body
             OutputStream reqBody = http.getOutputStream();
             // Write the JSON data to the request body
@@ -100,8 +102,6 @@ public class ClientCommunicator {
             // Close the request body output stream, indicating that the
             // request is complete
             reqBody.close();
-
-            http.setRequestProperty("Authorization", authToken);
 
             // Connect to the server and send the HTTP request
             http.connect();

@@ -25,7 +25,7 @@ public class ClientGameService {
 
     public void updateGameList(List<String> games)
     {
-        ClientModel.get_instance().setAvailable_games(games);
+        ClientModel.get_instance().setAvailableGames(games);
         notify();
     }
 }

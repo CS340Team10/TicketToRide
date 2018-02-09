@@ -3,6 +3,7 @@ package Communication;
 import com.google.gson.Gson;
 
 import common.Command;
+import common.Endpoints;
 import common.IServer;
 import common.Results;
 
@@ -24,7 +25,7 @@ public class ServerProxy implements IServer
         Command command = ServerCommandFactory.createRegisterCommand(username, password);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
         String commandJSON = new Gson().toJson(command, Command.class);
-        Results results = (Results) communicator.get("execCommand", null, commandJSON, Results.class);
+        Results results = (Results) communicator.get(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
         return results;
     }
 
@@ -33,7 +34,7 @@ public class ServerProxy implements IServer
         Command command = ServerCommandFactory.createLoginCommand(username, password);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
         String commandJSON = new Gson().toJson(command, Command.class);
-        Results results = (Results) communicator.get("execCommand", null, commandJSON, Results.class);
+        Results results = (Results) communicator.get(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
         return results;
     }
 
@@ -42,7 +43,7 @@ public class ServerProxy implements IServer
         Command command = ServerCommandFactory.createCreateGameCommand(gameName, numPlayers);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
         String commandJSON = new Gson().toJson(command, Command.class);
-        Results results = (Results) communicator.get("execCommand", null, commandJSON, Results.class);
+        Results results = (Results) communicator.get(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
         return results;
     }
 
@@ -51,7 +52,13 @@ public class ServerProxy implements IServer
         Command command = ServerCommandFactory.createRegisterCommand(gameName, playerID);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
         String commandJSON = new Gson().toJson(command, Command.class);
-        Results results = (Results) communicator.get("execCommand", playerID, commandJSON, Results.class);
+        Results results = (Results) communicator.get(Endpoints.EXEC_COMMAND_ENDPOINT, playerID, commandJSON, Results.class);
         return results;
+    }
+
+    public static void main(String[] args)
+    {
+        ServerProxy proxy = get_instance();
+        Results r = proxy.login("u", "p");
     }
 }

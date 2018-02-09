@@ -25,7 +25,7 @@ public class ServerProxy implements IServer
         Command command = ServerCommandFactory.createRegisterCommand(username, password);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
         String commandJSON = new Gson().toJson(command, Command.class);
-        Results results = (Results) communicator.get(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
+        Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
         return results;
     }
 

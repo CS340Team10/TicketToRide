@@ -1,5 +1,6 @@
 package Test;
 
+import Server.Serializer;
 import Services.ServerCommandService;
 import common.Command;
 import common.Results;

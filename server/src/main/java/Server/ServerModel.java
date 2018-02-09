@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Model.Game;
 import Model.Player;
+import common.ICommand;
 
 /**
  * Created by Brian on 2/1/18.
@@ -64,6 +65,7 @@ public class ServerModel {
     public boolean isPlayerLoggedIn(String playerID){
 
         for (int count = 0; count < _loggedInPlayers.size(); count++){
+
             if (_loggedInPlayers.get(count).getPlayerID().equals(playerID)){
                 return true;
             }
@@ -152,6 +154,51 @@ public class ServerModel {
         else {
             returnValue = "The player \"" + playerID + "\" was not added to \"" + gameName + "\"";
         }
+
+        return returnValue;
+    }
+
+    /**
+     * Returns an array of Commands that the Player needs to execute
+     *
+     * @param playerID the Player to return Commands for
+     *
+     * @return an array of Commands for the Player to execute
+     */
+    public ICommand[] getPlayerCommands(String playerID){
+
+        ICommand[] returnValue = new ICommand[]{};
+
+        // get the Player for the player ID
+        Player player = null;
+        for (int count = 0; count < _loggedInPlayers.size(); count++){
+            if (_loggedInPlayers.get(count).getPlayerID().equals(playerID)){
+                player = _loggedInPlayers.get(count);
+                break;
+            }
+        }
+
+        if (player == null){
+            // the player does not exist
+            return returnValue;
+        }
+
+        // get the Game for the Player
+        Game game = null;
+        for (int count = 0; count < _currentGames.size(); count++){
+            if (_currentGames.get(count).hasPlayer(player)){
+                game = _currentGames.get(count);
+                break;
+            }
+        }
+
+        if (game == null){
+            // the Player is not part of any Game
+            return returnValue;
+        }
+
+        // get the Commands from the Game
+        returnValue = game.getCommandsForPlayer(player);
 
         return returnValue;
     }

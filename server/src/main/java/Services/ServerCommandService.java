@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import Model.Game;
 import Model.Player;
 import Server.ServerModel;
-
-import Server.ServerModel;
+import common.ICommand;
 import common.IServer;
 import common.Results;
 
@@ -106,7 +105,18 @@ public class ServerCommandService implements IServer {
      * @param numOfPlayers
      * @return
      */
-    public Results createGame(String gameName, int numOfPlayers){
+    public Results createGame(String gameName, Double numOfPlayers) {
+        return createGame(gameName, (int)Math.round(numOfPlayers));
+    }
+
+    /**
+     * Creates a new game on the Server
+     *
+     * @param gameName
+     * @param numOfPlayers
+     * @return
+     */
+    public Results createGame(String gameName, int numOfPlayers) {
         Results returnValue = new Results(false, "", "Unknown error occurred");
 
         Game newGame = new Game(gameName, numOfPlayers);
@@ -137,6 +147,7 @@ public class ServerCommandService implements IServer {
 
             if (gameMessage.equals("")){
                 // the player was added successfully
+                returnValue = new Results(true, "The player \"" + playerID + "\" was added to the game \"" + gameName + "\"", "");
             }
             else {
                 returnValue = new Results(false, "", "Error message from Game: \"" + gameMessage + "\"");
@@ -146,6 +157,33 @@ public class ServerCommandService implements IServer {
             // there is no player with that ID
             returnValue = new Results(false, "", "The player ID \"" + playerID + "\" is invalid");
         }
+
+        return returnValue;
+    }
+
+    public ArrayList<String> getAvailableGames(){
+        ArrayList<String> returnValue = new ArrayList<String>();
+
+        ArrayList<Game> availableGames = _serverModel.getGames();
+
+        for (int count = 0; count < availableGames.size(); count++){
+            if (!availableGames.get(count).hasStarted()){
+                returnValue.add(availableGames.get(count).getName());
+            }
+        }
+
+
+        return returnValue;
+    }
+
+    public boolean playerIsValid(String playerID){
+        return _serverModel.isPlayerLoggedIn(playerID);
+    }
+
+    public ICommand[] getPlayerCommands(String playerID){
+
+        ICommand[] returnValue = _serverModel.getPlayerCommands(playerID);
+
 
         return returnValue;
     }

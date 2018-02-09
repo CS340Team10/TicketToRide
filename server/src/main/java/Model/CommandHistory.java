@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import Services.ClientCommandFactory;
 import common.ICommand;
 
 /**
@@ -15,6 +16,10 @@ public class CommandHistory
 {
     List<ICommand> history = new ArrayList<>();
 
+    public CommandHistory(){
+        addStartGameCommand();
+    }
+
     /**
      * Add a command to the command history
      * @param cmd the command you want to register in the history
@@ -24,8 +29,11 @@ public class CommandHistory
         history.add(cmd);
     }
 
+    /**
+     * Creates a Start Game command to the queue
+     */
     public void addStartGameCommand(){
-
+        history.add(ClientCommandFactory.createStartGameCommand());
     }
 
     /**
@@ -35,7 +43,8 @@ public class CommandHistory
      */
     public List<ICommand> historyFrom(int position)
     {
-        return history.subList(position, history.size() - 1);
+
+        return history.subList(position, history.size() );
     }
 
     @Override

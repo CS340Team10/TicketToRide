@@ -1,4 +1,4 @@
-package Test;
+package Server;
 
 import com.google.gson.Gson;
 
@@ -89,6 +89,11 @@ public class Serializer {
             exc.printStackTrace();
             return null;
         }
+    }
+
+    public static String readInputStreamAsString(InputStream stream){
+        java.util.Scanner s = new java.util.Scanner(stream).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
 }

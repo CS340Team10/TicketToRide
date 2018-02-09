@@ -3,6 +3,9 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.Command;
+import common.ICommand;
+
 /**
  * Created by Brian on 2/1/18.
  */
@@ -38,7 +41,7 @@ public class Game {
                     // check if the game should start
                     if (_players.size() == _numOfPlayers){
                         // start the game
-                        _gameHistory.addStartGameCommand();
+                        startGame();
                     }
                     return true;
                 }
@@ -69,6 +72,7 @@ public class Game {
         public boolean startGame(){
             if (_players.size() >= _numOfPlayers)
             {
+                _gameHistory.addStartGameCommand();
                 _didStart = true;
             }
             return _didStart;
@@ -94,6 +98,66 @@ public class Game {
             return _gameHistory;
         }
 
+    /**
+     *  Returns whether the Player is part of this Game
+     *
+     * @param player the Player to check for
+     *
+     * @return true if the Player is found, false otherwise
+     */
+    public boolean hasPlayer(Player player){
+        for(int count = 0; count < _players.size(); count++){
+            if (player.equals(_players.get(count))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns the commands that have not been sent to the Player yet
+     *
+     * @param player the Player to use to retrieve the commands
+     * @return
+     */
+    public ICommand[] getCommandsForPlayer(Player player){
+
+        ICommand[] returnValue = new ICommand[]{};
+
+        // get the Player in the Game
+        int playerIndex = -1;
+        for (int count = 0; count < _players.size(); count++){
+            if (_players.get(count).equals(player)){
+                playerIndex = count;
+            }
+        }
+
+        if (playerIndex == -1){
+            // the Player does not exist in the game
+            return returnValue;
+        }
+
+        // get the commands from the game
+        List<ICommand> commands = _gameHistory.historyFrom(_players.get(playerIndex).getGameHistoryIndex());
+        returnValue = new ICommand[commands.size()];
+
+        for (int count = 0; count < commands.size(); count++){
+            returnValue[count] = commands.get(count);
+        }
+
+        // get the new position of commands
+        int commandIndex = 0;
+        if (commands.size() > 0){
+            commandIndex = commands.size();
+        }
+
+        // update the position of commands for the Player
+        _players.get(playerIndex).setGameHistoryIndex(commandIndex);
+
+        // return the commands
+        return returnValue;
+    }
+
         @Override
         public boolean equals(Object o) {
             if (o.getClass() == getClass()) {
@@ -113,7 +177,22 @@ public class Game {
             returnString += "Game Name:\t\t\t" + _name + "\n";
             returnString += "Required Players:\t" + _numOfPlayers + "\n";
             returnString += "Empty Spots:\t\t" + (_numOfPlayers - _players.size()) + "\n";
-            returnString += "Started:\t\t\t" + hasStarted();
+            returnString += "Started:\t\t\t" + hasStarted() + "\n";
+            returnString += "Players:\n";
+
+            for (int count = 0; count < _players.size(); count++){
+                String currPlayerString = _players.get(count).toString();
+                returnString += "\t[Player " + count + "]\n";
+                returnString += "\t\t" + currPlayerString.replace("\n", "\n\t\t") + "\n";
+            }
+
+            returnString += "Commands:\n";
+            List<ICommand> commands = _gameHistory.historyFrom(0);
+            for (int count = 0; count < commands.size(); count++){
+                String currCommandString = commands.get(count).toString();
+                returnString += "\t[Command " + count + "]\n";
+                returnString += "\t\t" + currCommandString.replace("\n", "\n\t\t") + "\n";
+            }
 
             return returnString;
         }

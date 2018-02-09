@@ -52,7 +52,7 @@ public class LoginRegisterTask extends AsyncTask<String, Void, Results>
     protected Results doInBackground(String... strings)
     {
         Results result = new Results(false, "",
-                "ERROR: could not execute command!");   //By default, assume it doesn't work
+                "ERROR: could not login or register!");//By default, assume it doesn't work
                                                         // "Non-functioning until proven otherwise"
         //Attempt to login or register the user
         try

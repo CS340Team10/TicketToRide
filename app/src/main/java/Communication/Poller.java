@@ -2,7 +2,7 @@ package Communication;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
+import Services.ClientGameService;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.Executors;

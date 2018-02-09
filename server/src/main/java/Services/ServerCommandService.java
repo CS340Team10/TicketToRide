@@ -87,7 +87,7 @@ public class ServerCommandService implements IServer {
             if (currPlayer.equals(tempPlayer)){
                 tempPlayer.setPlayerID(username + "_loggedIn");
                 _serverModel.setLoggedIn(tempPlayer);
-                returnValue = new Results(true, "Login success", "");
+                returnValue = new Results(true, tempPlayer.getPlayerID(), "");
                 break;
             }
             else if (currPlayer.getUsername().equals(tempPlayer.getUsername())){

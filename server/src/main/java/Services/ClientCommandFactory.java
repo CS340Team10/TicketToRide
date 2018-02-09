@@ -15,7 +15,7 @@ public class ClientCommandFactory {
      * @return a command that informs the clients that the game is starting
      */
     public static ICommand createStartGameCommand(){
-        Command returnCommand = new Command("", "", new String[]{}, new String[]{});
+        Command returnCommand = new Command("Services.ClientGameService", "gameDidStart", new String[]{}, new String[]{});
 
         return returnCommand;
     }

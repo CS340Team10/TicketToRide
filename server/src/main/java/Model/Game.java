@@ -11,6 +11,7 @@ import common.ICommand;
  */
 
 public class Game {
+
         private CommandHistory _gameHistory = new CommandHistory();
         private List<Player> _players = new ArrayList<Player>();
         private String _name;

@@ -12,7 +12,7 @@ public class Game {
      * Created by Joseph on 2/1/2018.
      */
         CommandHistory gameHistory = new CommandHistory();
-        List<common.Model.Player> players = new ArrayList<>();
+        List<Player> players = new ArrayList<>();
         String name;
         int requiredPlayerCount;
         boolean didStart = false;
@@ -27,7 +27,7 @@ public class Game {
          *  added to the game
          * @param player the player to add to the game
          */
-        public void join(common.Model.Player player)
+        public void join(Player player)
         {
             if (!players.contains(player))
             {

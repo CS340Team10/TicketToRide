@@ -3,8 +3,6 @@ package ClientModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.Model.Player;
-
 /**
  * Created by Joseph on 2/2/2018.
  */

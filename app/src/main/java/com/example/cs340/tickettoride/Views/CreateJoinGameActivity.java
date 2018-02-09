@@ -45,6 +45,11 @@ public class CreateJoinGameActivity extends AppCompatActivity implements ICreate
     }
 
     @Override
+    public void clearNewGameName() {
+        newGameName.setText("");
+    }
+
+    @Override
     public void onBackPressed() {
         // Do nothing
     }

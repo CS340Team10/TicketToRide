@@ -32,8 +32,6 @@ public class Main {
     public static void main(String[] args){
         // Steps in method:
         // 1. Start the server
-        Gson gson = new Gson();
-        System.out.println(gson.toString());
 
         if (args.length > 0){
             new ServerCommunicator().run(parseInt(args[0]));

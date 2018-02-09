@@ -17,7 +17,7 @@ public class CommandHistory
     List<ICommand> history = new ArrayList<>();
 
     public CommandHistory(){
-        addStartGameCommand();
+
     }
 
     /**

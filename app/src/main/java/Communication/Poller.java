@@ -113,7 +113,6 @@ public class Poller {
         {
             try {
                 if (currentPollType == pollTypes.GAME) {
-                    System.out.println("game polling");
                     final List<String> gameList = fetchGames(); // get game list
 
                     Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -122,15 +121,23 @@ public class Poller {
                         @Override
                         public void run() {
                             ClientGameService.get_instance().updateGameList(gameList); // update client with fresh game list
-                        } // This is your code
+                        }
                     };
                     mainHandler.post(myRunnable);
 
                 } else if (currentPollType == pollTypes.COMMAND) {
-                    System.out.println("command polling");
                     List<Command> commandList = fetchCommands();
-                    for (Command c : commandList) {
-                        c.execute();
+                    for (final Command c : commandList) {
+
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+
+                        Runnable myRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                c.execute();
+                            }
+                        };
+                        mainHandler.post(myRunnable);
                     }
                 }
             } catch(Exception e)

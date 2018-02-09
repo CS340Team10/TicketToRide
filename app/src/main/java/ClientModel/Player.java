@@ -1,4 +1,4 @@
-package common.Model;
+package ClientModel;
 
 /**
  * Created by Joseph on 2/2/2018.

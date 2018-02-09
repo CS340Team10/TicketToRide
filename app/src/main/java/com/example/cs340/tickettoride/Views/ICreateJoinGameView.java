@@ -8,6 +8,7 @@ public interface ICreateJoinGameView {
     void displayErrorMessage(String message);
     void setAvailableGames(String[] gameNames);
     String getNewGameName();
+    void clearNewGameName();
     int getNewGameNumPlayers();
     void setCreateGameButtonEnabled(boolean enabled);
     void switchToView(Class<?> newViewClass);

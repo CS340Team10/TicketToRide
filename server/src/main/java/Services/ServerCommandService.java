@@ -126,7 +126,7 @@ public class ServerCommandService implements IServer {
         }
         else {
             _serverModel.addGame(newGame);
-            returnValue = new Results(true, "Game \"" + gameName + "\" successfully created.", "");
+            returnValue = new Results(true, "", "");
         }
 
         return returnValue;

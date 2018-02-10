@@ -8,7 +8,7 @@ import Presenters.IPresenter;
 import common.Results;
 
 /**
- * Created by David on 2/9/2018.
+ * Created by Joseph on 2/9/2018.
  */
 
 public class JoinGameTask extends AsyncTask<String, Void, Results>

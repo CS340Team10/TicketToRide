@@ -3,7 +3,6 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.Command;
 import common.ICommand;
 
 /**
@@ -106,12 +105,7 @@ public class Game {
      * @return true if the Player is found, false otherwise
      */
     public boolean hasPlayer(Player player){
-        for(int count = 0; count < _players.size(); count++){
-            if (player.equals(_players.get(count))){
-                return true;
-            }
-        }
-        return false;
+        return _players.contains(player);
     }
 
     /**

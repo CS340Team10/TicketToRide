@@ -18,7 +18,7 @@ public class WaitForGamePresenter implements IWaitForGamePresenter, IPresenter, 
     public WaitForGamePresenter(IWaitForGameView view) {
         this.view = view;
 
-        Poller.get_instance().startCommandPoll(); // Stop this when the game ends later on.
+        Poller.getInstance().startCommandPoll(); // Stop this when the game ends later on.
 
         GUIService.getInstance().getClientModel().addObserver(this);
     }

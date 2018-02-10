@@ -47,11 +47,11 @@ public class GUIService
     {
         Log.d(tag, "Join game with name: " + gameName);
         JoinGameTask joinTask = new JoinGameTask(presenter);
-        joinTask.execute(gameName, ClientModel.get_instance().getUser().getId());
+        joinTask.execute(gameName, ClientModel.getInstance().getUser().getId());
     }
 
     public ClientModel getClientModel()
     {
-        return ClientModel.get_instance();
+        return ClientModel.getInstance();
     }
 }

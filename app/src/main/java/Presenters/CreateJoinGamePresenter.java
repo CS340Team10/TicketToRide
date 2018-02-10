@@ -24,7 +24,7 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
         this.view = view;
 
         // Start the poller for the game list that the associated view will display.
-        Poller.get_instance().startGamePoll();
+        Poller.getInstance().startGamePoll();
 
         GUIService.getInstance().getClientModel().addObserver(this);
     }
@@ -67,7 +67,7 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
                 textChanged();
             } else { // Success in joining game
                 // Stop the game list poller
-                Poller.get_instance().stopGamePoll();
+                Poller.getInstance().stopGamePoll();
                 view.switchToView(WaitForGameActivity.class);
             }
         } else {

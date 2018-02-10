@@ -17,13 +17,19 @@ public class ClientModel extends Observable
     private Game game = new Game();
     private List<String> available_games = new ArrayList<>();
 
-    public static ClientModel get_instance()
+    public static ClientModel getInstance()
     {
         return _instance;
     }
 
     public Game getGame() {
         return game;
+    }
+
+    public void startGame() {
+        game.startGame();
+        setChanged();
+        notifyObservers();
     }
 
     public List<String> getAvailableGames() {

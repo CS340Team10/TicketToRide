@@ -1,8 +1,10 @@
 package Communication;
 
-import com.google.gson.Gson;
+import android.os.Handler;
+import android.os.Looper;
+
 import com.google.gson.reflect.TypeToken;
-import Services.ClientGameService;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -10,6 +12,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import Services.ClientGameService;
+import Services.GUIService;
 import common.Command;
 import common.Endpoints;
 
@@ -25,7 +29,7 @@ public class Poller {
     protected enum pollTypes {COMMAND, GAME}
     private static pollTypes currentPollType = pollTypes.GAME;
 
-    public static Poller get_instance() {
+    public static Poller getInstance() {
         return _instance;
     }
 
@@ -79,8 +83,8 @@ public class Poller {
      */
     private List<Command> fetchCommands()
     {
-        ClientCommunicator communicator = ClientCommunicator.get_instance(); // get communicator instance
-        String playerID = "playerID";
+        ClientCommunicator communicator = ClientCommunicator.getInstance(); // get communicator instance
+        String playerID = GUIService.getInstance().getClientModel().getUser().getId();
         Type listType = new TypeToken<List<Command>>(){}.getType(); // create deserialization type
 
         List<Command> commandList = (List<Command>) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, listType); // send command, get results
@@ -96,7 +100,7 @@ public class Poller {
      */
     private List<String> fetchGames()
     {
-        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        ClientCommunicator communicator = ClientCommunicator.getInstance();
 
         Type listType = new TypeToken<List<String>>(){}.getType(); // get deserialization type for List<String>
         List<String> gameList = (List<String>) communicator.get(Endpoints.GAME_LIST_ENDPOINT, "authToken", "", listType); //send command, get result
@@ -108,18 +112,38 @@ public class Poller {
 
         public void run()
         {
-            if(currentPollType == pollTypes.GAME)
-            {
-                List<String> gameList = fetchGames(); // get game list
-                ClientGameService.get_instance().updateGameList(gameList); // update client with fresh game list
-            }
-            else if(currentPollType == pollTypes.COMMAND)
-            {
-                List<Command> commandList = fetchCommands();
-                for(Command c : commandList)
-                {
-                    c.execute();
+            try {
+                if (currentPollType == pollTypes.GAME) {
+                    final List<String> gameList = fetchGames(); // get game list
+
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+
+                    Runnable myRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            ClientGameService.getInstance().updateGameList(gameList); // update client with fresh game list
+                        }
+                    };
+                    mainHandler.post(myRunnable);
+
+                } else if (currentPollType == pollTypes.COMMAND) {
+                    List<Command> commandList = fetchCommands();
+                    for (final Command c : commandList) {
+
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+
+                        Runnable myRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                c.execute();
+                            }
+                        };
+                        mainHandler.post(myRunnable);
+                    }
                 }
+            } catch(Exception e)
+            {
+                System.out.println(e.toString());
             }
         }
     }

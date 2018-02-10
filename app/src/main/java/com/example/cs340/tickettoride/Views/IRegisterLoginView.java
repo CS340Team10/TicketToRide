@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 public interface IRegisterLoginView {
     void setLoginButtonEnabled(boolean enabled);
     String getLoginUsername();
+    void setLoginUsername(String s);
     String getLoginPassword();
 
     void setRegisterButtonEnabled(boolean enabled);
     String getRegisterUsername();
+    void setRegisterUsername(String s);
     String getRegisterPassword();
     String getRegisterPasswordConfirm();
 

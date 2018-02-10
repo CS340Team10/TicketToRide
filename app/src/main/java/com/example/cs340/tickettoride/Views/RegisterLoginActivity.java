@@ -88,6 +88,12 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
     }
 
     @Override
+    public void setLoginUsername(String s)
+    {
+        loginUsername.setText(s);
+    }
+
+    @Override
     public String getLoginPassword() {
         return loginPassword.getText().toString();
     }
@@ -100,6 +106,12 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
     @Override
     public String getRegisterUsername() {
         return registerUsername.getText().toString();
+    }
+
+    @Override
+    public void setRegisterUsername(String s)
+    {
+        registerUsername.setText(s);
     }
 
     @Override

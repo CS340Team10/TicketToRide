@@ -3,7 +3,6 @@ package Services;
 import java.util.List;
 
 import ClientModel.ClientModel;
-import ClientModel.Game;
 
 /**
  * Created by Joseph on 2/7/2018.
@@ -13,7 +12,7 @@ public class ClientGameService
 {
     public static ClientGameService _instance = new ClientGameService();
 
-    public static ClientGameService get_instance() {
+    public static ClientGameService getInstance() {
         return _instance;
     }
 
@@ -23,9 +22,7 @@ public class ClientGameService
      */
     public void gameDidStart()
     {
-        Game game = ClientModel.get_instance().getGame();
-        game.startGame();
-        ClientModel.get_instance().notifyObservers();
+        ClientModel.get_instance().startGame();
     }
 
     /**
@@ -34,10 +31,6 @@ public class ClientGameService
      */
     public void updateGameList(List<String> games)
     {
-        if (games != null)
-        {
-            ClientModel.get_instance().setAvailableGames(games);
-            ClientModel.get_instance().notifyObservers();
-        }
+        ClientModel.get_instance().setAvailableGames(games);
     }
 }

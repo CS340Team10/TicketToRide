@@ -56,14 +56,13 @@ public class Command implements ICommand
         Results result = new Results(false, "", "ERROR: could not execute command!");//By default, assume it doesn't work; "Non-functioning until proven otherwise"
         try
         {
-            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
             System.out.println("Attempting to execute command. Getting class...");
-            Class<?> receiverClass = classLoader.loadClass(_className);             //Get the class by using the name
+            Class<?> receiverClass = Class.forName(_className);
             System.out.println("Class "+_className+" was found! Attempting to make parameter list...");
             Class<?>[] _paramTypes = new Class<?>[_paramTypeNames.length];  //Initialize an array of types
             for (int i = 0; i < _paramTypeNames.length; i++)                //Loop through the array of type names
             {
-                _paramTypes[i] = classLoader.loadClass(_paramTypeNames[i]);         //Get each type
+                _paramTypes[i] = Class.forName(_paramTypeNames[i]);         //Get each type
                 System.out.println(_paramTypeNames[i] + "\t" + _paramValues[i].getClass() );
             }
 

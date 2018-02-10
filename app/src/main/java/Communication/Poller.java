@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.google.gson.reflect.TypeToken;
-import Services.ClientGameService;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -13,6 +13,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import Services.ClientGameService;
+import Services.GUIService;
 import common.Command;
 import common.Endpoints;
 
@@ -83,7 +84,7 @@ public class Poller {
     private List<Command> fetchCommands()
     {
         ClientCommunicator communicator = ClientCommunicator.get_instance(); // get communicator instance
-        String playerID = "playerID";
+        String playerID = GUIService.getInstance().getClientModel().getUser().getId();
         Type listType = new TypeToken<List<Command>>(){}.getType(); // create deserialization type
 
         List<Command> commandList = (List<Command>) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, listType); // send command, get results
@@ -120,7 +121,7 @@ public class Poller {
                     Runnable myRunnable = new Runnable() {
                         @Override
                         public void run() {
-                            ClientGameService.get_instance().updateGameList(gameList); // update client with fresh game list
+                            ClientGameService.getInstance().updateGameList(gameList); // update client with fresh game list
                         }
                     };
                     mainHandler.post(myRunnable);

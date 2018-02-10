@@ -26,6 +26,12 @@ public class ClientModel extends Observable
         return game;
     }
 
+    public void startGame() {
+        game.startGame();
+        setChanged();
+        notifyObservers();
+    }
+
     public List<String> getAvailableGames() {
         return available_games;
     }

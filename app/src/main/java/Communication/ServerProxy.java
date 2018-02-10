@@ -15,7 +15,7 @@ public class ServerProxy implements IServer
 {
     private static ServerProxy _instance = new ServerProxy();
 
-    public static ServerProxy get_instance()
+    public static ServerProxy getInstance()
     {
         return _instance;
     }
@@ -23,7 +23,7 @@ public class ServerProxy implements IServer
     @Override
     public Results register(String username, String password) {
         Command command = ServerCommandFactory.createRegisterCommand(username, password);
-        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        ClientCommunicator communicator = ClientCommunicator.getInstance();
         String commandJSON = new Gson().toJson(command, Command.class);
         Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
         return results;
@@ -32,7 +32,7 @@ public class ServerProxy implements IServer
     @Override
     public Results login(String username, String password) {
         Command command = ServerCommandFactory.createLoginCommand(username, password);
-        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        ClientCommunicator communicator = ClientCommunicator.getInstance();
         String commandJSON = new Gson().toJson(command, Command.class);
         Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
         return results;
@@ -41,7 +41,7 @@ public class ServerProxy implements IServer
     @Override
     public Results createGame(String gameName, int numPlayers) {
         Command command = ServerCommandFactory.createCreateGameCommand(gameName, numPlayers);
-        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        ClientCommunicator communicator = ClientCommunicator.getInstance();
         String commandJSON = new Gson().toJson(command, Command.class);
         Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
         return results;
@@ -50,7 +50,7 @@ public class ServerProxy implements IServer
     @Override
     public Results joinGame(String gameName, String playerID) {
         Command command = ServerCommandFactory.createJoinGameCommand(gameName, playerID);
-        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        ClientCommunicator communicator = ClientCommunicator.getInstance();
         String commandJSON = new Gson().toJson(command, Command.class);
         Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, playerID, commandJSON, Results.class);
         return results;
@@ -58,7 +58,7 @@ public class ServerProxy implements IServer
 
     public static void main(String[] args)
     {
-        ServerProxy proxy = get_instance();
+        ServerProxy proxy = getInstance();
         Results r = proxy.login("u", "p");
     }
 }

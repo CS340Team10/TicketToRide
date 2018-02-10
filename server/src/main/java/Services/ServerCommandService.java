@@ -49,8 +49,7 @@ public class ServerCommandService implements IServer {
         // iterate through the registered users to find the requested User
         ArrayList<Player> players = _serverModel.getRegisteredPlayers();
 
-        for (int count = 0; count < players.size(); count++){
-            Player currPlayer = players.get(count);
+        for (Player currPlayer : players) {
             if (currPlayer.getUsername().equals(tempPlayer.getUsername())){
                 returnValue = new Results(false, "", "That username is already in use");
                 break;
@@ -88,8 +87,7 @@ public class ServerCommandService implements IServer {
         // iterate through the registered users to find the requested User
         ArrayList<Player> registered = _serverModel.getRegisteredPlayers();
 
-        for (int count = 0; count < registered.size(); count++){
-            Player currPlayer = registered.get(count);
+        for (Player currPlayer : registered){
             if (currPlayer.equals(tempPlayer)){
                 tempPlayer.setPlayerID(username + "_loggedIn");
                 _serverModel.setLoggedIn(tempPlayer);
@@ -173,9 +171,9 @@ public class ServerCommandService implements IServer {
 
         ArrayList<Game> availableGames = _serverModel.getGames();
 
-        for (int count = 0; count < availableGames.size(); count++){
-            if (!availableGames.get(count).hasStarted()){
-                returnValue.add(availableGames.get(count).getName());
+        for (Game game : availableGames){
+            if (!game.hasStarted()){
+                returnValue.add(game.getName());
             }
         }
 

@@ -18,10 +18,10 @@ import java.net.URL;
 public class ClientCommunicator {
 
     private static ClientCommunicator _instance = null;
-    private String IPAddress = "10.24.201.161";
+    private String IPAddress = "10.24.215.186";
     private String port = "8080";
 
-    public static ClientCommunicator get_instance()
+    public static ClientCommunicator getInstance()
     {
         if(_instance == null)
             _instance = new ClientCommunicator();

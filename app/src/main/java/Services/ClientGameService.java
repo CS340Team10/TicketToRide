@@ -22,7 +22,7 @@ public class ClientGameService
      */
     public void gameDidStart()
     {
-        ClientModel.get_instance().startGame();
+        ClientModel.getInstance().startGame();
     }
 
     /**
@@ -31,6 +31,6 @@ public class ClientGameService
      */
     public void updateGameList(List<String> games)
     {
-        ClientModel.get_instance().setAvailableGames(games);
+        ClientModel.getInstance().setAvailableGames(games);
     }
 }

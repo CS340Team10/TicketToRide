@@ -62,9 +62,9 @@ public class ServerModel {
      */
     public boolean isPlayerLoggedIn(String playerID){
 
-        for (int count = 0; count < _loggedInPlayers.size(); count++){
+        for (Player player : _loggedInPlayers){
 
-            if (_loggedInPlayers.get(count).getPlayerID().equals(playerID)){
+            if (player.getPlayerID().equals(playerID)){
                 return true;
             }
         }
@@ -98,8 +98,8 @@ public class ServerModel {
      */
     public boolean gameExists(Game compareGame){
 
-        for (int count = 0; count < _currentGames.size(); count++){
-            if (_currentGames.get(count).getName().equals(compareGame.getName())){
+        for (Game game : _currentGames){
+            if (game.getName().equals(compareGame.getName())){
                 return true;
             }
         }
@@ -169,9 +169,9 @@ public class ServerModel {
 
         // get the Player for the player ID
         Player player = null;
-        for (int count = 0; count < _loggedInPlayers.size(); count++){
-            if (_loggedInPlayers.get(count).getPlayerID().equals(playerID)){
-                player = _loggedInPlayers.get(count);
+        for (Player loggedIn : _loggedInPlayers){
+            if (loggedIn.getPlayerID().equals(playerID)){
+                player = loggedIn;
                 break;
             }
         }
@@ -183,9 +183,9 @@ public class ServerModel {
 
         // get the Game for the Player
         Game game = null;
-        for (int count = 0; count < _currentGames.size(); count++){
-            if (_currentGames.get(count).hasPlayer(player)){
-                game = _currentGames.get(count);
+        for (Game current : _currentGames){
+            if (current.hasPlayer(player)){
+                game = current;
                 break;
             }
         }

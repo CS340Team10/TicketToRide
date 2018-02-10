@@ -1,9 +1,7 @@
-package Server;
+package Model;
 
 import java.util.ArrayList;
 
-import Model.Game;
-import Model.Player;
 import common.ICommand;
 
 /**

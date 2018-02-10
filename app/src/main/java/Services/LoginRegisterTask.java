@@ -96,6 +96,11 @@ public class LoginRegisterTask extends AsyncTask<String, Void, Results>
     @Override
     protected void onPostExecute(Results results)
     {
+        // Save playerId if there is one
+        if (results.succeeded()) {
+            GUIService.getInstance().getClientModel().getUser().setId(results.getData());
+        }
+
         myPresenter.onPostExecute(results);
     }
 }

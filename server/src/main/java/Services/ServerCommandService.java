@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import Model.Game;
 import Model.Player;
-import Server.ServerModel;
+import Model.ServerModel;
 import common.ICommand;
 import common.IServer;
 import common.Results;
@@ -79,11 +79,17 @@ public class ServerCommandService implements IServer {
         Results returnValue = new Results(false, "", "Invalid username");
         Player tempPlayer = new Player(username, password);
 
-        // iterate through the registered users to find the requested User
-        ArrayList<Player> players = _serverModel.getRegisteredPlayers();
+        // Don't log in someone who's already logged in (maybe on another device)
+        ArrayList<Player> loggedIn = _serverModel.getLoggedInPlayers();
+        if (loggedIn.contains(tempPlayer)) {
+            return new Results(false, "", "This user already logged in");
+        }
 
-        for (int count = 0; count < players.size(); count++){
-            Player currPlayer = players.get(count);
+        // iterate through the registered users to find the requested User
+        ArrayList<Player> registered = _serverModel.getRegisteredPlayers();
+
+        for (int count = 0; count < registered.size(); count++){
+            Player currPlayer = registered.get(count);
             if (currPlayer.equals(tempPlayer)){
                 tempPlayer.setPlayerID(username + "_loggedIn");
                 _serverModel.setLoggedIn(tempPlayer);

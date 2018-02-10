@@ -21,6 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
+                android:inputType="textWebEmailAddress"
                 />
             <EditText
                 android:id="@+id/loginPassword"
@@ -47,6 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="20"
+                android:inputType="textWebEmailAddress"
                 android:hint="Username"
                 />
             <EditText

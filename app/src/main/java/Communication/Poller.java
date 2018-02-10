@@ -83,7 +83,7 @@ public class Poller {
      */
     private List<Command> fetchCommands()
     {
-        ClientCommunicator communicator = ClientCommunicator.getInstance(); // get communicator instance
+        ClientCommunicator communicator = ClientCommunicator.get_instance(); // get communicator instance
         String playerID = GUIService.getInstance().getClientModel().getUser().getId();
         Type listType = new TypeToken<List<Command>>(){}.getType(); // create deserialization type
 
@@ -100,7 +100,7 @@ public class Poller {
      */
     private List<String> fetchGames()
     {
-        ClientCommunicator communicator = ClientCommunicator.getInstance();
+        ClientCommunicator communicator = ClientCommunicator.get_instance();
 
         Type listType = new TypeToken<List<String>>(){}.getType(); // get deserialization type for List<String>
         List<String> gameList = (List<String>) communicator.get(Endpoints.GAME_LIST_ENDPOINT, "authToken", "", listType); //send command, get result

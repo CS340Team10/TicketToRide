@@ -57,10 +57,20 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
     @Override
     public void textChanged() {
         if (!waitingForServer) {
+            if (view.getLoginUsername().matches(".*\\s.*")) { //If the username has whitespace
+                view.setLoginUsername(view.getLoginUsername()       //remove all whitespace
+                        .replaceAll("\\s",""));
+            }
+
             view.setLoginButtonEnabled(
                     !view.getLoginPassword().isEmpty()
                             && !view.getLoginUsername().isEmpty()
             );
+
+            if (view.getRegisterUsername().matches(".*\\s.*")) {//If the username has whitespace
+                view.setRegisterUsername(view.getRegisterUsername()   //remove all whitespace
+                        .replaceAll("\\s",""));
+            }
 
             view.setRegisterButtonEnabled(
                     !view.getRegisterPassword().isEmpty()

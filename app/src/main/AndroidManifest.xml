@@ -22,8 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.CreateJoinGameActivity" />
-        <activity android:name=".Views.WaitForGameActivity"></activity>
+        <activity
+            android:name=".Views.CreateJoinGameActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity
+            android:name=".Views.WaitForGameActivity"
+            android:screenOrientation="landscape"
+            />
     </application>
 
 </manifest>

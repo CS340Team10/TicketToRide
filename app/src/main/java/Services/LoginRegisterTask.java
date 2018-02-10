@@ -63,10 +63,10 @@ public class LoginRegisterTask extends AsyncTask<String, Void, Results>
             switch (option)
             {
                 case LOGIN:                 //Login the user if that was the decided behavior
-                    temp_res = ServerProxy.getInstance().login(username, password);
+                    temp_res = ServerProxy.get_instance().login(username, password);
                     break;
                 case REGISTER:              //Register the user if that was the decided behavior
-                    temp_res = ServerProxy.getInstance().register(username,password);
+                    temp_res = ServerProxy.get_instance().register(username,password);
                     break;
                 default:                    //Otherwise do nothing and return the result with error
                     break;

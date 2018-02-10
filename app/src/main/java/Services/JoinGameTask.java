@@ -8,7 +8,7 @@ import Presenters.IPresenter;
 import common.Results;
 
 /**
- * Created by David on 2/9/2018.
+ * Created by Joseph on 2/9/2018.
  */
 
 public class JoinGameTask extends AsyncTask<String, Void, Results>
@@ -29,7 +29,7 @@ public class JoinGameTask extends AsyncTask<String, Void, Results>
         {
             String gameName = strings[0];
             String playerID = strings[1];
-            Results temp_res = ServerProxy.getInstance().joinGame(gameName,playerID);
+            Results temp_res = ServerProxy.get_instance().joinGame(gameName,playerID);
             if (temp_res == null)
             {
                 Log.d(tag, "doInBackground: ERROR - null Results returned from ServerProxy");

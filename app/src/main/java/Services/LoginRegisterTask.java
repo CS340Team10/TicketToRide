@@ -12,6 +12,8 @@ import common.Results;
  *
  * Calls login or register on the Server Proxy asynchronously
  *
+ * To do so, create an instance of this class and call execute() on it.
+ *
  * When calling execute() on this task, the first parameter should be the username and the
  * second parameter should be the password
  */

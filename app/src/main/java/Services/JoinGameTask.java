@@ -9,6 +9,14 @@ import common.Results;
 
 /**
  * Created by Joseph on 2/9/2018.
+ *
+ * This task allows a client to attempt to Join a Game asynchronously
+ *
+ * To do so, a user should create an instance of JoinGameTask and call
+ * execute(String gameName, String playerID) on the instance.
+ *
+ * the String gameName is the name of the game that the client would like to join.
+ * the String playerID is the id that the server assigned to user upon login/register.
  */
 
 public class JoinGameTask extends AsyncTask<String, Void, Results>

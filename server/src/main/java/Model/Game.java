@@ -145,6 +145,9 @@ public class Game {
             commandIndex = commands.size();
         }
 
+        // increment the index of the commands
+        commandIndex += _players.get(playerIndex).getGameHistoryIndex();
+
         // update the position of commands for the Player
         _players.get(playerIndex).setGameHistoryIndex(commandIndex);
 

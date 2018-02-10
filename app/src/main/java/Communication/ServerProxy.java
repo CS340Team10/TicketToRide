@@ -49,7 +49,7 @@ public class ServerProxy implements IServer
 
     @Override
     public Results joinGame(String gameName, String playerID) {
-        Command command = ServerCommandFactory.createRegisterCommand(gameName, playerID);
+        Command command = ServerCommandFactory.createJoinGameCommand(gameName, playerID);
         ClientCommunicator communicator = ClientCommunicator.get_instance();
         String commandJSON = new Gson().toJson(command, Command.class);
         Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, playerID, commandJSON, Results.class);

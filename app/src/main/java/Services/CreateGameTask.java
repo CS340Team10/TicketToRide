@@ -33,7 +33,7 @@ public class CreateGameTask extends AsyncTask<CreateGameParams, Void, Results> {
         try
         {
             CreateGameParams params = param[0];   //Get the username (the first parameter in execute())
-            result = ServerProxy.get_instance().createGame(params.getName(), params.getNumPlayers());
+            result = ServerProxy.getInstance().createGame(params.getName(), params.getNumPlayers());
             return result;
         }
         catch (Exception e)                 //If the login/register failed

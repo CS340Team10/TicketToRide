@@ -21,7 +21,9 @@ public class ClientCommunicator {
     private String IPAddress = "10.24.65.203";
     private String port = "8080";
 
-    public static ClientCommunicator get_instance()
+    private ClientCommunicator(){}
+
+    public static ClientCommunicator getInstance()
     {
         if(_instance == null)
             _instance = new ClientCommunicator();

@@ -1,13 +1,16 @@
 package Services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Model.Game;
 import Model.Player;
 import Model.ServerModel;
+import common.DestCard;
 import common.ICommand;
 import common.IServer;
 import common.Results;
+import common.TrainCard;
 
 /**
  * Created by Brian on 2/1/18.
@@ -201,4 +204,50 @@ public class ServerCommandService implements IServer {
     public static String getModelString(){
         return getInstance().toString();
     }
+
+    @Override
+    public Results claimRoute(String playerId, String routeId) {
+        return null;
+    }
+
+    @Override
+    public Results turnEnded(String playerId) {
+        return null;
+    }
+
+    @Override
+    public Results requestDestCards(String playerId) {
+        return null;
+    }
+
+    @Override
+    public Results keepDestCards(String playerId, List<DestCard> keep) {
+        return null;
+    }
+
+    @Override
+    public Results selectTrainCard(String playerId, TrainCard card, Boolean cardValid) {
+        return null;
+    }
+
+    @Override
+    public Results chat(String playerId, String message) {
+        return null;
+    }
+
+//    public static void main(String[] args) {
+//        String playerId = "playerid";
+//        String routeId = "routeId";
+//        ArrayList<DestCard> keep = new ArrayList<>();
+//        keep.add(new DestCard());
+//        TrainCard card = new TrainCard();
+//        boolean cardValid = false;
+//        String message = "he person";
+//        Command command = new Command(
+//                "Services.ServerCommandService",
+//                "chat",
+//                new String[]{"java.lang.String", "java.lang.String"},
+//                new Object[]{playerId, message});
+//        command.execute();
+//    }
 }

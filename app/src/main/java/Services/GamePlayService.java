@@ -3,6 +3,7 @@ package Services;
 import java.util.ArrayList;
 import java.util.List;
 
+import Presenters.IPresenter;
 import common.DestCard;
 import common.Route;
 import common.TrainCard;
@@ -21,28 +22,28 @@ public class GamePlayService {
         return _instance;
     }
 
-    public void claimRoute(String routeId) {
+    public void claimRoute(IPresenter presenter, String routeId) {
 
     }
 
-    public void turnEnded() {
+    public void turnEnded(IPresenter presenter) {
 
     }
 
-    public void requestDestCards() {
+    public void requestDestCards(IPresenter presenter) {
 
     }
 
-    public void keepDestCards(List<DestCard> keep) {
+    public void keepDestCards(IPresenter presenter, List<DestCard> keep) {
 
     }
 
     // Train card is null if the player desires to select from the facedown deck.
-    public void selectTrainCard(TrainCard card) {
+    public void selectTrainCard(IPresenter presenter, TrainCard card) {
 
     }
 
-    public void sendChat(String message) {
+    public void sendChat(IPresenter presenter, String message) {
 
     }
 

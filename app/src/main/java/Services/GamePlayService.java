@@ -12,7 +12,7 @@ import common.TrainCard;
  */
 
 public class GamePlayService {
-    public static GamePlayService _instance = new GamePlayService();
+    private static GamePlayService _instance = new GamePlayService();
     private final String tag = "GamePlayService";
 
     private GamePlayService(){}
@@ -21,32 +21,32 @@ public class GamePlayService {
         return _instance;
     }
 
-    void claimRoute(String routeId) {
+    public void claimRoute(String routeId) {
 
     }
 
-    void turnEnded() {
+    public void turnEnded() {
 
     }
 
-    void requestDestCards() {
+    public void requestDestCards() {
 
     }
 
-    void keepDestCards(List<DestCard> keep) {
+    public void keepDestCards(List<DestCard> keep) {
 
     }
 
     // Train card is null if the player desires to select from the facedown deck.
-    void selectTrainCard(TrainCard card) {
+    public void selectTrainCard(TrainCard card) {
 
     }
 
-    void sendChat(String message) {
+    public void sendChat(String message) {
 
     }
 
-    List<Route> getClaimableRoutes() {
+    public List<Route> getClaimableRoutes() {
         return new ArrayList<Route>();
     }
 }

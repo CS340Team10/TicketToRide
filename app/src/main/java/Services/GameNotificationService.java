@@ -1,5 +1,7 @@
 package Services;
 
+import android.util.Log;
+
 import java.util.List;
 
 import common.DestCard;
@@ -11,7 +13,7 @@ import common.TrainCard;
  */
 
 public class GameNotificationService {
-    public static GameNotificationService _instance = new GameNotificationService();
+    private static GameNotificationService _instance = new GameNotificationService();
     private final String tag = "GameNotificationService";
 
     private GameNotificationService(){}
@@ -20,43 +22,59 @@ public class GameNotificationService {
         return _instance;
     }
 
-    void startGame() {
+    public void playerUpdated(PlayerAttributes player) {
+        Log.d(tag, "playerUpdated: " + player);
 
     }
 
-    void playerUpdated(PlayerAttributes player) {
+    public void turnBegan(String playerId) {
+        Log.d(tag, "turnBegan: " + playerId);
 
     }
 
-    void turnBegan(String playerId) {
+    public void trainCardDeckUpdated(List<TrainCard> visible, Integer invisible) {
+        Log.d(tag, "trainCardDeckUpdate: " + visible + ", " + invisible);
 
     }
 
-    void trainCardDeckUpdated(List<TrainCard> visible, int invisible) {
+    public void destCardDeckUpdated(Integer invisible) {
+        Log.d(tag, "destCardDeckUpdated: " + invisible);
 
     }
 
-    void destCardDeckUpdated(int invisible) {
+    public void offerDestCards(String playerId, List<DestCard> cards) {
+        Log.d(tag, "offerDestCards: " + playerId + ", " + cards);
 
     }
 
-    void offerDestCards(String playerId, List<DestCard> cards) {
+    public void destCardsChosen(String playerId, List<DestCard> cards) {
+        Log.d(tag, "destCardsChosen: " + playerId + ", " + cards);
 
     }
 
-    void destCardsChosen(String playerId, List<DestCard> cards) {
+    public void trainCardChosen(String playerId, TrainCard card) {
+        Log.d(tag, "trainCardChosen: " + playerId + ", " + card);
 
     }
 
-    void trainCardChosen(String playerId, TrainCard card) {
+    public void chat(String playerId, String message) {
+        Log.d(tag, "chat: " + playerId + ", " + message);
 
     }
 
-    void chat(String playerId, String message) {
+    public void routeClaimed(String playerId, String routeId) {
+        Log.d(tag, "routeClaimed: " + playerId + ", " + routeId);
 
     }
-
-    void routeClaimed(String playerId, String routeId) {
-
-    }
+//
+//    public static void main(String[] args){
+//        ArrayList<TrainCard> cards = new ArrayList<>();
+//        cards.add(new TrainCard());
+//        DestCard card = new DestCard();
+//        String playerId = "ephraim";
+//        String routeId = "hello";
+//        int i = 10;
+//        Command command = new Command("Services.GameNotificationService", "routeClaimed", new String[]{"java.lang.String", "java.lang.String"}, new Object[]{playerId, routeId} );
+//        command.execute();
+//    }
 }

@@ -73,6 +73,7 @@ public class Command implements ICommand
                 singleton = getInstance.invoke(null, new Object[]{});
             }
 
+            Method[] methods = receiverClass.getMethods();
             Method method = receiverClass.getMethod(_methodName, _paramTypes);//Get the indicated method
             Object o = method.invoke(singleton, _paramValues);                  //Call the indicated method
             if (o != null && o instanceof Results)                          //if the returned object is a result of some kind

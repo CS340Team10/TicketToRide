@@ -39,7 +39,7 @@ public class GUIService
     public void createGame(IPresenter presenter, String gameName, int numPlayers) {
         Log.d(tag, "Create game with name: " + gameName + " players: " + numPlayers);
 
-        GenericAsyncTask task = new GenericAsyncTask(presenter, "createGame", new String[]{"java.lang.String", "int"});
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "createGame", new String[]{"java.lang.String", "java.lang.Integer"});
         task.execute(gameName, numPlayers);
     }
 

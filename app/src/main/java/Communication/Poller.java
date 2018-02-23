@@ -3,9 +3,7 @@ package Communication;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -85,11 +83,11 @@ public class Poller {
     {
         ClientCommunicator communicator = ClientCommunicator.getInstance(); // get communicator instance
         String playerID = GUIService.getInstance().getClientModel().getUser().getId();
-        Type listType = new TypeToken<List<Command>>(){}.getType(); // create deserialization type
+        Class resultClass = Command[].class;
 
-        List<Command> commandList = (List<Command>) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, listType); // send command, get results
+        Command[] commandArray = (Command[]) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, resultClass); // send command, get results
 
-        return commandList;
+        return Arrays.asList(commandArray);
     }
 
 
@@ -102,10 +100,10 @@ public class Poller {
     {
         ClientCommunicator communicator = ClientCommunicator.getInstance();
 
-        Type listType = new TypeToken<List<String>>(){}.getType(); // get deserialization type for List<String>
-        List<String> gameList = (List<String>) communicator.get(Endpoints.GAME_LIST_ENDPOINT, "authToken", "", listType); //send command, get result
+        Class resultClass = String[].class;
+        String[] gameArray = (String[]) communicator.get(Endpoints.GAME_LIST_ENDPOINT, "authToken", "", resultClass); //send command, get result
 
-        return gameList;
+        return Arrays.asList(gameArray);
     }
 
     class PollerThread implements Runnable{

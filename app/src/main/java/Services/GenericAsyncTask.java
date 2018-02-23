@@ -32,11 +32,7 @@ public class GenericAsyncTask extends AsyncTask<Object, Void, Results> {
         try {
             Class<?>[] _paramTypes = new Class<?>[paramTypeNames.length];
             for (int i = 0; i < paramTypeNames.length; i++) {
-                if (paramTypeNames[i].equals("int"))  { // Don't want to have to use Integer everywhere
-                    _paramTypes[i] = int.class;
-                } else{
-                    _paramTypes[i] = Class.forName(paramTypeNames[i]);
-                }
+                _paramTypes[i] = Class.forName(paramTypeNames[i]);
             }
 
             Object singleton = ServerProxy.getInstance();

@@ -1,9 +1,9 @@
 package Test;
 
-import Server.Serializer;
 import Services.ServerCommandService;
 import common.Command;
 import common.Results;
+import common.Serializer;
 
 /**
  * Created by Brian on 2/6/18.
@@ -14,7 +14,7 @@ public class TestMain {
     public static void main(String[] args){
 
         Command testCommand = new Command("ServerCommandService", "login", new String[] {"String", "String"}, new String[] {"player1", "password"});
-        String json = Serializer.serializeObject(testCommand);
+        String json = Serializer.getInstance().serializeObject(testCommand);
 
         System.out.println(json);
 

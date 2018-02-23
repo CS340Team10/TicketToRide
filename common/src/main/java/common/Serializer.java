@@ -1,6 +1,8 @@
-package Server;
+package common;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,8 +13,19 @@ import java.io.OutputStreamWriter;
  */
 
 public class Serializer {
+    private static Serializer instance = new Serializer();
 
-    private static final Gson _GSON = new Gson();
+    private ObjectMapper mapper;
+
+    private Serializer() {
+        this.mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY); // Avoid annotating types
+        mapper.enableDefaultTyping(); // Handle heterogeneous collections
+    }
+
+    public static Serializer getInstance() {
+        return instance;
+    }
 
     /**
      * Converts the Object into a serialized String
@@ -21,10 +34,9 @@ public class Serializer {
      *
      * @return a serialized version of the Object passed in
      */
-    public static String serializeObject(Object obj){
+    public String serializeObject(Object obj){
         try {
-
-            return _GSON.toJson(obj);
+            return mapper.writeValueAsString(obj);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -40,9 +52,9 @@ public class Serializer {
      *
      * @return a serialized version of the Object passed in
      */
-    public static void serializeObject(Object obj, OutputStreamWriter writer){
+    public void serializeObject(Object obj, OutputStreamWriter writer){
         try {
-            _GSON.toJson(obj, writer);
+            mapper.writeValue(writer, obj);
         }
         catch (Exception e){
 
@@ -57,11 +69,11 @@ public class Serializer {
      *
      * @return the deserialized version of the String passed in
      */
-    public static Object deserializeInputStream(InputStream stream, Class classType){
+    public Object deserializeInputStream(InputStream stream, Class classType){
 
         try {
             InputStreamReader inputStreamReader = new InputStreamReader(stream);
-            Object tempObject = classType.cast(_GSON.fromJson(inputStreamReader, classType));
+            Object tempObject = mapper.readValue(inputStreamReader, classType);
 
             return tempObject;
         }
@@ -79,9 +91,9 @@ public class Serializer {
      *
      * @return the deserialized version of the String passed in
      */
-    public static Object deserializeString(String objString, Class classType){
+    public Object deserializeString(String objString, Class classType){
         try {
-            Object tempObject = classType.cast(_GSON.fromJson(objString, classType));
+            Object tempObject = mapper.readValue(objString, classType);
 
             return tempObject;
         }
@@ -91,9 +103,25 @@ public class Serializer {
         }
     }
 
-    public static String readInputStreamAsString(InputStream stream){
+    public String readInputStreamAsString(InputStream stream){
         java.util.Scanner s = new java.util.Scanner(stream).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
 
+//    public static void main(String[] args) {
+//        ArrayList<DestCard> list = new ArrayList<>();
+//        list.add(new DestCard());
+//        ICommand c = ClientCommandFactory.createDestCardsChosenCommand("player", list);
+//        ObjectMapper om = new ObjectMapper();
+//        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+//        om.enableDefaultTyping();
+//        Object tempObject = null;
+//        try {
+//            String obj = om.writeValueAsString(c);
+//            tempObject = om.readValue(obj, Command.class);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Object o = tempObject;
+//    }
 }

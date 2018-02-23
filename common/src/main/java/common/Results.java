@@ -1,5 +1,8 @@
 package common;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by ephraimkunz on 1/31/18.
  */
@@ -9,7 +12,8 @@ public class Results {
     private String data;
     private String error;
 
-    public Results(boolean success, String data, String error) {
+    @JsonCreator
+    public Results(@JsonProperty("success") boolean success, @JsonProperty("data") String data, @JsonProperty("error") String error) {
         this.success = success;
         this.data = data;
         this.error = error;

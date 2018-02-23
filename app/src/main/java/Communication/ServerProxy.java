@@ -1,15 +1,13 @@
 package Communication;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
-import common.Command;
 import common.DestCard;
 import common.Endpoints;
 import common.ICommand;
 import common.IServer;
 import common.Results;
+import common.Serializer;
 import common.TrainCard;
 
 /**
@@ -27,75 +25,77 @@ public class ServerProxy implements IServer
         return _instance;
     }
 
+    private Results postCommand(ICommand command) {
+        ClientCommunicator communicator = ClientCommunicator.getInstance();
+        Results results = new Results(false, "", "Error serializing command");
+
+        try {
+            String commandJSON = Serializer.getInstance().serializeObject(command);
+            results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
+        } catch (Exception e) {
+            results.setError(e.toString());
+        } finally {
+            return results;
+        }
+    }
+
     @Override
     public Results register(String username, String password) {
         ICommand command = ServerCommandFactory.createRegisterCommand(username, password);
-        ClientCommunicator communicator = ClientCommunicator.getInstance();
-        String commandJSON = new Gson().toJson(command, Command.class);
-        Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
-        return results;
+        return postCommand(command);
     }
 
     @Override
     public Results login(String username, String password) {
         ICommand command = ServerCommandFactory.createLoginCommand(username, password);
-        ClientCommunicator communicator = ClientCommunicator.getInstance();
-        String commandJSON = new Gson().toJson(command, Command.class);
-        Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
-        return results;
+        return postCommand(command);
     }
 
     @Override
-    public Results createGame(String gameName, int numPlayers) {
+    public Results createGame(String gameName, Integer numPlayers) {
         ICommand command = ServerCommandFactory.createCreateGameCommand(gameName, numPlayers);
-        ClientCommunicator communicator = ClientCommunicator.getInstance();
-        String commandJSON = new Gson().toJson(command, Command.class);
-        Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, null, commandJSON, Results.class);
-        return results;
+        return postCommand(command);
     }
 
     @Override
     public Results joinGame(String gameName, String playerID) {
         ICommand command = ServerCommandFactory.createJoinGameCommand(gameName, playerID);
-        ClientCommunicator communicator = ClientCommunicator.getInstance();
-        String commandJSON = new Gson().toJson(command, Command.class);
-        Results results = (Results) communicator.post(Endpoints.EXEC_COMMAND_ENDPOINT, playerID, commandJSON, Results.class);
-        return results;
+        return postCommand(command);
     }
 
     @Override
     public Results claimRoute(String playerId, String routeId) {
-        return null;
+        ICommand command = ServerCommandFactory.createClaimRouteCommand(playerId, routeId);
+        return postCommand(command);
     }
 
     @Override
     public Results turnEnded(String playerId) {
-        return null;
+        ICommand command = ServerCommandFactory.createTurnEndedCommand(playerId);
+        return postCommand(command);
     }
 
     @Override
     public Results requestDestCards(String playerId) {
-        return null;
+        ICommand command = ServerCommandFactory.createRequestDestCardsCommand(playerId);
+        return postCommand(command);
     }
 
     @Override
     public Results keepDestCards(String playerId, List<DestCard> keep) {
-        return null;
+        ICommand command = ServerCommandFactory.createKeepDestCardsCommand(playerId, keep);
+        return postCommand(command);
     }
 
     @Override
     public Results selectTrainCard(String playerId, TrainCard card, Boolean cardValid) {
-        return null;
+        ICommand command = ServerCommandFactory.createSelectTrainCardCommand(playerId, card, cardValid);
+        return postCommand(command);
     }
 
     @Override
     public Results chat(String playerId, String message) {
-        return null;
+        ICommand command = ServerCommandFactory.createChatCommand(playerId, message);
+        return postCommand(command);
     }
-
-//    public static void main(String[] args)
-//    {
-//        ServerProxy proxy = getInstance();
-//        Results r = proxy.login("u", "p");
-//    }
 }

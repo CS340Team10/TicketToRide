@@ -52,6 +52,9 @@ public class GamePlayService {
     // Train card is null if the player desires to select from the facedown deck.
     public void selectTrainCard(IPresenter presenter, TrainCard card) {
         boolean cardValid = card != null;
+        if (!cardValid) {
+            card = new TrainCard(); // Fill it with new empty card
+        }
 
         GenericAsyncTask task = new GenericAsyncTask(presenter, "selectTrainCard", new String[]{"java.lang.String", "common.TrainCard", "java.lang.Boolean"});
         task.execute(getPlayerId(), card, cardValid);

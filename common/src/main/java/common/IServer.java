@@ -12,7 +12,7 @@ public interface IServer {
 
     public Results login(String username, String password);
 
-    public Results createGame(String gameName, int numPlayers);
+    public Results createGame(String gameName, Integer numPlayers);
 
     public Results joinGame(String gameName, String playerID);
 

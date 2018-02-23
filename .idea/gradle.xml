@@ -11,6 +11,9 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/gson-2.8.2" />
+            <option value="$PROJECT_DIR$/jackson-annotations-2.9.4" />
+            <option value="$PROJECT_DIR$/jackson-core-2.9.4" />
+            <option value="$PROJECT_DIR$/jackson-databind-2.9.4" />
             <option value="$PROJECT_DIR$/server" />
           </set>
         </option>

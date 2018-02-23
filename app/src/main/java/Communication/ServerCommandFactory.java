@@ -28,8 +28,7 @@ public class ServerCommandFactory {
 
     public static ICommand createCreateGameCommand(String gameName, int numPlayers)
     {
-        // Deserializing an integer becomes a double, so pass double.
-        String[] objects = {"java.lang.String", "java.lang.Double"};
+        String[] objects = {"java.lang.String", "java.lang.Integer"};
         Object[] values = {gameName, numPlayers};
         return new Command("Services.ServerCommandService", "createGame", objects, values);
     }
@@ -82,7 +81,7 @@ public class ServerCommandFactory {
                 "Services.ServerCommandService",
                 "selectTrainCard",
                 new String[]{"java.lang.String", "common.TrainCard", "java.lang.Boolean"},
-                new Object[]{playerId, card, cardValid});
+                new Object[]{playerId, card, cardValid.booleanValue()});
         return command;
     }
 

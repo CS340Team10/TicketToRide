@@ -113,18 +113,7 @@ public class ServerCommandService implements IServer {
      * @param numOfPlayers
      * @return
      */
-    public Results createGame(String gameName, Double numOfPlayers) {
-        return createGame(gameName, (int)Math.round(numOfPlayers));
-    }
-
-    /**
-     * Creates a new game on the Server
-     *
-     * @param gameName
-     * @param numOfPlayers
-     * @return
-     */
-    public Results createGame(String gameName, int numOfPlayers) {
+    public Results createGame(String gameName, Integer numOfPlayers) {
         Results returnValue = new Results(false, "", "Unknown error occurred");
 
         Game newGame = new Game(gameName, numOfPlayers);
@@ -234,20 +223,4 @@ public class ServerCommandService implements IServer {
     public Results chat(String playerId, String message) {
         return null;
     }
-
-//    public static void main(String[] args) {
-//        String playerId = "playerid";
-//        String routeId = "routeId";
-//        ArrayList<DestCard> keep = new ArrayList<>();
-//        keep.add(new DestCard());
-//        TrainCard card = new TrainCard();
-//        boolean cardValid = false;
-//        String message = "he person";
-//        Command command = new Command(
-//                "Services.ServerCommandService",
-//                "chat",
-//                new String[]{"java.lang.String", "java.lang.String"},
-//                new Object[]{playerId, message});
-//        command.execute();
-//    }
 }

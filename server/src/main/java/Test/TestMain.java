@@ -1,5 +1,6 @@
 package Test;
 
+import Model.Game;
 import Services.ServerCommandService;
 import common.Command;
 import common.Results;
@@ -12,6 +13,8 @@ import common.Serializer;
 public class TestMain {
 
     public static void main(String[] args){
+
+        Game newGame = new Game("test", 2);
 
         Command testCommand = new Command("ServerCommandService", "login", new String[] {"String", "String"}, new String[] {"player1", "password"});
         String json = Serializer.getInstance().serializeObject(testCommand);

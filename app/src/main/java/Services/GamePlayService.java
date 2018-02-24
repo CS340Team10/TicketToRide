@@ -13,8 +13,6 @@ import common.TrainCard;
  * Created by ephraimkunz on 2/21/18.
  */
 
-// TODO: Test the methods in this class with fake presenter
-
 public class GamePlayService {
     private static GamePlayService _instance = new GamePlayService();
     private final String tag = "GamePlayService";
@@ -53,7 +51,7 @@ public class GamePlayService {
     public void selectTrainCard(IPresenter presenter, TrainCard card) {
         boolean cardValid = card != null;
         if (!cardValid) {
-            card = new TrainCard(); // Fill it with new empty card
+            card = new TrainCard(TrainCard.Colors.none); // Fill it with new empty card
         }
 
         GenericAsyncTask task = new GenericAsyncTask(presenter, "selectTrainCard", new String[]{"java.lang.String", "common.TrainCard", "java.lang.Boolean"});

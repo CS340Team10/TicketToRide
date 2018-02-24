@@ -66,15 +66,4 @@ public class GameNotificationService {
         Log.d(tag, "routeClaimed: " + playerId + ", " + routeId);
 
     }
-//
-//    public static void main(String[] args){
-//        ArrayList<TrainCard> cards = new ArrayList<>();
-//        cards.add(new TrainCard());
-//        DestCard card = new DestCard();
-//        String playerId = "ephraim";
-//        String routeId = "hello";
-//        int i = 10;
-//        Command command = new Command("Services.GameNotificationService", "routeClaimed", new String[]{"java.lang.String", "java.lang.String"}, new Object[]{playerId, routeId} );
-//        command.execute();
-//    }
 }

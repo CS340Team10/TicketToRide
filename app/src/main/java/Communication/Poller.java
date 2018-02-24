@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit;
 
 import Services.ClientGameService;
 import Services.GUIService;
-import common.Command;
 import common.Endpoints;
+import common.ICommand;
 
 /**
  * Created by Joseph on 2/2/2018.
@@ -79,13 +79,13 @@ public class Poller {
      *
      * @return command list if successful, null otherwise
      */
-    private List<Command> fetchCommands()
+    private List<ICommand> fetchCommands()
     {
         ClientCommunicator communicator = ClientCommunicator.getInstance(); // get communicator instance
         String playerID = GUIService.getInstance().getClientModel().getUser().getId();
-        Class resultClass = Command[].class;
+        Class resultClass = ICommand[].class;
 
-        Command[] commandArray = (Command[]) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, resultClass); // send command, get results
+        ICommand[] commandArray = (ICommand[]) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, resultClass); // send command, get results
 
         return Arrays.asList(commandArray);
     }
@@ -125,8 +125,8 @@ public class Poller {
                     mainHandler.post(myRunnable);
 
                 } else if (currentPollType == pollTypes.COMMAND) {
-                    List<Command> commandList = fetchCommands();
-                    for (final Command c : commandList) {
+                    List<ICommand> commandList = fetchCommands();
+                    for (final ICommand c : commandList) {
 
                         Handler mainHandler = new Handler(Looper.getMainLooper());
 

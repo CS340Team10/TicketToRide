@@ -31,4 +31,9 @@ public class TrainCard implements ICard {
     public Colors getColor() {
         return color;
     }
+
+    @Override
+    public String toString(){
+        return color.toString();
+    }
 }

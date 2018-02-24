@@ -18,4 +18,9 @@ public class DestCard implements ICard {
         this.endCity = endCity;
         this.pointValue = pointValue;
     }
+
+    @Override
+    public String toString(){
+        return "Start:\t" + startCity + "\n" + "End:\t" + endCity + "\n" + "Points:\t" + pointValue;
+    }
 }

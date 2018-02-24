@@ -10,8 +10,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import ClientModel.ClientModel;
 import Services.ClientGameService;
-import Services.GUIService;
 import common.Endpoints;
 import common.ICommand;
 
@@ -82,7 +82,7 @@ public class Poller {
     private List<ICommand> fetchCommands()
     {
         ClientCommunicator communicator = ClientCommunicator.getInstance(); // get communicator instance
-        String playerID = GUIService.getInstance().getClientModel().getUser().getId();
+        String playerID = ClientModel.getInstance().getUser().getId();
         Class resultClass = ICommand[].class;
 
         ICommand[] commandArray = (ICommand[]) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, resultClass); // send command, get results

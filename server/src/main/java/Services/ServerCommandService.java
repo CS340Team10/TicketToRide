@@ -195,7 +195,7 @@ public class ServerCommandService implements IServer {
     }
 
     @Override
-    public Results claimRoute(String playerId, String routeId) {
+    public Results claimRoute(String playerId, String routeId, List<TrainCard> cardsUsed) {
         return null;
     }
 

@@ -14,7 +14,8 @@ public class PlayerAttributes {
     }
 
     // OK for these to be public since it is just a data transfer object.
-    public String username;
+    public String playerId; // Use to uniquely identify this player
+    public String username; // Display this on screen
     public Color color;
     public int trainCardNum;
     public int destCardNum;

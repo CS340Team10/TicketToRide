@@ -64,7 +64,7 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Results claimRoute(String playerId, String routeId) {
+    public Results claimRoute(String playerId, String routeId, List<TrainCard> cardsUsed) {
         ICommand command = ServerCommandFactory.createClaimRouteCommand(playerId, routeId);
         return postCommand(command);
     }

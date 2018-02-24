@@ -1,9 +1,8 @@
 package Services;
 
-import android.util.Log;
-
 import java.util.List;
 
+import ClientModel.ClientModel;
 import common.DestCard;
 import common.PlayerAttributes;
 import common.TrainCard;
@@ -13,8 +12,11 @@ import common.TrainCard;
  */
 
 public class GameNotificationService {
-    private static GameNotificationService _instance = new GameNotificationService();
     private final String tag = "GameNotificationService";
+
+    private static GameNotificationService _instance = new GameNotificationService();
+    private final ClientModel model = ClientModel.getInstance();
+    private final GameHistoryService historyService = GameHistoryService.getInstance();
 
     private GameNotificationService(){}
 
@@ -22,48 +24,59 @@ public class GameNotificationService {
         return _instance;
     }
 
-    public void playerUpdated(PlayerAttributes player) {
-        Log.d(tag, "playerUpdated: " + player);
+    private boolean isMe(String playerId) {
+        return model.getUser().getId().equals(playerId);
+    }
 
+    public void playerUpdated(PlayerAttributes player) {
+        model.updatePlayer(player);
     }
 
     public void turnBegan(String playerId) {
-        Log.d(tag, "turnBegan: " + playerId);
-
+        model.playerTurnBegan(playerId);
+        historyService.playerTurnStarted(playerId);
     }
 
     public void trainCardDeckUpdated(List<TrainCard> visible, Integer invisible) {
-        Log.d(tag, "trainCardDeckUpdate: " + visible + ", " + invisible);
-
+        model.updateTrainCardDeck(visible, invisible);
     }
 
     public void destCardDeckUpdated(Integer invisible) {
-        Log.d(tag, "destCardDeckUpdated: " + invisible);
-
+        model.updateDestCardDeck(invisible);
     }
 
     public void offerDestCards(String playerId, List<DestCard> cards) {
-        Log.d(tag, "offerDestCards: " + playerId + ", " + cards);
-
+        if (isMe(playerId)) {
+            model.setOfferedDestCards(cards);
+        }
     }
 
     public void destCardsChosen(String playerId, List<DestCard> cards) {
-        Log.d(tag, "destCardsChosen: " + playerId + ", " + cards);
+        historyService.playerChoseDestCards(playerId, cards);
 
+        if (isMe(playerId)) {
+            model.setChosenDestCards(cards);
+        }
     }
 
     public void trainCardChosen(String playerId, TrainCard card) {
-        Log.d(tag, "trainCardChosen: " + playerId + ", " + card);
+        historyService.playerChoseTrainCard(playerId);
 
+        if (isMe(playerId)) {
+            model.addTrainCard(card);
+        }
     }
 
     public void chat(String playerId, String message) {
-        Log.d(tag, "chat: " + playerId + ", " + message);
-
+        model.addChat(playerId, message);
     }
 
-    public void routeClaimed(String playerId, String routeId) {
-        Log.d(tag, "routeClaimed: " + playerId + ", " + routeId);
+    public void routeClaimed(String playerId, String routeId, List<TrainCard> cardsUsed) {
+        historyService.playerClaimedRoute(playerId, routeId);
+        model.routeClaimed(playerId, routeId);
 
+        if (isMe(playerId)) {
+            model.removeTrainCards(cardsUsed);
+        }
     }
 }

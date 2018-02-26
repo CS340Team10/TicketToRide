@@ -60,7 +60,7 @@ public class ClientModel extends Observable
     public Route getRouteById(String routeId) {
         // TODO
         // Implement this
-        return new Route();
+        return new Route(null, null, null, 0, null);
     }
 
     public void updatePlayer(PlayerAttributes player) {

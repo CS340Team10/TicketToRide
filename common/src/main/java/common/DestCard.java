@@ -23,4 +23,5 @@ public class DestCard implements ICard {
     public String toString(){
         return "Start:\t" + startCity + "\n" + "End:\t" + endCity + "\n" + "Points:\t" + pointValue;
     }
+
 }

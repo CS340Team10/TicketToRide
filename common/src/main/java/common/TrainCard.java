@@ -1,39 +1,20 @@
 package common;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Created by ephraimkunz on 2/21/18.
  */
 
 public class TrainCard implements ICard {
-    public enum Colors {
-        red,
-        orange,
-        yellow,
-        green,
-        blue,
-        purple,
-        black,
-        white,
-        wildcard,
-        none // Empty train card
-    }
+    public enum TrainColors {BLACK, WHITE, RED, GREEN, BLUE, YELLOW, PINK, ORANGE, WILD}
+    private TrainColors color;
 
-    private Colors color;
-
-    @JsonCreator
-    public TrainCard(@JsonProperty("color") Colors color) {
+    public TrainCard(TrainColors color)
+    {
         this.color = color;
     }
 
-    public Colors getColor() {
+    public TrainColors getColor()
+    {
         return color;
-    }
-
-    @Override
-    public String toString(){
-        return color.toString();
     }
 }

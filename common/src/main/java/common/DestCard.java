@@ -1,8 +1,5 @@
 package common;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Created by ephraimkunz on 2/21/18.
  */
@@ -12,15 +9,23 @@ public class DestCard implements ICard {
     private String endCity;
     private int pointValue;
 
-    @JsonCreator
-    public DestCard(@JsonProperty("startCity") String startCity, @JsonProperty("endCity") String endCity, @JsonProperty("pointValue") int pointValue) {
-        this.startCity = startCity;
-        this.endCity = endCity;
-        this.pointValue = pointValue;
+    public DestCard(String start, String end, int value)
+    {
+        this.startCity = start;
+        this.endCity = end;
+        this.pointValue = value;
     }
 
-    @Override
-    public String toString(){
-        return "Start:\t" + startCity + "\n" + "End:\t" + endCity + "\n" + "Points:\t" + pointValue;
+    public String getStartCity() {
+        return startCity;
     }
+
+    public String getEndCity() {
+        return endCity;
+    }
+
+    public int getPointValue() {
+        return pointValue;
+    }
+
 }

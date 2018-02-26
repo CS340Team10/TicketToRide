@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import common.DestCard;
+import common.PlayerAttributes;
+import common.Route;
+import common.TrainCard;
+
 /**
  * Created by ephraimkunz on 2/3/18.
  * Modified by Joseph on 2/3/18
@@ -43,15 +48,107 @@ public class ClientModel extends Observable
      */
     public void setAvailableGames(List<String> available_games)
     {
-        if (available_games != null)
-        {
-            this.available_games = available_games;
-            setChanged();
-            notifyObservers();
-        }
+        this.available_games = available_games;
+        setChanged();
+        notifyObservers();
     }
 
     public Player getUser() {
         return user;
+    }
+
+    public Route getRouteById(String routeId) {
+        // TODO
+        // Implement this
+        return new Route();
+    }
+
+    public void updatePlayer(PlayerAttributes player) {
+        // TODO
+        // From list of players, find player with player.playerId
+        // Update all relevant fields
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void playerTurnBegan(String playerId) {
+        // TODO
+        // Find player with this id
+        // Set isMyTurn to true.
+        // Set to false on all other players.
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void updateTrainCardDeck(List<TrainCard> visible, Integer invisible) {
+        // TODO
+        // Set visible list to visible
+        // Set invisible count to invisible
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void updateDestCardDeck(Integer invisible) {
+        // TODO
+        // Set invisible count to invisible
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void setOfferedDestCards(List<DestCard> cards) {
+        // TODO
+        // Set offered cards
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void setChosenDestCards(List<DestCard> cards) {
+        // TODO
+        // Set chosen cards
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void addTrainCard(TrainCard card) {
+        // TODO
+        // Add card to my list of train cards
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void removeTrainCards(List<TrainCard> cards) {
+        // TODO
+        // For each card in cards, remove from list of train cards
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void addChat(String playerId, String message) {
+        // TODO
+        // Add to chat history
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void routeClaimed(String playerId, String routeId) {
+        // TODO
+        // Set this route to be claimed by this player
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void addHistory(String historyItem) {
+        // TODO
+        // Add this item to the ordered history
     }
 }

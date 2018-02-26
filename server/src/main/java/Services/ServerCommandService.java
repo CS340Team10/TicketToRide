@@ -1,13 +1,16 @@
 package Services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Model.Game;
 import Model.Player;
 import Model.ServerModel;
+import common.DestCard;
 import common.ICommand;
 import common.IServer;
 import common.Results;
+import common.TrainCard;
 
 /**
  * Created by Brian on 2/1/18.
@@ -110,18 +113,7 @@ public class ServerCommandService implements IServer {
      * @param numOfPlayers
      * @return
      */
-    public Results createGame(String gameName, Double numOfPlayers) {
-        return createGame(gameName, (int)Math.round(numOfPlayers));
-    }
-
-    /**
-     * Creates a new game on the Server
-     *
-     * @param gameName
-     * @param numOfPlayers
-     * @return
-     */
-    public Results createGame(String gameName, int numOfPlayers) {
+    public Results createGame(String gameName, Integer numOfPlayers) {
         Results returnValue = new Results(false, "", "Unknown error occurred");
 
         Game newGame = new Game(gameName, numOfPlayers);
@@ -200,5 +192,35 @@ public class ServerCommandService implements IServer {
 
     public static String getModelString(){
         return getInstance().toString();
+    }
+
+    @Override
+    public Results claimRoute(String playerId, String routeId, List<TrainCard> cardsUsed) {
+        return null;
+    }
+
+    @Override
+    public Results turnEnded(String playerId) {
+        return null;
+    }
+
+    @Override
+    public Results requestDestCards(String playerId) {
+        return null;
+    }
+
+    @Override
+    public Results keepDestCards(String playerId, List<DestCard> keep) {
+        return null;
+    }
+
+    @Override
+    public Results selectTrainCard(String playerId, TrainCard card, Boolean cardValid) {
+        return null;
+    }
+
+    @Override
+    public Results chat(String playerId, String message) {
+        return null;
     }
 }

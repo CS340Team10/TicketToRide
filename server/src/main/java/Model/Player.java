@@ -1,5 +1,7 @@
 package Model;
 
+import common.Deck;
+
 /**
  * Created by Brian on 2/1/18.
  */
@@ -10,6 +12,10 @@ public class Player {
     private String _password;
     private String _playerID;
     private int _gameHistoryIndex;
+    private Deck _trainCards = new Deck();
+    private Deck _destinationCards = new Deck();
+    private int _currPoints = 0;
+    private int _currTrainCars = 45;
 
     public Player(String username, String password){
         _username = username;

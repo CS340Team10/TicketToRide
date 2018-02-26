@@ -1,15 +1,14 @@
 package Communication;
 
-import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import common.Serializer;
 
 /**
  * Created by matto on 2/1/2018.
@@ -18,10 +17,12 @@ import java.net.URL;
 public class ClientCommunicator {
 
     private static ClientCommunicator _instance = null;
-    private String IPAddress = "10.24.65.203";
+    private String IPAddress = "10.24.215.186";
     private String port = "8080";
 
-    public static ClientCommunicator get_instance()
+    private ClientCommunicator(){}
+
+    public static ClientCommunicator getInstance()
     {
         if(_instance == null)
             _instance = new ClientCommunicator();
@@ -55,8 +56,8 @@ public class ClientCommunicator {
      */
     public Object post(String url, String authToken, String body, Class ResultClass)
     {
-        String response = getGSON(url, "POST", authToken, body);
-        return new Gson().fromJson(response, ResultClass);
+        String response = makeRequest(url, "POST", authToken, body);
+        return Serializer.getInstance().deserializeString(response, ResultClass);
     }
 
     /**
@@ -67,10 +68,10 @@ public class ClientCommunicator {
 
      @return an object of type ResultClass
      */
-    public Object get(String url, String authToken, String body, Type ResultClass)
+    public Object get(String url, String authToken, String body, Class ResultClass)
     {
-        String response = getGSON(url, "GET", authToken, body);
-        return new Gson().fromJson(response, ResultClass);
+        String response = makeRequest(url, "GET", authToken, body);
+        return Serializer.getInstance().deserializeString(response, ResultClass);
     }
 
     public String getURLString()
@@ -79,7 +80,7 @@ public class ClientCommunicator {
     }
 
 
-    private String getGSON(String urlAddon, String method, String authToken, String body) {
+    private String makeRequest(String urlAddon, String method, String authToken, String body) {
         try {
             // Create a URL indicating where the server is running, and which
             // web API operation we want to call

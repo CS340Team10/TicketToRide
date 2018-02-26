@@ -84,6 +84,9 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
     @Override
     public void onPostExecute(Results result) {
         if (result.succeeded()) {
+            // Save playerId from the data.
+            GUIService.getInstance().getClientModel().getUser().setId(result.getData());
+
             // Move to next screen.
             view.switchToView(CreateJoinGameActivity.class);
         } else {

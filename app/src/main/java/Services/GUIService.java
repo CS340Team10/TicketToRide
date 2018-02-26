@@ -5,8 +5,6 @@ import android.util.Log;
 import ClientModel.ClientModel;
 import Presenters.IPresenter;
 
-import static Services.LoginRegisterTask.OPTIONS.LOGIN;
-import static Services.LoginRegisterTask.OPTIONS.REGISTER;
 
 /**
  * Created by ephraimkunz on 1/31/18.
@@ -26,28 +24,31 @@ public class GUIService
 
     public void login (IPresenter presenter, String username, String password) {
         Log.d(tag, "Login with username: " + username + " password: " + password);
-        LoginRegisterTask loginTask = new LoginRegisterTask(presenter, LOGIN);
-        loginTask.execute(username, password);
+
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "login", new String[]{"java.lang.String", "java.lang.String"});
+        task.execute(username, password);
     }
 
     public void register(IPresenter presenter, String username, String password) {
         Log.d(tag, "Register with username: " + username + " password: " + password);
-        LoginRegisterTask registerTask = new LoginRegisterTask(presenter, REGISTER);
-        registerTask.execute(username, password);
+
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "register", new String[]{"java.lang.String", "java.lang.String"});
+        task.execute(username, password);
     }
 
     public void createGame(IPresenter presenter, String gameName, int numPlayers) {
         Log.d(tag, "Create game with name: " + gameName + " players: " + numPlayers);
-        CreateGameParams params = new CreateGameParams(numPlayers, gameName);
-        CreateGameTask task = new CreateGameTask(presenter);
-        task.execute(params);
+
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "createGame", new String[]{"java.lang.String", "java.lang.Integer"});
+        task.execute(gameName, numPlayers);
     }
 
     public void joinGame(IPresenter presenter, String gameName)
     {
         Log.d(tag, "Join game with name: " + gameName);
-        JoinGameTask joinTask = new JoinGameTask(presenter);
-        joinTask.execute(gameName, ClientModel.getInstance().getUser().getId());
+
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "joinGame", new String[]{"java.lang.String", "java.lang.String"});
+        task.execute(gameName,getClientModel().getUser().getId());
     }
 
     public ClientModel getClientModel()

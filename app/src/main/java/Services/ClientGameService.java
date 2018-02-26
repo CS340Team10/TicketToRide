@@ -10,7 +10,9 @@ import ClientModel.ClientModel;
 
 public class ClientGameService
 {
-    public static ClientGameService _instance = new ClientGameService();
+    private static ClientGameService _instance = new ClientGameService();
+
+    private ClientGameService(){}
 
     public static ClientGameService getInstance() {
         return _instance;

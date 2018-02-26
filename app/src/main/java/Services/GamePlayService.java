@@ -3,6 +3,8 @@ package Services;
 import java.util.ArrayList;
 import java.util.List;
 
+import ClientModel.ClientModel;
+import Presenters.IPresenter;
 import common.DestCard;
 import common.Route;
 import common.TrainCard;
@@ -12,7 +14,7 @@ import common.TrainCard;
  */
 
 public class GamePlayService {
-    public static GamePlayService _instance = new GamePlayService();
+    private static GamePlayService _instance = new GamePlayService();
     private final String tag = "GamePlayService";
 
     private GamePlayService(){}
@@ -21,32 +23,48 @@ public class GamePlayService {
         return _instance;
     }
 
-    void claimRoute(String routeId) {
-
+    private String getPlayerId() {
+        return ClientModel.getInstance().getUser().getId();
     }
 
-    void turnEnded() {
-
+    public void claimRoute(IPresenter presenter, String routeId) {
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "claimRoute", new String[]{"java.lang.String", "java.lang.String"});
+        task.execute(getPlayerId(), routeId);
     }
 
-    void requestDestCards() {
-
+    public void turnEnded(IPresenter presenter) {
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "turnEnded", new String[]{"java.lang.String"});
+        task.execute(getPlayerId());
     }
 
-    void keepDestCards(List<DestCard> keep) {
+    public void requestDestCards(IPresenter presenter) {
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "requestDestCards", new String[]{"java.lang.String"});
+        task.execute(getPlayerId());
+    }
 
+    public void keepDestCards(IPresenter presenter, List<DestCard> keep) {
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "keepDestCards", new String[]{"java.lang.String", "java.util.List"});
+        task.execute(getPlayerId(), keep);
     }
 
     // Train card is null if the player desires to select from the facedown deck.
-    void selectTrainCard(TrainCard card) {
+    public void selectTrainCard(IPresenter presenter, TrainCard card) {
+        boolean cardValid = card != null;
+        if (!cardValid) {
+            card = new TrainCard(TrainCard.Colors.none); // Fill it with new empty card
+        }
 
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "selectTrainCard", new String[]{"java.lang.String", "common.TrainCard", "java.lang.Boolean"});
+        task.execute(getPlayerId(), card, cardValid);
     }
 
-    void sendChat(String message) {
-
+    public void sendChat(IPresenter presenter, String message) {
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "chat", new String[]{"java.lang.String", "java.lang.String"});
+        task.execute(getPlayerId(), message);
     }
 
-    List<Route> getClaimableRoutes() {
+    public List<Route> getClaimableRoutes() {
+        // TODO: Actually implement this.
         return new ArrayList<Route>();
     }
 }

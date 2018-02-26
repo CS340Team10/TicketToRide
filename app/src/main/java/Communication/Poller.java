@@ -3,19 +3,17 @@ package Communication;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import ClientModel.ClientModel;
 import Services.ClientGameService;
-import Services.GUIService;
-import common.Command;
 import common.Endpoints;
+import common.ICommand;
 
 /**
  * Created by Joseph on 2/2/2018.
@@ -81,15 +79,15 @@ public class Poller {
      *
      * @return command list if successful, null otherwise
      */
-    private List<Command> fetchCommands()
+    private List<ICommand> fetchCommands()
     {
-        ClientCommunicator communicator = ClientCommunicator.get_instance(); // get communicator instance
-        String playerID = GUIService.getInstance().getClientModel().getUser().getId();
-        Type listType = new TypeToken<List<Command>>(){}.getType(); // create deserialization type
+        ClientCommunicator communicator = ClientCommunicator.getInstance(); // get communicator instance
+        String playerID = ClientModel.getInstance().getUser().getId();
+        Class resultClass = ICommand[].class;
 
-        List<Command> commandList = (List<Command>) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, listType); // send command, get results
+        ICommand[] commandArray = (ICommand[]) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, resultClass); // send command, get results
 
-        return commandList;
+        return Arrays.asList(commandArray);
     }
 
 
@@ -100,12 +98,12 @@ public class Poller {
      */
     private List<String> fetchGames()
     {
-        ClientCommunicator communicator = ClientCommunicator.get_instance();
+        ClientCommunicator communicator = ClientCommunicator.getInstance();
 
-        Type listType = new TypeToken<List<String>>(){}.getType(); // get deserialization type for List<String>
-        List<String> gameList = (List<String>) communicator.get(Endpoints.GAME_LIST_ENDPOINT, "authToken", "", listType); //send command, get result
+        Class resultClass = String[].class;
+        String[] gameArray = (String[]) communicator.get(Endpoints.GAME_LIST_ENDPOINT, "authToken", "", resultClass); //send command, get result
 
-        return gameList;
+        return Arrays.asList(gameArray);
     }
 
     class PollerThread implements Runnable{
@@ -127,8 +125,8 @@ public class Poller {
                     mainHandler.post(myRunnable);
 
                 } else if (currentPollType == pollTypes.COMMAND) {
-                    List<Command> commandList = fetchCommands();
-                    for (final Command c : commandList) {
+                    List<ICommand> commandList = fetchCommands();
+                    for (final ICommand c : commandList) {
 
                         Handler mainHandler = new Handler(Looper.getMainLooper());
 

@@ -1,20 +1,23 @@
 package common;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 
+
 /**
  * Created by Joseph on 2/2/2018.
  */
-
 public class Command implements ICommand
 {
-    private String _className = "";
-    private String _methodName = "";
-    private String[] _paramTypeNames = new String[20];
-    private Object[] _paramValues = new Object[20];
-    private boolean _callStatic = false;
+    private String className = "";
+    private String methodName = "";
+    private String[] paramTypeNames = new String[20];
+    private Object[] paramValues = new Object[20];
+    private boolean callStatic = false;
 
     /**
      * A generic command object that executes the given method on the given receiver with the
@@ -26,10 +29,10 @@ public class Command implements ICommand
      */
     public Command(String className, String methodName, String[] paramTypeNames, Object[] paramValues)
     {
-        _className = className;
-        _methodName = methodName;
-        _paramTypeNames = paramTypeNames;
-        _paramValues = paramValues;
+        this.className = className;
+        this.methodName = methodName;
+        this.paramTypeNames = paramTypeNames;
+        this.paramValues = paramValues;
     }
 
     /**
@@ -41,13 +44,14 @@ public class Command implements ICommand
      * @param paramValues A list of the parameters
      * @param callStatic whether the method in the execute() method should be called static
      */
-    public Command(String className, String methodName, String[] paramTypeNames, Object[] paramValues, boolean callStatic)
+    @JsonCreator
+    public Command(@JsonProperty("className") String className, @JsonProperty("methodName") String methodName, @JsonProperty("paramTypeNames") String[] paramTypeNames, @JsonProperty("paramValues") Object[] paramValues, @JsonProperty("callStatic") boolean callStatic)
     {
-        _className = className;
-        _methodName = methodName;
-        _paramTypeNames = paramTypeNames;
-        _paramValues = paramValues;
-        _callStatic = callStatic;
+        this.className = className;
+        this.methodName = methodName;
+        this.paramTypeNames = paramTypeNames;
+        this.paramValues = paramValues;
+        this.callStatic = callStatic;
     }
 
     @Override
@@ -57,24 +61,24 @@ public class Command implements ICommand
         try
         {
             System.out.println("Attempting to execute command. Getting class...");
-            Class<?> receiverClass = Class.forName(_className);
-            System.out.println("Class "+_className+" was found! Attempting to make parameter list...");
-            Class<?>[] _paramTypes = new Class<?>[_paramTypeNames.length];  //Initialize an array of types
-            for (int i = 0; i < _paramTypeNames.length; i++)                //Loop through the array of type names
+            Class<?> receiverClass = Class.forName(className);
+            System.out.println("Class "+ className +" was found! Attempting to make parameter list...");
+            Class<?>[] _paramTypes = new Class<?>[paramTypeNames.length];  //Initialize an array of types
+            for (int i = 0; i < paramTypeNames.length; i++)                //Loop through the array of type names
             {
-                _paramTypes[i] = Class.forName(_paramTypeNames[i]);         //Get each type
-                System.out.println(_paramTypeNames[i] + "\t" + _paramValues[i].getClass() );
+                _paramTypes[i] = Class.forName(paramTypeNames[i]);         //Get each type
             }
 
             Object singleton = null;
 
-            if (!_callStatic) {
+            if (!callStatic) {
                 Method getInstance = receiverClass.getMethod("getInstance", new Class<?>[]{});
                 singleton = getInstance.invoke(null, new Object[]{});
             }
 
-            Method method = receiverClass.getMethod(_methodName, _paramTypes);//Get the indicated method
-            Object o = method.invoke(singleton, _paramValues);                  //Call the indicated method
+            Method[] methods = receiverClass.getMethods();
+            Method method = receiverClass.getMethod(methodName, _paramTypes);//Get the indicated method
+            Object o = method.invoke(singleton, paramValues);                  //Call the indicated method
             if (o != null && o instanceof Results)                          //if the returned object is a result of some kind
             {
                 result = (Results) o;
@@ -102,8 +106,8 @@ public class Command implements ICommand
     public String toString(){
         String returnString = "";
 
-        returnString += "Class:  " + _className + "\n";
-        returnString += "Method: " + _methodName;
+        returnString += "Class:  " + className + "\n";
+        returnString += "Method: " + methodName;
 
         return returnString;
     }

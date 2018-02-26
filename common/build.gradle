@@ -2,6 +2,9 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':jackson-core-2.9.4')
+    implementation project(':jackson-databind-2.9.4')
+    implementation project(':jackson-annotations-2.9.4')
 }
 
 sourceCompatibility = "1.7"

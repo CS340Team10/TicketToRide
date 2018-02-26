@@ -3,6 +3,8 @@ package ClientModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.TrainCard;
+
 /**
  * Created by Joseph on 2/2/2018.
  */
@@ -10,7 +12,10 @@ import java.util.List;
 public class Game
 {
     private boolean didStart = false;
-    private List<Player> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
+    private int destCardDeckNum = 0;
+    private int trainCardDeckNum = 0;
+    ArrayList<TrainCard> faceupTrainCards = new ArrayList<>();
 
     public Game()
     {
@@ -35,5 +40,34 @@ public class Game
     public void startGame()
     {
         didStart = true;
+    }
+
+    public ArrayList<Player> getPlayers()
+    {
+        return players;
+    }
+
+    public int getDestCardDeckNum() {
+        return destCardDeckNum;
+    }
+
+    public void setDestCardDeckNum(int destCardDeckNum) {
+        this.destCardDeckNum = destCardDeckNum;
+    }
+
+    public int getTrainCardDeckNum() {
+        return trainCardDeckNum;
+    }
+
+    public void setTrainCardDeckNum(int trainCardDeckNum) {
+        this.trainCardDeckNum = trainCardDeckNum;
+    }
+
+    public ArrayList<TrainCard> getFaceupTrainCards() {
+        return faceupTrainCards;
+    }
+
+    public void setFaceupTrainCards(ArrayList<TrainCard> faceupTrainCards) {
+        this.faceupTrainCards = faceupTrainCards;
     }
 }

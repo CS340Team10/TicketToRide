@@ -2,6 +2,9 @@ package Presenters;
 
 import java.util.List;
 
+import common.DestCard;
+import common.TrainCard;
+
 /**
  * Created by Joseph on 2/21/2018.
  */
@@ -9,8 +12,8 @@ import java.util.List;
 public interface IGamePlayPresenter
 {
     void update();
-    void choseDestCards(List<String> cards);    //String is a temporary place holder, replace w/ DestCard after merging
-    void choseTrainCards(List<String> cards);   //String is a temporary place holder, replace w/ TrainCard after merging
+    void choseDestCards(List<DestCard> cards);
+    void choseTrainCards(List<TrainCard> cards);
     void onClickDrawTrainCard();
     void onClickDrawRouteCard();
     void onClickClaimRoute();

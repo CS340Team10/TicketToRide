@@ -7,5 +7,8 @@ import java.util.List;
  */
 
 public interface IHistoryView {
+    boolean isShowingGameHistory();
+    boolean isShowingChatHistory();
     void updateGameHistory(List<String> history);
+    void updateChatHistory(List<String> history);
 }

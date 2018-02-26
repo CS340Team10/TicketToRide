@@ -7,8 +7,11 @@
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" filepath="$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-annotations-2.9.4/jackson-annotations-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-annotations-2.9.4/jackson-annotations-2.9.4.iml" />
+      <module fileurl="file://F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\jackson-annotations-2.9.4\jackson-annotations-2.9.4.iml" filepath="F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\jackson-annotations-2.9.4\jackson-annotations-2.9.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-core-2.9.4/jackson-core-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-core-2.9.4/jackson-core-2.9.4.iml" />
+      <module fileurl="file://F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\jackson-core-2.9.4\jackson-core-2.9.4.iml" filepath="F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\jackson-core-2.9.4\jackson-core-2.9.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-databind-2.9.4/jackson-databind-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-databind-2.9.4/jackson-databind-2.9.4.iml" />
+      <module fileurl="file://F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\jackson-databind-2.9.4\jackson-databind-2.9.4.iml" filepath="F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\jackson-databind-2.9.4\jackson-databind-2.9.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
     </modules>
   </component>

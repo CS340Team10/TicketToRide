@@ -4,5 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.cs340.tickettoride.Views.GamePlayActivity">
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/game_map"/>
 </android.support.constraint.ConstraintLayout>

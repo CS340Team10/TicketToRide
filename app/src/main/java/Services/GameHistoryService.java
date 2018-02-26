@@ -16,25 +16,37 @@ public class GameHistoryService {
 
     private GameHistoryService(){}
 
+    private boolean gameStarted() {
+        return model.getGame().hasStarted();
+    }
+
     public static GameHistoryService getInstance() {
         return _instance;
     }
 
     public void playerChoseDestCards(String playerId, List<DestCard> cards) {
-        model.addHistory(String.format("Player %s chose %d destination cards", playerId, cards.size()));
+        if(gameStarted()) {
+            model.addHistory(String.format("Player %s chose %d destination cards", playerId, cards.size()));
+        }
     }
 
     public void playerTurnStarted(String playerId) {
-        model.addHistory(String.format("Player %s started their turn", playerId));
+        if(gameStarted()) {
+            model.addHistory(String.format("Player %s started their turn", playerId));
+        }
     }
 
     public void playerChoseTrainCard(String playerId) {
-        model.addHistory(String.format("Player %s chose a train card", playerId));
+        if(gameStarted()) {
+            model.addHistory(String.format("Player %s chose a train card", playerId));
+        }
     }
 
     public void playerClaimedRoute(String playerId, String routeId) {
-        Route route = model.getRouteById(routeId);
-        // TODO: Fix this once route implemented.
-        model.addHistory(String.format("Player %s claimed a route from %s to %s", playerId, routeId));
+        if(gameStarted()) {
+            Route route = model.getRouteById(routeId);
+            // TODO: Fix this once route implemented.
+            model.addHistory(String.format("Player %s claimed a route from %s to %s", playerId, routeId));
+        }
     }
 }

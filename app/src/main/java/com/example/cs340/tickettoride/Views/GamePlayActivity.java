@@ -1,7 +1,7 @@
 package com.example.cs340.tickettoride.Views;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.cs340.tickettoride.R;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import common.DestCard;
 import common.TrainCard;
 
-public class GamePlayActivity extends AppCompatActivity implements IGamePlayView {
+public class GamePlayActivity extends Activity implements IGamePlayView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

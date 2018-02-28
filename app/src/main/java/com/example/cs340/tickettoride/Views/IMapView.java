@@ -1,8 +1,15 @@
 package com.example.cs340.tickettoride.Views;
 
+import android.content.Context;
+import android.widget.ImageView;
+
+import common.PlayerAttributes;
+
 /**
- * Created by Joseph on 2/26/2018.
+ * Created by ephraimkunz on 2/28/18.
  */
 
-public class IMapView {
+public interface IMapView {
+    void setParams(Context context, ImageView view);
+    void drawRouteAsClaimed(String routeId, PlayerAttributes.Color color);
 }

@@ -30,7 +30,7 @@ public class Deck {
     }
 
     /**
-     * Returns the top card in the deck
+     * Returns the top card in the deck and removes it
      *
      * @return the top card in the deck
      */
@@ -39,7 +39,7 @@ public class Deck {
     }
 
     /**
-     * Returns the card at the specified position in the deck
+     * Returns the card at the specified position in the deck and removes it
      *
      * @param position a number from 0 to (deck size - 1) that specifies the card to be returned
      *
@@ -62,6 +62,35 @@ public class Deck {
     }
 
     /**
+     * Returns the top card in the deck
+     *
+     * @return the top card in the deck
+     */
+    public ICard viewCard(){
+        return viewCard(0);
+    }
+
+    /**
+     * Returns the card at the specified position in the deck
+     *
+     * @param position a number from 0 to (deck size - 1) that specifies the card to be returned
+     *
+     * @return the ICard at the specified location
+     */
+    public ICard viewCard(int position){
+        if ((position < 0) || (position >= _cards.size())){
+            // the position requested is not valid
+            return null;
+        }
+        else {
+            ICard returnValue = _cards.get(position);
+
+            // return the card
+            return returnValue;
+        }
+    }
+
+    /**
      * Reorders the cards in the deck randomly
      */
     public void shuffle(){
@@ -73,6 +102,29 @@ public class Deck {
      */
     public void clear(){
         _cards.clear();
+    }
+
+    /**
+     * Returns the current size of the Deck
+     *
+     * @return the current size of the Deck
+     */
+    public int size(){
+        return _cards.size();
+    }
+
+    /**
+     * Returns the Deck as a List
+     */
+    public List<?> toList(Class className){
+
+        ArrayList<Object> returnValue = new ArrayList<>();
+
+        for (int count = 0; count < _cards.size(); count++){
+            returnValue.add(className.cast(_cards.get(count)));
+        }
+
+        return returnValue;
     }
 
     /**

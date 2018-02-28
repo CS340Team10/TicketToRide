@@ -73,8 +73,8 @@ public class ServerCommandService implements IServer {
     /**
      * Attempts to log the user in
      *
-     * @param username
-     * @param password
+     * @param username the username of the user
+     * @param password the password of the user
      * @return
      */
     public Results login(String username, String password){
@@ -109,8 +109,8 @@ public class ServerCommandService implements IServer {
     /**
      * Creates a new game on the Server
      *
-     * @param gameName
-     * @param numOfPlayers
+     * @param gameName the name of the game
+     * @param numOfPlayers the number of players allowed in the game
      * @return
      */
     public Results createGame(String gameName, Integer numOfPlayers) {
@@ -131,8 +131,8 @@ public class ServerCommandService implements IServer {
     /**
      * Joins a user to a game on the Server
      *
-     * @param gameName
-     * @param playerID
+     * @param gameName the name of the game to join
+     * @param playerID the player ID of the player to join the game
      * @return
      */
     public Results joinGame(String gameName, String playerID){
@@ -194,33 +194,82 @@ public class ServerCommandService implements IServer {
         return getInstance().toString();
     }
 
+    /**
+     * Claims the route for the player specified by the player_Id
+     *
+     * @param playerId the player ID of the player that claimed the route
+     * @param routeId the route ID that is being claimed
+     * @param cardsUsed the cards that are being used to claim the route
+     *
+     * @return
+     */
     @Override
     public Results claimRoute(String playerId, String routeId, List<TrainCard> cardsUsed) {
         return null;
     }
 
+    /**
+     * Signals to the game that the turn has ended for the player
+     *
+     * @param playerId the player ID of the player that ended their turn
+     *
+     * @return
+     */
     @Override
     public Results turnEnded(String playerId) {
         return null;
     }
 
+    /**
+     * Requests destination cards for the player specified by the player ID
+     *
+     * @param playerId the player that is requesting the destination cards
+     *
+     * @return
+     */
     @Override
     public Results requestDestCards(String playerId) {
         return null;
     }
 
+    /**
+     * Signals to the game the destination cards that are being kept by the player
+     *
+     * @param playerId the player ID of the player
+     * @param keep a list of destination cards that are being kept by the player
+     *
+     * @return
+     */
     @Override
     public Results keepDestCards(String playerId, List<DestCard> keep) {
         return null;
     }
 
+    /**
+     * Takes one of the train cards that is being selected by the player
+     *
+     * @param playerID the player ID of the player selecting the card
+     * @param card the card that is being selected
+     * @param pickFromFaceUp whether the card is drawn from the face up deck
+     *
+     * @return
+     */
     @Override
-    public Results selectTrainCard(String playerId, TrainCard card, Boolean cardValid) {
+    public Results selectTrainCard(String playerID, TrainCard card, Boolean pickFromFaceUp) {
         return null;
     }
 
+    /**
+     * Submits a chat message for a player
+     *
+     * @param playerID the player ID of the player submitting a chat message
+     * @param message the message that is being submitted
+     *
+     * @return
+     */
     @Override
-    public Results chat(String playerId, String message) {
+    public Results chat(String playerID, String message) {
+        boolean result = _serverModel.addChatCommand(playerID, message);
         return null;
     }
 }

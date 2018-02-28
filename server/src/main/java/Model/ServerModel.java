@@ -182,13 +182,14 @@ public class ServerModel {
         }
 
         // get the Game for the Player
-        Game game = null;
+        /*Game game = null;
         for (Game current : _currentGames){
             if (current.hasPlayer(player)){
                 game = current;
                 break;
             }
-        }
+        }*/
+        Game game = getGameForPlayer(player);
 
         if (game == null){
             // the Player is not part of any Game
@@ -201,6 +202,18 @@ public class ServerModel {
         System.out.println(toString());
 
         return returnValue;
+    }
+
+    public boolean addChatCommand(String playerID, String message){
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            currGame.addChatCommand(playerID, message);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
@@ -236,5 +249,53 @@ public class ServerModel {
         }
 
         return returnString;
+    }
+
+    /**
+     * Returns the game that has the player identified by the player ID
+     *
+     * @param playerID the player ID for the player
+     *
+     * @return the Game that the player is in, or null if there is no such game found
+     */
+    private Game getGameForPlayer(String playerID) {
+
+        // get the Player object for the player ID
+        Player currPlayer = null;
+        for (Player player : _loggedInPlayers){
+            if (player.getPlayerID().equals(playerID)){
+                currPlayer = player;
+                break;
+            }
+        }
+
+        // return the game for the player
+        return getGameForPlayer(currPlayer);
+    }
+    /**
+     * Returns the game that has the player identified by the player Object
+     *
+     * @param currPlayer the Player object that represents the player
+     *
+     * @return the Game that the player is in, or null if there is no such game found
+     */
+    private Game getGameForPlayer(Player currPlayer){
+
+        // verify that the player exists
+        if (currPlayer == null){
+            // the player does not exist
+            return null;
+        }
+
+        // get the game that the player is in
+        for (Game current : _currentGames){
+            if (current.hasPlayer(currPlayer)){
+                // the game was found
+                return current;
+            }
+        }
+
+        // if this point is reached, there was no game with the player in it
+        return null;
     }
 }

@@ -27,5 +27,4 @@ public interface IServer {
     public Results selectTrainCard(String playerId, TrainCard card, Boolean cardValid);
 
     public Results chat(String playerId, String message);
-
 }

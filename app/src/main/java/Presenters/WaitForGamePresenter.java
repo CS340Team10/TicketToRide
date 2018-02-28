@@ -1,5 +1,6 @@
 package Presenters;
 
+import com.example.cs340.tickettoride.Views.GamePlayActivity;
 import com.example.cs340.tickettoride.Views.IWaitForGameView;
 
 import java.util.Observable;
@@ -31,7 +32,7 @@ public class WaitForGamePresenter implements IWaitForGamePresenter, IPresenter, 
     @Override
     public void update(Observable observable, Object o) {
         if (GUIService.getInstance().getClientModel().getGame().hasStarted()) {
-            view.displayMessage("Game began");
+            view.switchToView(GamePlayActivity.class);
         }
     }
 }

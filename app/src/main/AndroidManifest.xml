@@ -27,7 +27,9 @@
         <activity
             android:name=".Views.WaitForGameActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".Views.GamePlayActivity"></activity>
+        <activity android:name=".Views.GamePlayActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar" />
     </application>
 
 </manifest>

@@ -17,7 +17,7 @@ import common.Serializer;
 public class ClientCommunicator {
 
     private static ClientCommunicator _instance = null;
-    private String IPAddress = "10.24.215.186";
+    private String IPAddress = "10.24.218.202";
     private String port = "8080";
 
     private ClientCommunicator(){}

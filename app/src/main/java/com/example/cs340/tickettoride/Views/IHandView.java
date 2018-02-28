@@ -14,4 +14,6 @@ public interface IHandView {
     boolean isShowingDestCards();
     void updateTrainHand(List<TrainCard> cards);
     void updateDestHand(List<DestCard> cards);
+    void showTrainCards();
+    void showDestCards();
 }

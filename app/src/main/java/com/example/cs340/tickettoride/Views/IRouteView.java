@@ -5,4 +5,6 @@ package com.example.cs340.tickettoride.Views;
  */
 
 public interface IRouteView {
+    void drawRouteAsClaimed(String playerID);
+    void highlightRoute(boolean highlight);
 }

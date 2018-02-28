@@ -13,6 +13,7 @@ import Handlers.DefaultHandler;
 import Handlers.ExecCommandHandler;
 import Handlers.GameListHandler;
 import Handlers.PollHandler;
+import Services.ServerCommandService;
 
 public class ServerCommunicator {
 
@@ -69,6 +70,11 @@ public class ServerCommunicator {
         server.start();
 
         System.out.println("\nServer running\n");
+
+        // auto login the default players
+        ServerCommandService.getInstance().login("player1", "password");
+        ServerCommandService.getInstance().login("player2", "secret");
+        ServerCommandService.getInstance().login("player3", "my_precious");
     }
 
     /**

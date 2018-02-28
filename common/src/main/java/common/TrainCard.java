@@ -36,4 +36,21 @@ public class TrainCard implements ICard {
     public String toString(){
         return color.toString();
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj instanceof TrainCard){
+            TrainCard card = (TrainCard)obj;
+
+            if (card.toString().equals(toString())){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }

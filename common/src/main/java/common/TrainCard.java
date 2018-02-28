@@ -33,8 +33,33 @@ public class TrainCard implements ICard {
     }
 
     @Override
-    public String toString(){
-        return color.toString();
+    public String toString()
+    {
+        switch (color)
+        {
+            case red:
+                return "RED";
+            case green:
+                return "GREEN";
+            case blue:
+                return "BLUE";
+            case white:
+                return "WHITE";
+            case black:
+                return "BLACK";
+            case purple:
+                return "PURPLE";
+            case orange:
+                return "ORANGE";
+            case yellow:
+                return "YELLOW";
+            case wildcard:
+                return "WILDCARD";
+            case none:
+                return "NO COLOR";
+            default:
+                return "DEFAULT CARD";
+        }
     }
 
     @Override

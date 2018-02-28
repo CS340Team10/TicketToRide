@@ -132,6 +132,10 @@ public class MapView implements IMapView{
         routeIdToPoints.put("kc_oma_2", new Point[]{new Point(525, 282)});
         routeIdToPoints.put("oma_dulu_1", new Point[]{new Point(506, 230), new Point(521, 195)});
         routeIdToPoints.put("oma_dulu_2", new Point[]{new Point(522, 232), new Point(535, 200)});
+        routeIdToPoints.put("dulu_saul", new Point[]{new Point(570, 143), new Point(604, 129), new Point(639, 114)});
+        routeIdToPoints.put("saul_toro", new Point[]{new Point(697, 107), new Point(728, 111)});
+        routeIdToPoints.put("saul_mont", new Point[]{new Point(682, 80), new Point(715, 62), new Point(749, 46), new Point(780, 35), new Point(818, 31)});
+        routeIdToPoints.put("dulu_toro", new Point[]{new Point(561, 162), new Point(599, 154), new Point(633, 153), new Point(670, 146), new Point(702, 138), new Point(740, 132)});
 
     }
 }

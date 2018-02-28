@@ -1,12 +1,15 @@
 package com.example.cs340.tickettoride.Views;
 
-import java.util.Map;
+import android.content.Context;
+import android.widget.ImageView;
+
+import common.PlayerAttributes;
 
 /**
- * Created by Joseph on 2/26/2018.
+ * Created by ephraimkunz on 2/28/18.
  */
 
 public interface IMapView {
-    Map<String, IRouteView> getRouteViews();
-    void highlightRoute(String routeID);
+    void setParams(Context context, ImageView view);
+    void drawRouteAsClaimed(String routeId, PlayerAttributes.Color color);
 }

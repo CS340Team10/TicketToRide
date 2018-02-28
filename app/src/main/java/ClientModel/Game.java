@@ -16,7 +16,6 @@ public class Game
     private int destCardDeckNum = 0;
     private int trainCardDeckNum = 0;
     ArrayList<TrainCard> faceupTrainCards = new ArrayList<>();
-
     public Game()
     {
 
@@ -70,4 +69,5 @@ public class Game
     public void setFaceupTrainCards(ArrayList<TrainCard> faceupTrainCards) {
         this.faceupTrainCards = faceupTrainCards;
     }
+
 }

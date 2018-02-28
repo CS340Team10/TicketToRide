@@ -8,23 +8,23 @@ import common.Deck;
 
 public class Player
 {
-    String id;
-    String username;
-    Deck trainCards;
-    Deck destCards;
-    Deck offeredDestCards;
-    int points;
-    boolean isMyTurn;
-    int historyPosition;
-    int turnOrder;
-    enum PlayerColors{
+    private String id;
+    private String username;
+    private Deck trainCards;
+    private Deck destCards;
+    private Deck offeredDestCards;
+    private int points;
+    private boolean isMyTurn;
+    private int historyPosition;
+    private int turnOrder;
+    public enum PlayerColors{
         yellow,
         red,
         green,
         blue,
         black
     }
-    PlayerColors color;
+    private PlayerColors color;
 
     public String getId() {
         return id;

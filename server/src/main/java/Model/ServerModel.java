@@ -204,6 +204,17 @@ public class ServerModel {
         return returnValue;
     }
 
+    public String requestDestCards(String playerID){
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            return currGame.requestDestCards(playerID);
+        }
+        else {
+            return "The player is not in any game.";
+        }
+    }
+
     public boolean addChatCommand(String playerID, String message){
         Game currGame = getGameForPlayer(playerID);
 

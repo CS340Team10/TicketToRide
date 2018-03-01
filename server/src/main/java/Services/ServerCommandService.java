@@ -223,13 +223,22 @@ public class ServerCommandService implements IServer {
     /**
      * Requests destination cards for the player specified by the player ID
      *
-     * @param playerId the player that is requesting the destination cards
+     * @param playerID the player that is requesting the destination cards
      *
      * @return
      */
     @Override
-    public Results requestDestCards(String playerId) {
-        return null;
+    public Results requestDestCards(String playerID) {
+
+        String returnString = _serverModel.requestDestCards(playerID);
+
+        if (returnString == ""){
+            // the cards will be returned in a command
+            return new Results(true, "", "");
+        }
+        else {
+            return new Results(false, "", "An error occurred:" + returnString);
+        }
     }
 
     /**
@@ -270,6 +279,14 @@ public class ServerCommandService implements IServer {
     @Override
     public Results chat(String playerID, String message) {
         boolean result = _serverModel.addChatCommand(playerID, message);
-        return null;
+
+        if (result){
+            // the chat was successful
+            return new Results(true, "The message was sent successfully", "");
+        }
+        else {
+            // there was an error sending the message
+            return new Results(false, "", "The message was not sent");
+        }
     }
 }

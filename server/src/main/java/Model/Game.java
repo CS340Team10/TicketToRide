@@ -32,11 +32,6 @@ public class Game {
     public final static int DESTINATION_CARD_DEAL = 3;
 
     /**
-     * The number of non-colored train cards in the deck
-     */
-    public final static int UNCOLORED_TRAIN_CARDS_COUNT = 0;
-
-    /**
      * The number of wild train cards in the deck
      */
     public final static int WILD_TRAIN_CARDS_COUNT = 14;
@@ -141,12 +136,7 @@ public class Game {
                 }
 
                 // give destination cards
-                ArrayList<DestCard> destCards = new ArrayList<DestCard>();
-                for (int cardCount = 0; cardCount < DESTINATION_CARD_DEAL; cardCount++){
-                    destCards.add((DestCard)_destinationCards.drawCard());
-                }
-                _gameHistory.addCommand(ClientCommandFactory.createOfferDestCardsCommand(playerID, destCards));
-
+                giveDestCards(playerID);
             }
 
             // set up the face-up cards
@@ -238,6 +228,24 @@ public class Game {
     }
 
     /**
+     * Returns new destination cards for a player
+     *
+     * @param playerID the player ID of the player to recieve the new cards
+     *
+     * @return a String with any possible error messages
+     */
+    public String requestDestCards(String playerID){
+
+        // verify that it is the players turn
+        if (false){
+            return "It is not your turn.";
+        }
+        else {
+            return giveDestCards(playerID);
+        }
+    }
+
+    /**
      * Adds a chat command to the queue for this Game
      *
      * @param playerID the player ID of the player that sent the message
@@ -290,10 +298,8 @@ public class Game {
     private void setUpTrainCards() {
         for (TrainCard.Colors color : TrainCard.Colors.values()) {
             int cardCount = 0;
-            if (color == TrainCard.Colors.none) {
-                // do nothing with this color
-                cardCount = UNCOLORED_TRAIN_CARDS_COUNT;
-            } else if (color == TrainCard.Colors.wildcard) {
+
+            if (color == TrainCard.Colors.wildcard) {
                 // there are 14 wild cards
                 cardCount = WILD_TRAIN_CARDS_COUNT;
             } else {
@@ -475,7 +481,39 @@ public class Game {
             repopulateFaceUpCards();
         }
 
+        // update the face up cards on the clients
         _gameHistory.addCommand(ClientCommandFactory.createTrainCardDeckUpdatedCommand(faceUpList, _trainCards.size()));
 
+    }
+
+    /**
+     * Sends new destination cards to the player to choose from
+     *
+     * @param playerID the player ID of the player to receive new cards
+     *
+     * @return a String with any errors encountered
+     */
+    private String giveDestCards(String playerID){
+
+        // ensure that there are enough destination cards left
+        if (_destinationCards.size() < DESTINATION_CARD_DEAL){
+            _discardedDestinationCards.copyToDeck(_destinationCards);
+            _discardedDestinationCards.clear();
+            _destinationCards.shuffle();
+        }
+
+        if (_destinationCards.size() < DESTINATION_CARD_DEAL){
+            // there are not enough cards left on the server
+            return "There are not enough cards to choose from. Please try a different action.";
+        }
+
+        ArrayList<DestCard> destCards = new ArrayList<DestCard>();
+        for (int cardCount = 0; cardCount < DESTINATION_CARD_DEAL; cardCount++){
+            destCards.add((DestCard)_destinationCards.drawCard());
+        }
+        _gameHistory.addCommand(ClientCommandFactory.createOfferDestCardsCommand(playerID, destCards));
+
+        // everything was successful
+        return "";
     }
 }

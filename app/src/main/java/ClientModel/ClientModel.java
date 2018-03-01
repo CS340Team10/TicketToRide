@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import common.Deck;
 import common.DestCard;
+import common.GameRoutes;
 import common.PlayerAttributes;
 import common.Route;
 import common.TrainCard;
@@ -21,6 +23,9 @@ public class ClientModel extends Observable
     private Player user = new Player();
     private Game game = new Game();
     private List<String> available_games = new ArrayList<>();
+    private GameRoutes gameRoutes = new GameRoutes();
+    private ChatHistory chatHistory = new ChatHistory();
+    private GameHistory gameHistory = new GameHistory();
 
     public static ClientModel getInstance()
     {
@@ -58,97 +63,187 @@ public class ClientModel extends Observable
     }
 
     public Route getRouteById(String routeId) {
-        // TODO
         // Implement this
-        return new Route(null, null, null, 0, null);
+        for(Route route : gameRoutes.getAllRoutes())
+        {
+            if(route.getRouteID().equals(routeId))
+            {
+                return route;
+            }
+        }
+        return null;
     }
 
     public void updatePlayer(PlayerAttributes player) {
-        // TODO
         // From list of players, find player with player.playerId
         // Update all relevant fields
+
+        Player thisPlayer = getPlayerByID(player.playerId);
+
+        if(thisPlayer == null)
+            return;
+
+        thisPlayer.setUsername(player.username);
+
+        Player.PlayerColors playerColor;
+        switch(player.color)
+        {
+            case red:
+                playerColor = Player.PlayerColors.red;
+                break;
+            case blue:
+                playerColor = Player.PlayerColors.blue;
+                break;
+            case green:
+                playerColor = Player.PlayerColors.green;
+                break;
+            case yellow:
+                playerColor = Player.PlayerColors.yellow;
+                break;
+            case black:
+                playerColor = Player.PlayerColors.black;
+                break;
+            default:
+                playerColor = Player.PlayerColors.red;
+                break;
+        }
+        thisPlayer.setColor(playerColor);
+
+        thisPlayer.setPoints(player.points);
 
         setChanged();
         notifyObservers();
     }
 
     public void playerTurnBegan(String playerId) {
-        // TODO
         // Find player with this id
         // Set isMyTurn to true.
         // Set to false on all other players.
+
+        for(Player p : game.getPlayers())
+        {
+            p.setMyTurn(false);
+        }
+        Player player = getPlayerByID(playerId);
+        player.setMyTurn(true);
+
 
         setChanged();
         notifyObservers();
     }
 
     public void updateTrainCardDeck(List<TrainCard> visible, Integer invisible) {
-        // TODO
         // Set visible list to visible
         // Set invisible count to invisible
+
+        game.setFaceupTrainCards((ArrayList<TrainCard>) visible);
+        game.setTrainCardDeckNum(invisible);
 
         setChanged();
         notifyObservers();
     }
 
     public void updateDestCardDeck(Integer invisible) {
-        // TODO
         // Set invisible count to invisible
+
+        game.setDestCardDeckNum(invisible);
 
         setChanged();
         notifyObservers();
     }
 
     public void setOfferedDestCards(List<DestCard> cards) {
-        // TODO
         // Set offered cards
+
+
+        Deck deck = new Deck();
+        for(DestCard card : cards)
+            deck.addCard(card);
+        user.setOfferedDestCards(deck);
 
         setChanged();
         notifyObservers();
     }
 
     public void setChosenDestCards(List<DestCard> cards) {
-        // TODO
         // Set chosen cards
+
+        Deck destCardDeck = user.getDestCards();
+        for(DestCard card : cards)
+            destCardDeck.addCard(card);
 
         setChanged();
         notifyObservers();
     }
 
     public void addTrainCard(TrainCard card) {
-        // TODO
         // Add card to my list of train cards
+
+        user.getTrainCards().addCard(card);
 
         setChanged();
         notifyObservers();
     }
 
     public void removeTrainCards(List<TrainCard> cards) {
-        // TODO
         // For each card in cards, remove from list of train cards
-
+        Deck deck = user.getTrainCards();
+        for(TrainCard card : cards)
+        {
+            TrainCard drawnCard = (TrainCard) deck.drawCard();
+            while(!drawnCard.getColor().equals(card.getColor()))
+            {
+                   deck.addCard(drawnCard);
+                   drawnCard = (TrainCard) deck.drawCard();
+            }
+        }
         setChanged();
         notifyObservers();
     }
 
     public void addChat(String playerId, String message) {
-        // TODO
         // Add to chat history
+        Chat chat = new Chat(playerId, message);
+        chatHistory.add(chat);
 
         setChanged();
         notifyObservers();
     }
 
     public void routeClaimed(String playerId, String routeId) {
-        // TODO
         // Set this route to be claimed by this player
+
+        Route route = getRouteById(routeId);
+        route.setOwnedByPlayerID(playerId);
 
         setChanged();
         notifyObservers();
     }
 
     public void addHistory(String historyItem) {
-        // TODO
         // Add this item to the ordered history
+        gameHistory.add(historyItem);
+    }
+
+    public GameHistory getGameHistory()
+    {
+        return gameHistory;
+    }
+
+    public ChatHistory getChatHistory()
+    {
+        return chatHistory;
+    }
+
+    private Player getPlayerByID(String playerID)
+    {
+        for (Player player : game.getPlayers())
+        {
+            if(player.getId().equals(playerID))
+            {
+                return player;
+            }
+        }
+        return null;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.cs340.tickettoride.Views;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import com.example.cs340.tickettoride.R;
 
 import java.util.List;
 
-import common.DestCard;
 import common.ICard;
 import common.TrainCard;
 
@@ -84,8 +82,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>
                     return new CardColors(R.color.colorYellow, R.color.colorBlack);
                 case wildcard:
                     return new CardColors(R.color.colorPink, R.color.colorBlack);
-                case none:
-                    return new CardColors(R.color.colorGrey, R.color.colorBlack);
                 default:
                     return new CardColors(R.color.colorGrey, R.color.colorBlack);
             }

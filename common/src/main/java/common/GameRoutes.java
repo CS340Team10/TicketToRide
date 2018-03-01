@@ -9,6 +9,8 @@ import java.util.List;
 
 public class GameRoutes {
     public static List<Route> getAllRoutes() {
-        return new ArrayList<>();
+        ArrayList<Route> routes = new ArrayList<>();
+        routes.add(new Route("vanc_calg", "Vancouver", "Calgary", 3, TrainCard.Colors.wildcard));
+        return routes;
     }
 }

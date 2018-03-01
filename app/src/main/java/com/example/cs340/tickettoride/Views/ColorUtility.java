@@ -49,8 +49,6 @@ public class ColorUtility
                     return new CardColors(R.color.colorYellow, R.color.colorBlack);
                 case wildcard:
                     return new CardColors(R.color.colorPink, R.color.colorBlack);
-                case none:
-                    return new CardColors(R.color.colorGrey, R.color.colorBlack);
                 default:
                     return new CardColors(R.color.colorGrey, R.color.colorBlack);
             }
@@ -58,7 +56,7 @@ public class ColorUtility
         return  new CardColors(R.color.colorGrey, R.color.colorBlack);
     }
 
-    private int getColorFromPlayer(PlayerAttributes.Color color)
+    public static int getColorFromPlayer(PlayerAttributes.Color color)
     {
         switch (color)
         {

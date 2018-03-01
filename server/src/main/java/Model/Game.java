@@ -225,10 +225,7 @@ public class Game {
     private void setUpTrainCards() {
         for (TrainCard.Colors color : TrainCard.Colors.values()) {
             int cardCount = 0;
-            if (color == TrainCard.Colors.none) {
-                // do nothing with this color
-                cardCount = 0;
-            } else if (color == TrainCard.Colors.wildcard) {
+            if (color == TrainCard.Colors.wildcard) {
                 // there are 14 wild cards
                 cardCount = 14;
             } else {

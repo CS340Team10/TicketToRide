@@ -36,7 +36,7 @@ public class ServerCommunicator {
     /**
      * Sets up the variables needed and starts the server
      */
-    public void run(int port) {
+    public void run(int port){
         // Steps in method:
         // 1. Initilize the server
         // 2. Set the contexts for the server
@@ -44,7 +44,7 @@ public class ServerCommunicator {
         // 4. Make sure that the database has been created correctly
 
         // initilize the server
-        if (port < 0) {
+        if (port < 0){
             port = SERVER_PORT_NUMBER;
         }
 
@@ -52,7 +52,8 @@ public class ServerCommunicator {
 
         try {
             server = HttpServer.create(new InetSocketAddress(port), MAX_WAITING_CONNECTIONS);
-        } catch (IOException exc) {
+        }
+        catch (IOException exc) {
             System.err.println("Could not create server: " + exc.getMessage());
             exc.printStackTrace();
             return;
@@ -74,7 +75,6 @@ public class ServerCommunicator {
         ServerCommandService.getInstance().login("player1", "password");
         ServerCommandService.getInstance().login("player2", "secret");
         ServerCommandService.getInstance().login("player3", "my_precious");
-
     }
 
     /**

@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import Services.ClientCommandFactory;
 import common.Deck;
 import common.DestCard;
 import common.ICommand;
@@ -14,6 +15,36 @@ import common.TrainCard;
  */
 
 public class Game {
+
+    /**
+     * The number of cards that are face up at any point in the game
+     */
+    public final static int FACE_UP_CARD_MAX = 5;
+
+    /**
+     * The number of train cards initially dealt to each player
+     */
+    public final static int BEGINNING_TRAIN_HAND_COUNT = 4;
+
+    /**
+     * The number of destination cards dealt to each player
+     */
+    public final static int DESTINATION_CARD_DEAL = 3;
+
+    /**
+     * The number of wild train cards in the deck
+     */
+    public final static int WILD_TRAIN_CARDS_COUNT = 14;
+
+    /**
+     * The number of normal train cards of each color in the deck
+     */
+    public final static int NORMAL_TRAIN_CARDS_COUNT = 12;
+
+    /**
+     * The maximum number of wild cards that are available in the face up deck
+     */
+    public final static int MAX_WILDS_AVALABLE = 2;
 
     private CommandHistory _gameHistory = new CommandHistory();
     private List<Player> _players = new ArrayList<Player>();
@@ -95,8 +126,22 @@ public class Game {
         if (_players.size() >= _numOfPlayers) {
 
             // give the players their train and destination cards
+            for (int playerCount = 0; playerCount < _players.size(); playerCount++){
+
+                String playerID = _players.get(playerCount).getPlayerID();
+
+                // give train cards
+                for (int cardCount = 0; cardCount < BEGINNING_TRAIN_HAND_COUNT; cardCount++){
+                    _gameHistory.addCommand(ClientCommandFactory.createTrainCardChosenCommand(playerID, (TrainCard)_trainCards.drawCard()));
+                }
+
+                // give destination cards
+                giveDestCards(playerID);
+            }
 
             // set up the face-up cards
+            repopulateFaceUpCards();
+
 
             // start the game
             _gameHistory.addStartGameCommand();
@@ -182,6 +227,34 @@ public class Game {
         return returnValue;
     }
 
+    /**
+     * Returns new destination cards for a player
+     *
+     * @param playerID the player ID of the player to recieve the new cards
+     *
+     * @return a String with any possible error messages
+     */
+    public String requestDestCards(String playerID){
+
+        // verify that it is the players turn
+        if (false){
+            return "It is not your turn.";
+        }
+        else {
+            return giveDestCards(playerID);
+        }
+    }
+
+    /**
+     * Adds a chat command to the queue for this Game
+     *
+     * @param playerID the player ID of the player that sent the message
+     * @param message the message to send out
+     */
+    public void addChatCommand(String playerID, String message){
+        _gameHistory.addCommand(ClientCommandFactory.createChatCommand(playerID, message));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o.getClass() == getClass()) {
@@ -225,11 +298,13 @@ public class Game {
     private void setUpTrainCards() {
         for (TrainCard.Colors color : TrainCard.Colors.values()) {
             int cardCount = 0;
+
             if (color == TrainCard.Colors.wildcard) {
                 // there are 14 wild cards
-                cardCount = 14;
+                cardCount = WILD_TRAIN_CARDS_COUNT;
             } else {
-                cardCount = 12;
+                // there are only 12 of these cards
+                cardCount = NORMAL_TRAIN_CARDS_COUNT;
             }
 
             for (int count = 0; count < cardCount; count++) {
@@ -372,5 +447,73 @@ public class Game {
         }
 
         _destinationCards.shuffle();
+    }
+
+    /**
+     * Resets the face up cards to have 5 cards showing and triggers an update command
+     */
+    private void repopulateFaceUpCards(){
+
+        boolean triggerCommand = false;
+
+        for (int count = _faceUpTrainCards.size(); count < FACE_UP_CARD_MAX; count++){
+            triggerCommand = true;
+            _faceUpTrainCards.addCard(_trainCards.drawCard());
+        }
+
+        // check if there are three wild cards in the deck
+        int numWilds = 0;
+        ArrayList<TrainCard> faceUpList = new ArrayList<TrainCard>();
+        for (int count = 0; count < _faceUpTrainCards.size(); count++){
+
+            TrainCard tempCard = (TrainCard)_faceUpTrainCards.viewCard(count);
+            faceUpList.add(tempCard);
+
+            if (tempCard.getColor() == TrainCard.Colors.wildcard){
+                numWilds++;
+            }
+        }
+
+        if (numWilds > MAX_WILDS_AVALABLE){
+            // there are too many wilds, so discard all of them and redraw
+            _faceUpTrainCards.copyToDeck(_discardedTrainCards);
+            _faceUpTrainCards.clear();
+            repopulateFaceUpCards();
+        }
+
+        // update the face up cards on the clients
+        _gameHistory.addCommand(ClientCommandFactory.createTrainCardDeckUpdatedCommand(faceUpList, _trainCards.size()));
+
+    }
+
+    /**
+     * Sends new destination cards to the player to choose from
+     *
+     * @param playerID the player ID of the player to receive new cards
+     *
+     * @return a String with any errors encountered
+     */
+    private String giveDestCards(String playerID){
+
+        // ensure that there are enough destination cards left
+        if (_destinationCards.size() < DESTINATION_CARD_DEAL){
+            _discardedDestinationCards.copyToDeck(_destinationCards);
+            _discardedDestinationCards.clear();
+            _destinationCards.shuffle();
+        }
+
+        if (_destinationCards.size() < DESTINATION_CARD_DEAL){
+            // there are not enough cards left on the server
+            return "There are not enough cards to choose from. Please try a different action.";
+        }
+
+        ArrayList<DestCard> destCards = new ArrayList<DestCard>();
+        for (int cardCount = 0; cardCount < DESTINATION_CARD_DEAL; cardCount++){
+            destCards.add((DestCard)_destinationCards.drawCard());
+        }
+        _gameHistory.addCommand(ClientCommandFactory.createOfferDestCardsCommand(playerID, destCards));
+
+        // everything was successful
+        return "";
     }
 }

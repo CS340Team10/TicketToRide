@@ -17,8 +17,7 @@ public class TrainCard implements ICard {
         purple,
         black,
         white,
-        wildcard,
-        none // Empty train card
+        wildcard // Represents wildcard "color", or route without a required color
     }
 
     private Colors color;
@@ -55,10 +54,25 @@ public class TrainCard implements ICard {
                 return "YELLOW";
             case wildcard:
                 return "WILDCARD";
-            case none:
-                return "NO COLOR";
             default:
                 return "DEFAULT CARD";
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj instanceof TrainCard){
+            TrainCard card = (TrainCard)obj;
+
+            if (card.toString().equals(toString())){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
         }
     }
 }

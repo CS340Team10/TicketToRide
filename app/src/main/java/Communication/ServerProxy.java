@@ -88,8 +88,8 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Results selectTrainCard(String playerId, TrainCard card, Boolean cardValid) {
-        ICommand command = ServerCommandFactory.createSelectTrainCardCommand(playerId, card, cardValid);
+    public Results selectTrainCard(String playerId, TrainCard card, Boolean pickFromFaceUp) {
+        ICommand command = ServerCommandFactory.createSelectTrainCardCommand(playerId, card, pickFromFaceUp);
         return postCommand(command);
     }
 

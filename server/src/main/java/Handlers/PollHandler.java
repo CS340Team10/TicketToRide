@@ -27,13 +27,19 @@ public class PollHandler extends GenericHandler {
         ICommand[] results = new ICommand[]{};
 
         // get the player requesting the commands
-        String playerID = Serializer.getInstance().readInputStreamAsString(exchange.getRequestBody());
+        String[] requestBody = Serializer.getInstance().readInputStreamAsString(exchange.getRequestBody()).split("\n");
+        String playerID = requestBody[0];
 
         // validate the player
-        if (ServerCommandService.getInstance().playerIsValid(playerID)){
-            results = ServerCommandService.getInstance().getPlayerCommands(playerID);
+        if (ServerCommandService.getInstance().playerIsValid(playerID)) {
+            try {
+                Integer commandIndex = Integer.parseInt(requestBody[1]);
+                results = ServerCommandService.getInstance().getPlayerCommands(playerID, commandIndex);
+            }
+            catch (Exception exc) {
+                // there was a problem receiving from body
+            }
         }
-
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 
         OutputStream os = exchange.getResponseBody();

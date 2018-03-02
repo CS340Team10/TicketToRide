@@ -51,7 +51,7 @@ public class GamePlayService {
     public void selectTrainCard(IPresenter presenter, TrainCard card) {
         boolean cardValid = card != null;
         if (!cardValid) {
-            card = new TrainCard(TrainCard.Colors.none); // Fill it with new empty card
+            card = new TrainCard(TrainCard.Colors.wildcard); // Fill it with new empty card
         }
 
         GenericAsyncTask task = new GenericAsyncTask(presenter, "selectTrainCard", new String[]{"java.lang.String", "common.TrainCard", "java.lang.Boolean"});

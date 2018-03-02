@@ -26,6 +26,10 @@ public class Player
     }
     private PlayerColors color;
 
+    public Player() {
+        historyPosition = 0; // Start from beginning of history list
+    }
+
     public String getId() {
         return id;
     }

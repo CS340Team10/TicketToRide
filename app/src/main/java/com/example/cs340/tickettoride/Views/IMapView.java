@@ -1,7 +1,6 @@
 package com.example.cs340.tickettoride.Views;
 
-import android.content.Context;
-import android.widget.ImageView;
+import android.app.Activity;
 
 import common.PlayerAttributes;
 
@@ -10,6 +9,6 @@ import common.PlayerAttributes;
  */
 
 public interface IMapView {
-    void setParams(Context context, ImageView view);
+    void setup(Activity activity);
     void drawRouteAsClaimed(String routeId, PlayerAttributes.Color color);
 }

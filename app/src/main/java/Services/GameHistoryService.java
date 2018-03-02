@@ -45,8 +45,7 @@ public class GameHistoryService {
     public void playerClaimedRoute(String playerId, String routeId) {
         if(gameStarted()) {
             Route route = model.getRouteById(routeId);
-            // TODO: Fix this once route implemented.
-            model.addHistory(String.format("Player %s claimed a route from %s to %s", playerId, routeId));
+            model.addHistory(String.format("Player %s claimed a route from %s to %s", playerId, route.getStartCity(), route.getEndCity()));
         }
     }
 }

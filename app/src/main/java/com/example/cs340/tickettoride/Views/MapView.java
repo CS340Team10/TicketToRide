@@ -1,12 +1,13 @@
 package com.example.cs340.tickettoride.Views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
 import com.example.cs340.tickettoride.R;
@@ -46,21 +47,13 @@ public class MapView implements IMapView{
     }
 
     private int getGraphicsColorForPlayerColor(PlayerAttributes.Color playerColor) {
-        switch (playerColor) {
-            case red: return Color.RED;
-            case blue: return Color.BLUE;
-            case black: return Color.BLACK;
-            case green: return Color.GREEN;
-            case yellow: return Color.YELLOW;
-        }
-
-        return Color.CYAN; // Should never hit
+        return ContextCompat.getColor(context, ColorUtility.getColorFromPlayer(playerColor));
     }
 
     @Override
-    public void setParams(Context context, ImageView view) {
-        this.context = context;
-        this.iv = view;
+    public void setup(Activity activity) {
+        this.context = activity.getApplicationContext();
+        this.iv = activity.findViewById(R.id.mapView);
 
         setupBitmap();
     }
@@ -136,6 +129,50 @@ public class MapView implements IMapView{
         routeIdToPoints.put("saul_toro", new Point[]{new Point(697, 107), new Point(728, 111)});
         routeIdToPoints.put("saul_mont", new Point[]{new Point(682, 80), new Point(715, 62), new Point(749, 46), new Point(780, 35), new Point(818, 31)});
         routeIdToPoints.put("dulu_toro", new Point[]{new Point(561, 162), new Point(599, 154), new Point(633, 153), new Point(670, 146), new Point(702, 138), new Point(740, 132)});
+        routeIdToPoints.put("mont_bost_1", new Point[]{new Point(874, 59), new Point(907, 85)});
+        routeIdToPoints.put("mont_bost_2", new Point[]{new Point(883, 50), new Point(914, 71)});
+        routeIdToPoints.put("bost_ny_1", new Point[]{new Point(908, 120), new Point(888, 151)});
+        routeIdToPoints.put("bost_ny_2", new Point[]{new Point(920, 127), new Point(898, 156)});
+        routeIdToPoints.put("ny_wash_1", new Point[]{new Point(875, 200), new Point(877, 231)});
+        routeIdToPoints.put("ny_wash_2", new Point[]{new Point(887, 198), new Point(887, 231)});
+        routeIdToPoints.put("ny_pitts_1", new Point[]{new Point(841, 175), new Point(813, 192)});
+        routeIdToPoints.put("ny_pitts_2", new Point[]{new Point(850, 186), new Point(819, 204)});
+        routeIdToPoints.put("toro_pitts", new Point[]{new Point(783, 147), new Point(785, 183)});
+        routeIdToPoints.put("pitts_wash", new Point[]{new Point(822, 233), new Point(855, 247)});
+        routeIdToPoints.put("pitts_ral", new Point[]{new Point(800, 247), new Point(810, 289)});
+        routeIdToPoints.put("wash_ral_1", new Point[]{new Point(861, 276), new Point(838, 307)});
+        routeIdToPoints.put("wash_ral_2", new Point[]{new Point(850, 316), new Point(874, 287)});
+        routeIdToPoints.put("ral_atl_1", new Point[]{new Point(800, 343), new Point(773, 365)});
+        routeIdToPoints.put("ral_atl_2", new Point[]{new Point(812, 350), new Point(786, 376)});
+        routeIdToPoints.put("atl_char", new Point[]{new Point(792, 396), new Point(829, 398)});
+        routeIdToPoints.put("ral_char", new Point[]{new Point(848, 347), new Point(863, 368)});
+        routeIdToPoints.put("chic_stl_1", new Point[]{new Point(639, 252), new Point(619, 283)});
+        routeIdToPoints.put("chic_stl_2", new Point[]{new Point(648, 261), new Point(628, 290)});
+        routeIdToPoints.put("kc_stl_1", new Point[]{new Point(555, 305), new Point(586, 302)});
+        routeIdToPoints.put("kc_stl_2", new Point[]{new Point(553, 318), new Point(589, 316)});
+        routeIdToPoints.put("stl_lr", new Point[]{new Point(608, 339), new Point(601, 375)});
+        routeIdToPoints.put("stl_nash", new Point[]{new Point(633, 335), new Point(676, 344)});
+        routeIdToPoints.put("oc_lr", new Point[]{new Point(534, 398), new Point(573, 398)});
+        routeIdToPoints.put("dal_lr", new Point[]{new Point(555, 458), new Point(575, 428)});
+        routeIdToPoints.put("hous_nor", new Point[]{new Point(598, 524), new Point(632, 519)});
+        routeIdToPoints.put("chico_pitts_1", new Point[]{new Point(681, 212), new Point(718, 205), new Point(755, 201)});
+        routeIdToPoints.put("chico_pitts_2", new Point[]{new Point(686, 226), new Point(725, 220), new Point(759, 217)});
+        routeIdToPoints.put("dulu_chico", new Point[]{new Point(561, 189), new Point(590, 202), new Point(629, 213)});
+        routeIdToPoints.put("toro_mont", new Point[]{new Point(776, 98), new Point(801, 70), new Point(828, 51)});
+        routeIdToPoints.put("lr_nash", new Point[]{new Point(625, 400), new Point(662, 391), new Point(691, 373)});
+        routeIdToPoints.put("lr_nor", new Point[]{new Point(612, 426), new Point(629, 457), new Point(644, 492)});
+        routeIdToPoints.put("mont_ny", new Point[]{new Point(855, 68), new Point(861, 108), new Point(864, 138)});
+        routeIdToPoints.put("nash_ral", new Point[]{new Point(731, 337), new Point(765, 322), new Point(800, 318)});
+        routeIdToPoints.put("toro_chico", new Point[]{new Point(756, 149), new Point(725, 163), new Point(692, 180), new Point(662, 204)});
+        routeIdToPoints.put("chico_oma", new Point[]{new Point(633, 227), new Point(595, 223), new Point(560, 231), new Point(532, 252)});
+        routeIdToPoints.put("atl_nor_1", new Point[]{new Point(734, 401), new Point(709, 428), new Point(688, 457), new Point(673, 490)});
+        routeIdToPoints.put("atl_nor_2", new Point[]{new Point(747, 412), new Point(719, 439), new Point(698, 466), new Point(683, 499)});
+        routeIdToPoints.put("char_mia", new Point[]{new Point(855, 421), new Point(857, 457), new Point(867, 493), new Point(880, 522)});
+        routeIdToPoints.put("pitts_nash", new Point[]{new Point(777, 252), new Point(753, 276), new Point(727, 303), new Point(705, 330)});
+        routeIdToPoints.put("nash_atl", new Point[]{new Point(734, 367)});
+        routeIdToPoints.put("atl_mia", new Point[]{new Point(774, 415), new Point(799, 445), new Point(818, 472), new Point(843, 501), new Point(865, 528)});
+        routeIdToPoints.put("stl_pitts", new Point[]{new Point(641, 308), new Point(672, 291), new Point(702, 270), new Point(736, 253), new Point(764, 234)});
+        routeIdToPoints.put("nor_mia", new Point[]{new Point(699, 506), new Point(733, 494), new Point(769, 488), new Point(807, 500), new Point(831, 518), new Point(859, 543)});
 
     }
 }

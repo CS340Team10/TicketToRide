@@ -83,10 +83,11 @@ public class Poller {
     {
         ClientCommunicator communicator = ClientCommunicator.getInstance(); // get communicator instance
         String playerID = ClientModel.getInstance().getUser().getId();
+        int historyPos = ClientModel.getInstance().getUser().getHistoryPosition();
         Class resultClass = ICommand[].class;
 
-        ICommand[] commandArray = (ICommand[]) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID, resultClass); // send command, get results
-
+        ICommand[] commandArray = (ICommand[]) communicator.get(Endpoints.POLL_ENDPOINT, "", playerID + "\n" + historyPos, resultClass); // send command, get results
+        ClientModel.getInstance().getUser().setHistoryPosition(historyPos + commandArray.length);
         return Arrays.asList(commandArray);
     }
 

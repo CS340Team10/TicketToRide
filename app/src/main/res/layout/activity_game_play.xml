@@ -3,73 +3,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.cs340.tickettoride.Views.GamePlayActivity">
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="horizontal"
+            android:layout_height="50dp">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="50dp">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:text="Player1"
-                        android:gravity="center"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:text="Player2"
-                        android:gravity="center"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:text="Player3"
-                        android:gravity="center"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:text="Player4"
-                        android:gravity="center"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Player1"
+                    android:gravity="center"
+                    android:layout_height="match_parent" />
             </LinearLayout>
-            <ImageView
-                android:id="@+id/mapView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ttr"/>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Player2"
+                    android:gravity="center"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Player3"
+                    android:gravity="center"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Player4"
+                    android:gravity="center"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
         </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ttr"/>
+    </LinearLayout>
+
+    <!--Left Drawer-->
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/leftDrawer"/>
-    <FrameLayout
-        android:layout_width="wrap_content"
+
+    <!--Right drawer-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/right_drawer"
+        android:layout_width="270dp"
         android:layout_height="match_parent"
-        android:id="@+id/rightDrawer"/>
+        android:layout_gravity="end"
+        android:background="#111"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp">
+        <android.support.design.widget.TabLayout
+            app:tabTextColor="@color/colorWhite"
+            app:tabSelectedTextColor="@color/colorWhite"
+            android:id="@+id/right_drawer_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.design.widget.TabLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/history_chat_list"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/newChatText"
+                android:layout_width="200dp"
+                android:hint="Enter chat"
+                android:textColorHint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:layout_gravity="left"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/newChatSubmitButton"
+                android:layout_width="70dp"
+                android:text="Send"
+                android:layout_gravity="right"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

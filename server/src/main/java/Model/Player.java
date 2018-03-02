@@ -5,6 +5,7 @@ import java.util.List;
 
 import common.Deck;
 import common.ICard;
+import common.PlayerAttributes;
 import common.TrainCard;
 
 /**
@@ -16,6 +17,7 @@ public class Player {
     private String _username;
     private String _password;
     private String _playerID;
+    private PlayerAttributes.Color _color;
     private int _gameHistoryIndex;
     private Deck _trainCards = new Deck();
 
@@ -88,6 +90,34 @@ public class Player {
      */
     public void setPlayerID(String playerID){
         _playerID = playerID;
+    }
+
+    /**
+     * Sets the Color for the Player
+     */
+    public void setColor(PlayerAttributes.Color color){
+        _color = color;
+    }
+
+    /**
+     * Returns the color of the Player
+     *
+     * @return the color of the Player
+     */
+    public PlayerAttributes.Color getColor(){
+        return _color;
+    }
+
+    public int getPoints(){
+        return _currPoints;
+    }
+
+    public int getDestCardsNum(){
+        return _destinationCards.size();
+    }
+
+    public int getTrainCardsNum(){
+        return _trainCards.size();
     }
 
     public int getGameHistoryIndex(){

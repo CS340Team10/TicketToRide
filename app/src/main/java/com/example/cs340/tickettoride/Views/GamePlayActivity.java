@@ -32,7 +32,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         //HandView
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)
         {
-            getFragmentManager().beginTransaction().add(R.id.leftDrawer, (Fragment) handView).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.leftDrawer, (Fragment) handView).commit();
         }
     }
 

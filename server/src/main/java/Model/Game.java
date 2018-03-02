@@ -324,6 +324,7 @@ public class Game {
             return false;
         }
 
+        // return whether the requested player is the active player
         return (_players.get(currPlayerTurn).getPlayerID().equals(playerID));
     }
 

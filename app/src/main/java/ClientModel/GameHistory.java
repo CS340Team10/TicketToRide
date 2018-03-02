@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 
 public class GameHistory {
-    ArrayList<String> history;
+    ArrayList<String> history = new ArrayList<>();
 
     public void add(String action)
     {

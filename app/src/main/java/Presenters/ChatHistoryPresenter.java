@@ -42,7 +42,7 @@ public class ChatHistoryPresenter implements IChatHistoryPresenter, IPresenter, 
         ArrayList<Chat> chats = ClientModel.getInstance().getChatHistory().getHistory();
         List<String> stringChats = new ArrayList<>();
         for (Chat chat : chats) {
-            stringChats.add(chat.getMessage() + ": " + chat.getPlayerID());
+            stringChats.add(chat.getPlayerID() + ": " + chat.getMessage());
         }
 
         ArrayList<String> hist = ClientModel.getInstance().getGameHistory().getHistory();

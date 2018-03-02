@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import ClientModel.ClientModel;
 import Communication.Poller;
 import Services.GUIService;
 import common.Results;
@@ -26,7 +27,7 @@ public class CreateJoinGamePresenter implements ICreateJoinGamePresenter, IPrese
         // Start the poller for the game list that the associated view will display.
         Poller.getInstance().startGamePoll();
 
-        GUIService.getInstance().getClientModel().addObserver(this);
+        ClientModel.getInstance().addObserver(this);
     }
 
     @Override

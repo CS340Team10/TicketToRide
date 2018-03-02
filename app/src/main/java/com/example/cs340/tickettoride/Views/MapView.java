@@ -1,5 +1,6 @@
 package com.example.cs340.tickettoride.Views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,9 +51,9 @@ public class MapView implements IMapView{
     }
 
     @Override
-    public void setParams(Context context, ImageView view) {
-        this.context = context;
-        this.iv = view;
+    public void setup(Activity activity) {
+        this.context = activity.getApplicationContext();
+        this.iv = activity.findViewById(R.id.mapView);
 
         setupBitmap();
     }

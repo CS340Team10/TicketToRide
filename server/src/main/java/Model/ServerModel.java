@@ -160,10 +160,11 @@ public class ServerModel {
      * Returns an array of Commands that the Player needs to execute
      *
      * @param playerID the Player to return Commands for
+     * @param commandIndex the index of the first command to return
      *
      * @return an array of Commands for the Player to execute
      */
-    public ICommand[] getPlayerCommands(String playerID){
+    public ICommand[] getPlayerCommands(String playerID, int commandIndex){
 
         ICommand[] returnValue = new ICommand[]{};
 
@@ -197,13 +198,31 @@ public class ServerModel {
         }
 
         // get the Commands from the Game
-        returnValue = game.getCommandsForPlayer(player);
+        returnValue = game.getCommands(commandIndex);
 
         System.out.println(toString());
 
         return returnValue;
     }
 
+    public String endTurn(String playerID){
+        Game gameForPlayer = getGameForPlayer(playerID);
+
+        if (gameForPlayer != null){
+            return gameForPlayer.endTurn(playerID);
+        }
+        else {
+            return "The player does not belong to a game.";
+        }
+    }
+
+    /**
+     * Requests destination cards for the specified player
+     *
+     * @param playerID the player ID of the player requesting destination cards
+     *
+     * @return a blank String if the request was successful, or an error message otherwise
+     */
     public String requestDestCards(String playerID){
         Game currGame = getGameForPlayer(playerID);
 
@@ -215,6 +234,14 @@ public class ServerModel {
         }
     }
 
+    /**
+     * Adds a chat message to the history for the appropriate game
+     *
+     * @param playerID the player ID of the player that sent the message
+     * @param message the message text
+     *
+     * @return an error String from submitting the message, a blank String if there were no errors
+     */
     public boolean addChatCommand(String playerID, String message){
         Game currGame = getGameForPlayer(playerID);
 
@@ -227,6 +254,11 @@ public class ServerModel {
         }
     }
 
+    /**
+     * Returns a String representation of the sever model
+     *
+     * @return a String representation of the server model
+     */
     @Override
     public String toString(){
         String returnString = "";

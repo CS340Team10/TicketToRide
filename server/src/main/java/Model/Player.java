@@ -1,6 +1,10 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import common.Deck;
+import common.ICard;
 
 /**
  * Created by Brian on 2/1/18.
@@ -13,7 +17,13 @@ public class Player {
     private String _playerID;
     private int _gameHistoryIndex;
     private Deck _trainCards = new Deck();
+
+    // this Deck holds the DestCards that have been accepted by the player
     private Deck _destinationCards = new Deck();
+
+    // this deck holds the DestCards that have been offered to the player
+    private Deck _tempDestinationCards = new Deck();
+
     private int _currPoints = 0;
     private int _currTrainCars = 45;
 
@@ -88,6 +98,68 @@ public class Player {
     }
 
     /**
+     * Offers the DestCards to the Player
+     *
+     * @param destCards a List of DestCards that are being offered to the Player
+     */
+    public void offerDestinationCards(List<? extends ICard> destCards){
+        _tempDestinationCards.addCards(destCards);
+    }
+
+    /**
+     * Sets the DestCards that were accepted by the Player
+     *
+     * @param acceptCards a List of DestCards that were accepted by the Player
+     *
+     * @return a List of ICards that were not accepted by the Player
+     */
+    public List<? extends ICard> acceptDestinationCards(List<? extends ICard> acceptCards){
+
+        // go through the temporary destination cards and determine which cards should be returned
+        for (int count = 0; count < acceptCards.size(); count++){
+            // remove the accepted cards from the temp Deck
+            _destinationCards.addCard(_tempDestinationCards.drawCard(acceptCards.get(count)));
+        }
+
+        // return any extra cards
+        List<? extends ICard> returnCards = _tempDestinationCards.toList(ICard.class);
+        _tempDestinationCards.clear();
+
+        return returnCards;
+    }
+
+    /**
+     * Returns the number of train cars currently available to this Player
+     *
+     * @return the number of train cars available to this player
+     */
+    public int getTrainCars(){
+        return _currTrainCars;
+    }
+
+    /**
+     * Decrements the available train cars for this Player
+     *
+     * @param numOfCars the number of train cars being used on a route
+     */
+    public boolean useTrainCars(int numOfCars){
+        if (numOfCars < 0){
+            // you cannot use less than 0 cars
+            return false;
+        }
+
+        if (numOfCars > _currTrainCars){
+            // you cannot use more train cars than you have
+            return false;
+        }
+
+        // if this point is reached, then the train cars can be used
+        _currTrainCars -= numOfCars;
+        return true;
+
+    }
+
+    /**
      * Returns whether the Object is equal to this Player
      *
      * @param compare an Object to compare to
@@ -120,6 +192,11 @@ public class Player {
         return true;
     }
 
+    /**
+     * Returns a String representation of the Player
+     *
+     * @return a String representation of the Player
+     */
     @Override
     public String toString(){
         String returnString = "";
@@ -127,7 +204,12 @@ public class Player {
         returnString += "Username:\t\t\t" + _username + "\n";
         returnString += "Password:\t\t\t" + _password + "\n";
         returnString += "PlayerID:\t\t\t" + _playerID + "\n";
-        returnString += "Commands Position:\t" + _gameHistoryIndex;
+        returnString += "Train Cards:\t\t\n";
+        returnString += _trainCards.toString();
+        returnString += "Destination Cards:\t\n";
+        returnString += _destinationCards.toString();
+        returnString += "Temp Dest Cards:\t\t\n";
+        returnString += _tempDestinationCards.toString();
 
 
         return returnString;

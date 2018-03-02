@@ -6,6 +6,8 @@ import java.util.List;
 import Services.ClientCommandFactory;
 import common.Deck;
 import common.DestCard;
+import common.GameRoutes;
+import common.ICard;
 import common.ICommand;
 import common.Route;
 import common.TrainCard;
@@ -48,7 +50,8 @@ public class Game {
 
     private CommandHistory _gameHistory = new CommandHistory();
     private List<Player> _players = new ArrayList<Player>();
-    private List<Route> _routes = new ArrayList<Route>();
+    private int currPlayerTurn = 0;
+    private List<Route> _routes = GameRoutes.getAllRoutes();
 
     // set up the decks of cards to use
     private Deck _trainCards = new Deck();
@@ -183,48 +186,44 @@ public class Game {
     /**
      * Returns the commands that have not been sent to the Player yet
      *
-     * @param player the Player to use to retrieve the commands
+     * @param commandIndex the index of the first ICommand to return
+     *
      * @return
      */
-    public ICommand[] getCommandsForPlayer(Player player) {
+    public ICommand[] getCommands(int commandIndex) {
 
         ICommand[] returnValue = new ICommand[]{};
 
-        // get the Player in the Game
-        int playerIndex = -1;
-        for (int count = 0; count < _players.size(); count++) {
-            if (_players.get(count).equals(player)) {
-                playerIndex = count;
-            }
-        }
-
-        if (playerIndex == -1) {
-            // the Player does not exist in the game
-            return returnValue;
-        }
-
         // get the commands from the game
-        List<ICommand> commands = _gameHistory.historyFrom(_players.get(playerIndex).getGameHistoryIndex());
+        List<ICommand> commands = _gameHistory.historyFrom(commandIndex);
         returnValue = new ICommand[commands.size()];
 
         for (int count = 0; count < commands.size(); count++) {
             returnValue[count] = commands.get(count);
         }
 
-        // get the new position of commands
-        int commandIndex = 0;
-        if (commands.size() > 0) {
-            commandIndex = commands.size();
-        }
-
-        // increment the index of the commands
-        commandIndex += _players.get(playerIndex).getGameHistoryIndex();
-
-        // update the position of commands for the Player
-        _players.get(playerIndex).setGameHistoryIndex(commandIndex);
-
         // return the commands
         return returnValue;
+    }
+
+
+    /**
+     * Ends the turn for the player specified by the player ID
+     *
+     * @param playerID the player ID of the player that is ending their turn
+     *
+     * @return a String with any possible error messages
+     */
+    public String endTurn(String playerID){
+
+        if (!isPlayersTurn(playerID)){
+            return "It is not your turn.";
+        }
+        else {
+            // move the gameplay turn to the next players
+            incrementCurrPlayer();
+            return "";
+        }
     }
 
     /**
@@ -237,7 +236,7 @@ public class Game {
     public String requestDestCards(String playerID){
 
         // verify that it is the players turn
-        if (false){
+        if (!isPlayersTurn(playerID)){
             return "It is not your turn.";
         }
         else {
@@ -295,6 +294,58 @@ public class Game {
     }
 
 
+    /**
+     * Returns the player identified by the player ID
+     *
+     * @param playerID the player ID for the requested Player
+     *
+     * @return the Player Object represented by the player ID, or null if the Player cannot be found
+     */
+    private Player getPlayer(String playerID){
+        for (int count = 0; count < _players.size(); count++){
+            if (_players.get(count).getPlayerID().equals(playerID)){
+                return _players.get(count);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns whether it is currently the specified player's turn
+     *
+     * @param playerID the player ID of the player in question
+     *
+     * @return true if it is the specified player's turn, false otherwise
+     */
+    private boolean isPlayersTurn(String playerID){
+        if (!_didStart){
+            // the game has not started, so it is nobody's turn
+            return false;
+        }
+
+        return (_players.get(currPlayerTurn).getPlayerID().equals(playerID));
+    }
+
+    /**
+     * Sets the turn of the next player and triggers a command to notify the clients
+     */
+    private void incrementCurrPlayer(){
+        if (currPlayerTurn == _players.size() - 1){
+            // reset to 0
+            currPlayerTurn = 0;
+        }
+        else {
+            currPlayerTurn++;
+        }
+
+        // notify the clients that the turn has changed
+        _gameHistory.addCommand(ClientCommandFactory.createTurnBeganCommand(_players.get(currPlayerTurn).getPlayerID()));
+    }
+
+    /**
+     * Sets up the original train cards deck
+     */
     private void setUpTrainCards() {
         for (TrainCard.Colors color : TrainCard.Colors.values()) {
             int cardCount = 0;
@@ -316,6 +367,9 @@ public class Game {
 
     }
 
+    /**
+     * Sets up the original destination cards deck
+     */
     private void setUpDestCards(){
         ArrayList<String> startCity = new ArrayList<String>();
         ArrayList<String> endCity = new ArrayList<String>();
@@ -495,6 +549,12 @@ public class Game {
      */
     private String giveDestCards(String playerID){
 
+        Player currPlayer = getPlayer(playerID);
+
+        if (currPlayer == null){
+            return "There is no such player.";
+        }
+
         // ensure that there are enough destination cards left
         if (_destinationCards.size() < DESTINATION_CARD_DEAL){
             _discardedDestinationCards.copyToDeck(_destinationCards);
@@ -511,6 +571,9 @@ public class Game {
         for (int cardCount = 0; cardCount < DESTINATION_CARD_DEAL; cardCount++){
             destCards.add((DestCard)_destinationCards.drawCard());
         }
+
+        currPlayer.offerDestinationCards(destCards);
+
         _gameHistory.addCommand(ClientCommandFactory.createOfferDestCardsCommand(playerID, destCards));
 
         // everything was successful

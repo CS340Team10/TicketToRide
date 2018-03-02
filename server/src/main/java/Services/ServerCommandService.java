@@ -158,6 +158,11 @@ public class ServerCommandService implements IServer {
         return returnValue;
     }
 
+    /**
+     * Returns a list of available games
+     *
+     * @return a list of available games
+     */
     public ArrayList<String> getAvailableGames(){
         ArrayList<String> returnValue = new ArrayList<String>();
 
@@ -173,23 +178,46 @@ public class ServerCommandService implements IServer {
         return returnValue;
     }
 
+    /**
+     * Returns whether the player is valid in this game (ie does the player exist?)
+     *
+     * @param playerID the player ID to use
+     *
+     * @return true if the player exists in this game, false otherwise
+     */
     public boolean playerIsValid(String playerID){
         return _serverModel.isPlayerLoggedIn(playerID);
     }
 
-    public ICommand[] getPlayerCommands(String playerID){
+    /**
+     * Returns the commands that have not been executed by the client
+     *
+     * @param playerID the player ID used to find the Game in the model
+     * @param commandIndex the index of the first command to be returned
+     *
+     * @return an array of ICommand object that have not been executed by the client yet
+     */
+    public ICommand[] getPlayerCommands(String playerID, int commandIndex){
 
-        ICommand[] returnValue = _serverModel.getPlayerCommands(playerID);
-
-
+        ICommand[] returnValue = _serverModel.getPlayerCommands(playerID, commandIndex);
         return returnValue;
     }
 
+    /**
+     * Returns the server model as a String
+     *
+     * @return a String representation of the server model
+     */
     @Override
     public String toString(){
         return _serverModel.toString();
     }
 
+    /**
+     * Returns the server model as a String
+     *
+     * @return the server model as a String
+     */
     public static String getModelString(){
         return getInstance().toString();
     }
@@ -211,13 +239,20 @@ public class ServerCommandService implements IServer {
     /**
      * Signals to the game that the turn has ended for the player
      *
-     * @param playerId the player ID of the player that ended their turn
+     * @param playerID the player ID of the player that ended their turn
      *
      * @return
      */
     @Override
-    public Results turnEnded(String playerId) {
-        return null;
+    public Results turnEnded(String playerID) {
+        String returnString = _serverModel.endTurn(playerID);
+        if (returnString == ""){
+            return new Results(true, "", "");
+        }
+        else {
+            // there was an error ending the turn (ie the turn did not belong to this player
+            return new Results(false, "", returnString);
+        }
     }
 
     /**
@@ -237,20 +272,20 @@ public class ServerCommandService implements IServer {
             return new Results(true, "", "");
         }
         else {
-            return new Results(false, "", "An error occurred:" + returnString);
+            return new Results(false, "", "An error occurred: " + returnString);
         }
     }
 
     /**
      * Signals to the game the destination cards that are being kept by the player
      *
-     * @param playerId the player ID of the player
+     * @param playerID the player ID of the player
      * @param keep a list of destination cards that are being kept by the player
      *
      * @return
      */
     @Override
-    public Results keepDestCards(String playerId, List<DestCard> keep) {
+    public Results keepDestCards(String playerID, List<DestCard> keep) {
         return null;
     }
 

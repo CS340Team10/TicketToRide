@@ -30,12 +30,42 @@ public class Deck {
     }
 
     /**
+     * Adds a List of ICards to the Deck
+     *
+     * @param cards a List of ICards to add to the Deck
+     */
+    public void addCards(List<? extends ICard> cards){
+        for (int count = 0; count < cards.size(); count++){
+            _cards.add(cards.get(count));
+        }
+    }
+
+    /**
      * Returns the top card in the deck and removes it
      *
      * @return the top card in the deck
      */
     public ICard drawCard(){
         return drawCard(0);
+    }
+
+    /**
+     * Removes the first instance of the drawCard from this Deck
+     *
+     * @param drawCard the card to be drawn from the Deck
+     *
+     * @return the ICard that was drawn if drawCard was found, null otherwise
+     */
+    public ICard drawCard(ICard drawCard){
+        for (int count = 0; count < _cards.size(); count++){
+            if (_cards.get(count).equals(drawCard)){
+                // draw the card
+                return drawCard(count);
+            }
+        }
+
+        // if this point is reached, then the card was not found
+        return null;
     }
 
     /**
@@ -116,12 +146,12 @@ public class Deck {
     /**
      * Returns the Deck as a List
      */
-    public List<?> toList(Class className){
+    public List<? extends ICard> toList(Class className){
 
-        ArrayList<Object> returnValue = new ArrayList<>();
+        ArrayList<ICard> returnValue = new ArrayList<>();
 
         for (int count = 0; count < _cards.size(); count++){
-            returnValue.add(className.cast(_cards.get(count)));
+            returnValue.add(_cards.get(count));
         }
 
         return returnValue;

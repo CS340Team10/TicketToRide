@@ -19,5 +19,6 @@ public class PlayerAttributes {
     public Color color;
     public int trainCardNum;
     public int destCardNum;
+    public int trainCarNum;
     public int points;
 }

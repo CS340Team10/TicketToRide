@@ -1,8 +1,7 @@
 package com.example.cs340.tickettoride.Views;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.cs340.tickettoride.R;
 
@@ -11,17 +10,18 @@ import java.util.List;
 import common.DestCard;
 import common.TrainCard;
 
-public class GamePlayActivity extends Activity implements IGamePlayView {
+public class GamePlayActivity extends AppCompatActivity implements IGamePlayView {
 
     IMapView mapView = new MapView();
+    IChatHistoryView chatHistoryView = new ChatHistoryView();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
 
-        ImageView map = findViewById(R.id.mapView);
-        mapView.setParams(this, map);
+        mapView.setup(this);
+        chatHistoryView.setup(this);
     }
 
     @Override

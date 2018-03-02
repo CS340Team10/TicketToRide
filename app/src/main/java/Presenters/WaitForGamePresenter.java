@@ -6,6 +6,7 @@ import com.example.cs340.tickettoride.Views.IWaitForGameView;
 import java.util.Observable;
 import java.util.Observer;
 
+import ClientModel.ClientModel;
 import Communication.Poller;
 import Services.GUIService;
 import common.Results;
@@ -33,6 +34,7 @@ public class WaitForGamePresenter implements IWaitForGamePresenter, IPresenter, 
     public void update(Observable observable, Object o) {
         if (GUIService.getInstance().getClientModel().getGame().hasStarted()) {
             view.switchToView(GamePlayActivity.class);
+            ClientModel.getInstance().deleteObserver(this);
         }
     }
 }

@@ -56,11 +56,28 @@
                     android:layout_height="match_parent" />
             </LinearLayout>
         </LinearLayout>
-        <ImageView
-            android:id="@+id/mapView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ttr"/>
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ttr"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_alignParentEnd="true"
+                android:text="Draw Train Cards"
+                android:layout_alignParentTop="true"
+                android:layout_height="wrap_content" />
+            <Button
+                android:layout_width="100dp"
+                android:text="Phase 2 passoff"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
     </LinearLayout>
 
     <!--Left Drawer-->
@@ -96,6 +113,7 @@
             android:orientation="horizontal"
             android:layout_height="wrap_content">
             <EditText
+                android:paddingStart="10dp"
                 android:id="@+id/newChatText"
                 android:layout_width="200dp"
                 android:hint="Enter chat"

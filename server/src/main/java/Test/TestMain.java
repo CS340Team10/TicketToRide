@@ -1,10 +1,18 @@
 package Test;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import Model.Game;
+import Model.Player;
+import Services.ClientCommandFactory;
 import Services.ServerCommandService;
 import common.Command;
+import common.DestCard;
+import common.ICard;
 import common.Results;
 import common.Serializer;
+import common.TrainCard;
 
 /**
  * Created by Brian on 2/6/18.
@@ -14,7 +22,10 @@ public class TestMain {
 
     public static void main(String[] args){
 
-        Game newGame = new Game("test", 2);
+        Command testCommand = (Command)ClientCommandFactory.createTrainCardChosenCommand("player1_loggedIn", new TrainCard(TrainCard.Colors.wildcard));
+        System.out.println(Serializer.getInstance().serializeObject(testCommand));
+
+        /*Game newGame = new Game("test", 2);
 
         Command testCommand = new Command("ServerCommandService", "login", new String[] {"String", "String"}, new String[] {"player1", "password"});
         String json = Serializer.getInstance().serializeObject(testCommand);
@@ -34,6 +45,19 @@ public class TestMain {
 
         result = ServerCommandService.getInstance().joinGame("My First Game", "player5_registered");
 
-        System.out.println(ServerCommandService.getModelString());
+        System.out.println(ServerCommandService.getModelString());*/
+
+        Player tempPlayer = new Player("user1", "password");
+
+        ArrayList<ICard> destinationCards = new ArrayList<ICard>();
+        destinationCards.add(new DestCard("test1", "test2", 3));
+        destinationCards.add(new DestCard("test3", "test4", 4));
+        destinationCards.add(new DestCard("test5", "test6", 10));
+        tempPlayer.offerDestinationCards(destinationCards);
+
+        destinationCards.remove(0);
+        tempPlayer.acceptDestinationCards(destinationCards);
+
+        System.out.println(tempPlayer);
     }
 }

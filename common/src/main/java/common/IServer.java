@@ -24,7 +24,7 @@ public interface IServer {
 
     public Results keepDestCards(String playerId, List<DestCard> keep);
 
-    public Results selectTrainCard(String playerId, TrainCard card, Boolean cardValid);
+    public Results selectTrainCard(String playerId, TrainCard card, Boolean pickFromFaceUp);
 
     public Results chat(String playerId, String message);
 }

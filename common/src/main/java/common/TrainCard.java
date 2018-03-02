@@ -58,4 +58,21 @@ public class TrainCard implements ICard {
                 return "DEFAULT CARD";
         }
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj instanceof TrainCard){
+            TrainCard card = (TrainCard)obj;
+
+            if (card.toString().equals(toString())){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }

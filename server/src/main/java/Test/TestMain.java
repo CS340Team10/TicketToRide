@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 import Model.Game;
 import Model.Player;
+import Services.ClientCommandFactory;
 import Services.ServerCommandService;
 import common.Command;
 import common.DestCard;
 import common.ICard;
 import common.Results;
 import common.Serializer;
+import common.TrainCard;
 
 /**
  * Created by Brian on 2/6/18.
@@ -19,6 +21,9 @@ import common.Serializer;
 public class TestMain {
 
     public static void main(String[] args){
+
+        Command testCommand = (Command)ClientCommandFactory.createTrainCardChosenCommand("player1_loggedIn", new TrainCard(TrainCard.Colors.wildcard));
+        System.out.println(Serializer.getInstance().serializeObject(testCommand));
 
         /*Game newGame = new Game("test", 2);
 

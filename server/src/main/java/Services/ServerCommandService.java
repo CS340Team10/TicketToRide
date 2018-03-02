@@ -225,15 +225,24 @@ public class ServerCommandService implements IServer {
     /**
      * Claims the route for the player specified by the player_Id
      *
-     * @param playerId the player ID of the player that claimed the route
-     * @param routeId the route ID that is being claimed
+     * @param playerID the player ID of the player that claimed the route
+     * @param routeID the route ID that is being claimed
      * @param cardsUsed the cards that are being used to claim the route
      *
      * @return
      */
     @Override
-    public Results claimRoute(String playerId, String routeId, List<TrainCard> cardsUsed) {
-        return null;
+    public Results claimRoute(String playerID, String routeID, List<TrainCard> cardsUsed) {
+        String returnString = _serverModel.claimRoute(playerID, routeID, cardsUsed);
+
+        if (returnString.equals("")){
+            // there were no errors
+            return new Results(true, "", "");
+        }
+        else {
+            // there was an error
+            return new Results(false, "", returnString);
+        }
     }
 
     /**
@@ -246,7 +255,7 @@ public class ServerCommandService implements IServer {
     @Override
     public Results turnEnded(String playerID) {
         String returnString = _serverModel.endTurn(playerID);
-        if (returnString == ""){
+        if (returnString.equals("")){
             return new Results(true, "", "");
         }
         else {
@@ -267,7 +276,7 @@ public class ServerCommandService implements IServer {
 
         String returnString = _serverModel.requestDestCards(playerID);
 
-        if (returnString == ""){
+        if (returnString.equals("")){
             // the cards will be returned in a command
             return new Results(true, "", "");
         }
@@ -286,7 +295,14 @@ public class ServerCommandService implements IServer {
      */
     @Override
     public Results keepDestCards(String playerID, List<DestCard> keep) {
-        return null;
+        String returnString = _serverModel.keepDestCards(playerID, keep);
+
+        if (returnString.equals("")){
+            return new Results(true, "", "");
+        }
+        else {
+            return new Results(false, "", returnString);
+        }
     }
 
     /**
@@ -300,7 +316,14 @@ public class ServerCommandService implements IServer {
      */
     @Override
     public Results selectTrainCard(String playerID, TrainCard card, Boolean pickFromFaceUp) {
-        return null;
+        String returnString = _serverModel.selectTrainCard(playerID, card, pickFromFaceUp);
+
+        if (returnString.equals("")){
+            return new Results(true, "", "");
+        }
+        else {
+            return new Results(false, "", returnString);
+        }
     }
 
     /**

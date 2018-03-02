@@ -5,6 +5,7 @@ import java.util.List;
 
 import common.Deck;
 import common.ICard;
+import common.TrainCard;
 
 /**
  * Created by Brian on 2/1/18.
@@ -96,6 +97,37 @@ public class Player {
     public void setGameHistoryIndex(int historyIndex){
         _gameHistoryIndex = historyIndex;
     }
+
+
+    /**
+     * Adds a train card to the Deck
+     *
+     * @param newCard the new TrainCard to add to the Deck
+     */
+    public void takeTrainCard(TrainCard newCard){
+        _trainCards.addCard(newCard);
+    }
+
+    /**
+     * Uses the TrainCard
+     *
+     * @param usedCard the TrainCard that was used
+     */
+    public void useTrainCard(TrainCard usedCard){
+        _trainCards.drawCard(usedCard);
+    }
+
+    /**
+     * Uses a list of TrainCards
+     *
+     * @param usedCards the TrainCards that were used
+     */
+    public void useTrainCards(List<TrainCard> usedCards){
+        for (TrainCard card: usedCards){
+            useTrainCard(card);
+        }
+    }
+
 
     /**
      * Offers the DestCards to the Player

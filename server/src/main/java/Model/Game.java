@@ -206,6 +206,77 @@ public class Game {
         return returnValue;
     }
 
+    /**
+     * Attempts to claim the route for the player
+     *
+     * @param playerID the player ID of the player claiming the route
+     * @param routeID the route ID of the route being claimed
+     * @param cardsUsed the cards that were used to claim the route
+     *
+     * @return a String with any error that occurred
+     */
+    public String claimRoute(String playerID, String routeID, List<TrainCard> cardsUsed){
+        if (!isPlayersTurn(playerID)){
+            return "It is not your turn.";
+        }
+        else {
+            // verify that the route has not been claimed
+            Route currRoute = getRoute(routeID);
+
+            if (!currRoute.getOwnedByPlayerID().equals("")){
+
+                // check that there are enough cards
+                if (currRoute.getRouteLength() != cardsUsed.size()){
+                    return "You did not provide enough cards to claim that route.";
+                }
+
+                // check that the cards are valid
+                boolean cardsValid = true;
+                for (TrainCard card : cardsUsed){
+                    if ((card.getColor() == TrainCard.Colors.wildcard) || (card.getColor() == currRoute.getPathColor())){
+                        // the card is valid
+                    }
+                    else {
+                        // the card is not valid
+                        cardsValid = false;
+                        break;
+                    }
+                }
+
+                if (cardsValid) {
+
+                    Player currPlayer = getPlayer(playerID);
+
+                    // make sure that the player has enough train cars to claim the route
+                    if (currPlayer.getTrainCars() < cardsUsed.size()){
+                        return "You do not have enough trains left to claim that route.";
+                    }
+
+                    // claim the route for the player and discard the cards
+                    if (currPlayer.useTrainCars(cardsUsed.size())) {
+
+                        // remove the used cards from the player
+                        currPlayer.useTrainCards(cardsUsed);
+
+                        // discard the used cards
+                        _discardedTrainCards.addCards(cardsUsed);
+
+                        return "";
+                    }
+                    else {
+                        return "You do not have enough trains left to claim that route.";
+                    }
+                }
+                else {
+                    return "The supplied cards cannot claim that route.";
+                }
+            }
+            else {
+                return "That route has already been claimed.";
+            }
+        }
+    }
+
 
     /**
      * Ends the turn for the player specified by the player ID
@@ -241,6 +312,43 @@ public class Game {
         }
         else {
             return giveDestCards(playerID);
+        }
+    }
+
+    /**
+     * Tells the server what destination cards the user is choosing to keep
+     *
+     * @param playerID the player ID that is keeping the cards
+     * @param keep the DestCards that are being kept
+     *
+     * @return any error that occurred in claiming the destination cards
+     */
+    public String keepDestCards(String playerID, List<DestCard> keep){
+        if (!isPlayersTurn(playerID)){
+            return "It is not your turn.";
+        }
+        else {
+            Player currPlayer = getPlayer(playerID);
+
+            currPlayer.acceptDestinationCards(keep);
+            return "";
+        }
+    }
+
+    /**
+     * Selects a TrainCard for the player
+     * @param playerID the player ID of the player claiming the TrainCard
+     * @param card the TrainCard that is being selected
+     * @param pickFromFaceUp whether the TrainCard is coming from the faceup Deck or not
+     *
+     * @return any error that occurred in selecting a TrainCard
+     */
+    public String selectTrainCard(String playerID, TrainCard card, Boolean pickFromFaceUp) {
+        if (!isPlayersTurn(playerID)){
+            return "It is not your turn.";
+        }
+        else {
+            return giveTrainCard(playerID, card, pickFromFaceUp);
         }
     }
 
@@ -305,6 +413,23 @@ public class Game {
         for (int count = 0; count < _players.size(); count++){
             if (_players.get(count).getPlayerID().equals(playerID)){
                 return _players.get(count);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the Route specified by the ID
+     *
+     * @param routeID the route ID to look for
+     *
+     * @return the Route specified by the ID, or null if no such Route exists
+     */
+    private Route getRoute(String routeID){
+        for (Route route: _routes){
+            if (route.getRouteID() == routeID){
+                return route;
             }
         }
 
@@ -539,6 +664,50 @@ public class Game {
         // update the face up cards on the clients
         _gameHistory.addCommand(ClientCommandFactory.createTrainCardDeckUpdatedCommand(faceUpList, _trainCards.size()));
 
+    }
+
+    /**
+     * Enforces all of the rules associated with drawing TrainCards
+     *
+     * @param playerID the player ID of the player selecting a TrainCard
+     * @param card the TrainCard to draw from the face-up Deck
+     * @param pickFromFaceUp whether the card is coming from the face-up Deck
+     *
+     * @return a String with any errors that occurred
+     */
+    private String giveTrainCard(String playerID, TrainCard card, Boolean pickFromFaceUp) {
+
+        Player currPlayer = getPlayer(playerID);
+
+        if (pickFromFaceUp){
+            card = (TrainCard)_faceUpTrainCards.drawCard(card);
+
+            if (card == null){
+                return "That card is not in the face-up deck.";
+            }
+        }
+        else {
+            // draw from the deck
+
+
+            if (_trainCards.size() < 1) {
+                // shuffle the discarded train cards
+                _discardedTrainCards.copyToDeck(_trainCards);
+                _discardedTrainCards.clear();
+                _trainCards.shuffle();
+            }
+
+            if (_trainCards.size() < 1) {
+                // there are not enough cards
+                return "There are not enough cards to choose from. Please try a different action.";
+            }
+
+            card = (TrainCard)_trainCards.drawCard();
+        }
+
+        // trigger the event for the clients
+        _gameHistory.addCommand(ClientCommandFactory.createTrainCardChosenCommand(playerID, card));
+        return "";
     }
 
     /**

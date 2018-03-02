@@ -1,8 +1,12 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import common.DestCard;
+import common.ICard;
 import common.ICommand;
+import common.TrainCard;
 
 /**
  * Created by Brian on 2/1/18.
@@ -217,6 +221,26 @@ public class ServerModel {
     }
 
     /**
+     * Attempts to claim the route for the player
+     *
+     * @param playerID the player ID of the player claiming the route
+     * @param routeID the route ID of the route being claimed
+     * @param cardsUsed the cards that were used to claim the route
+     *
+     * @return a String with any error that occurred
+     */
+    public String claimRoute(String playerID, String routeID, List<TrainCard> cardsUsed){
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            return currGame.claimRoute(playerID, routeID, cardsUsed);
+        }
+        else {
+            return "The player does not belong to a game.";
+        }
+    }
+
+    /**
      * Requests destination cards for the specified player
      *
      * @param playerID the player ID of the player requesting destination cards
@@ -228,6 +252,44 @@ public class ServerModel {
 
         if (currGame != null){
             return currGame.requestDestCards(playerID);
+        }
+        else {
+            return "The player is not in any game.";
+        }
+    }
+
+    /**
+     * Tells the server what destination cards the user is choosing to keep
+     *
+     * @param playerID the player ID that is keeping the cards
+     * @param keep the DestCards that are being kept
+     *
+     * @return any error that occurred in claiming the destination cards
+     */
+    public String keepDestCards(String playerID, List<DestCard> keep){
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            return currGame.keepDestCards(playerID, keep);
+        }
+        else {
+            return "The player is not in any game.";
+        }
+    }
+
+    /**
+     * Selects a TrainCard for the player
+     * @param playerID the player ID of the player claiming the TrainCard
+     * @param card the TrainCard that is being selected
+     * @param pickFromFaceUp whether the TrainCard is coming from the faceup Deck or not
+     *
+     * @return any error that occurred in selecting a TrainCard
+     */
+    public String selectTrainCard(String playerID, TrainCard card, Boolean pickFromFaceUp) {
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            return currGame.selectTrainCard(playerID, card, pickFromFaceUp);
         }
         else {
             return "The player is not in any game.";

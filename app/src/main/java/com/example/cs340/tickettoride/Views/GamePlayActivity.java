@@ -28,7 +28,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         mapView.setup(this);
         chatHistoryView.setup(this);
         FrameLayout leftDrawer = findViewById(R.id.leftDrawer);
-        FrameLayout rightDrawer = findViewById(R.id.rightDrawer);
+        //FrameLayout rightDrawer = findViewById(R.id.rightDrawer);
         //HandView
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)
         {

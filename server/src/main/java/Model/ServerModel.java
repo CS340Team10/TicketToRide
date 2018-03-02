@@ -1,8 +1,12 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import common.DestCard;
+import common.ICard;
 import common.ICommand;
+import common.TrainCard;
 
 /**
  * Created by Brian on 2/1/18.
@@ -160,10 +164,11 @@ public class ServerModel {
      * Returns an array of Commands that the Player needs to execute
      *
      * @param playerID the Player to return Commands for
+     * @param commandIndex the index of the first command to return
      *
      * @return an array of Commands for the Player to execute
      */
-    public ICommand[] getPlayerCommands(String playerID){
+    public ICommand[] getPlayerCommands(String playerID, int commandIndex){
 
         ICommand[] returnValue = new ICommand[]{};
 
@@ -182,13 +187,14 @@ public class ServerModel {
         }
 
         // get the Game for the Player
-        Game game = null;
+        /*Game game = null;
         for (Game current : _currentGames){
             if (current.hasPlayer(player)){
                 game = current;
                 break;
             }
-        }
+        }*/
+        Game game = getGameForPlayer(player);
 
         if (game == null){
             // the Player is not part of any Game
@@ -196,13 +202,125 @@ public class ServerModel {
         }
 
         // get the Commands from the Game
-        returnValue = game.getCommandsForPlayer(player);
+        returnValue = game.getCommands(commandIndex);
 
         System.out.println(toString());
 
         return returnValue;
     }
 
+    public String endTurn(String playerID){
+        Game gameForPlayer = getGameForPlayer(playerID);
+
+        if (gameForPlayer != null){
+            return gameForPlayer.endTurn(playerID);
+        }
+        else {
+            return "The player does not belong to a game.";
+        }
+    }
+
+    /**
+     * Attempts to claim the route for the player
+     *
+     * @param playerID the player ID of the player claiming the route
+     * @param routeID the route ID of the route being claimed
+     * @param cardsUsed the cards that were used to claim the route
+     *
+     * @return a String with any error that occurred
+     */
+    public String claimRoute(String playerID, String routeID, List<TrainCard> cardsUsed){
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            return currGame.claimRoute(playerID, routeID, cardsUsed);
+        }
+        else {
+            return "The player does not belong to a game.";
+        }
+    }
+
+    /**
+     * Requests destination cards for the specified player
+     *
+     * @param playerID the player ID of the player requesting destination cards
+     *
+     * @return a blank String if the request was successful, or an error message otherwise
+     */
+    public String requestDestCards(String playerID){
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            return currGame.requestDestCards(playerID);
+        }
+        else {
+            return "The player is not in any game.";
+        }
+    }
+
+    /**
+     * Tells the server what destination cards the user is choosing to keep
+     *
+     * @param playerID the player ID that is keeping the cards
+     * @param keep the DestCards that are being kept
+     *
+     * @return any error that occurred in claiming the destination cards
+     */
+    public String keepDestCards(String playerID, List<DestCard> keep){
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            return currGame.keepDestCards(playerID, keep);
+        }
+        else {
+            return "The player is not in any game.";
+        }
+    }
+
+    /**
+     * Selects a TrainCard for the player
+     * @param playerID the player ID of the player claiming the TrainCard
+     * @param card the TrainCard that is being selected
+     * @param pickFromFaceUp whether the TrainCard is coming from the faceup Deck or not
+     *
+     * @return any error that occurred in selecting a TrainCard
+     */
+    public String selectTrainCard(String playerID, TrainCard card, Boolean pickFromFaceUp) {
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            return currGame.selectTrainCard(playerID, card, pickFromFaceUp);
+        }
+        else {
+            return "The player is not in any game.";
+        }
+    }
+
+    /**
+     * Adds a chat message to the history for the appropriate game
+     *
+     * @param playerID the player ID of the player that sent the message
+     * @param message the message text
+     *
+     * @return an error String from submitting the message, a blank String if there were no errors
+     */
+    public boolean addChatCommand(String playerID, String message){
+        Game currGame = getGameForPlayer(playerID);
+
+        if (currGame != null){
+            currGame.addChatCommand(playerID, message);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns a String representation of the sever model
+     *
+     * @return a String representation of the server model
+     */
     @Override
     public String toString(){
         String returnString = "";
@@ -236,5 +354,53 @@ public class ServerModel {
         }
 
         return returnString;
+    }
+
+    /**
+     * Returns the game that has the player identified by the player ID
+     *
+     * @param playerID the player ID for the player
+     *
+     * @return the Game that the player is in, or null if there is no such game found
+     */
+    private Game getGameForPlayer(String playerID) {
+
+        // get the Player object for the player ID
+        Player currPlayer = null;
+        for (Player player : _loggedInPlayers){
+            if (player.getPlayerID().equals(playerID)){
+                currPlayer = player;
+                break;
+            }
+        }
+
+        // return the game for the player
+        return getGameForPlayer(currPlayer);
+    }
+    /**
+     * Returns the game that has the player identified by the player Object
+     *
+     * @param currPlayer the Player object that represents the player
+     *
+     * @return the Game that the player is in, or null if there is no such game found
+     */
+    private Game getGameForPlayer(Player currPlayer){
+
+        // verify that the player exists
+        if (currPlayer == null){
+            // the player does not exist
+            return null;
+        }
+
+        // get the game that the player is in
+        for (Game current : _currentGames){
+            if (current.hasPlayer(currPlayer)){
+                // the game was found
+                return current;
+            }
+        }
+
+        // if this point is reached, there was no game with the player in it
+        return null;
     }
 }

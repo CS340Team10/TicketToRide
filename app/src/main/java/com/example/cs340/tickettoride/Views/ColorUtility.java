@@ -12,18 +12,18 @@ import common.TrainCard;
 
 public class ColorUtility
 {
-    public class CardColors
+    public static class CardColors
     {
         CardColors(int backColor, int textColor)
         {
             this.backColor = backColor;
             this.textColor = textColor;
         }
-        private int backColor = R.color.colorGrey;
-        private int textColor = R.color.colorBlack;
+        public int backColor = R.color.colorGrey;
+        public int textColor = R.color.colorBlack;
     }
 
-    public CardColors getColorsFromCard(ICard card)
+    public static CardColors getColorsFromCard(ICard card)
     {
         if (card.getClass() == TrainCard.class)
         {

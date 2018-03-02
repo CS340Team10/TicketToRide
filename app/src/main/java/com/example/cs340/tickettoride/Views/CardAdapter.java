@@ -13,7 +13,6 @@ import com.example.cs340.tickettoride.R;
 import java.util.List;
 
 import common.ICard;
-import common.TrainCard;
 
 /**
  * Created by Joseph on 2/28/2018.
@@ -39,54 +38,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ICard card = cards.get(position);
         String text = card.toString();
-        CardColors colors = getColorsFromCard(card);
+        ColorUtility.CardColors colors = ColorUtility.getColorsFromCard(card);
         holder.setText(text);
         holder.setBackColor(colors.backColor);
         holder.setTextColor(colors.textColor);
-    }
-
-    private class CardColors
-    {
-        CardColors(int backColor, int textColor)
-        {
-            this.backColor = backColor;
-            this.textColor = textColor;
-        }
-        private int backColor = R.color.colorGrey;
-        private int textColor = R.color.colorBlack;
-    }
-
-    private CardColors getColorsFromCard(ICard card)
-    {
-        if (card.getClass() == TrainCard.class)
-        {
-            TrainCard tCard = (TrainCard) card;
-            TrainCard.Colors tColor = tCard.getColor();
-            switch (tColor)
-            {
-                case red:
-                    return new CardColors(R.color.colorRed, R.color.colorWhite);
-                case green:
-                    return new CardColors(R.color.colorGreen, R.color.colorBlack);
-                case blue:
-                    return new CardColors(R.color.colorBlue, R.color.colorWhite);
-                case white:
-                    return new CardColors(R.color.colorWhite, R.color.colorBlack);
-                case black:
-                    return new CardColors(R.color.colorBlack, R.color.colorWhite);
-                case purple:
-                    return new CardColors(R.color.colorPurple, R.color.colorWhite);
-                case orange:
-                    return new CardColors(R.color.colorOrange, R.color.colorBlack);
-                case yellow:
-                    return new CardColors(R.color.colorYellow, R.color.colorBlack);
-                case wildcard:
-                    return new CardColors(R.color.colorPink, R.color.colorBlack);
-                default:
-                    return new CardColors(R.color.colorGrey, R.color.colorBlack);
-            }
-        }
-        return  new CardColors(R.color.colorGrey, R.color.colorBlack);
     }
 
     @Override

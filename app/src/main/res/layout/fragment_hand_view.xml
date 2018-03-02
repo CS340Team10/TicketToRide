@@ -6,13 +6,15 @@
     tools:context="com.example.cs340.tickettoride.Views.HandView"
     android:id="@+id/handFrag"
     android:orientation="vertical"
-    android:background="@color/colorGrey">
+    android:background="@color/colorBlack">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/handTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabMode="fixed"
+        app:tabTextColor="@color/colorGrey"
+        app:tabSelectedTextColor="@color/colorWhite"
         />
     
     <android.support.v7.widget.RecyclerView

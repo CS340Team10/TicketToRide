@@ -2,23 +2,21 @@ package com.example.cs340.tickettoride.Views;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.example.cs340.tickettoride.R;
 
 import java.util.List;
 
 import common.DestCard;
-import common.PlayerAttributes;
 import common.TrainCard;
 
 public class GamePlayActivity extends AppCompatActivity implements IGamePlayView {
 
     IMapView mapView = new MapView();
     IChatHistoryView chatHistoryView = new ChatHistoryView();
-    IHandView handView = new HandView();
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +25,13 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
 
         mapView.setup(this);
         chatHistoryView.setup(this);
-        FrameLayout leftDrawer = findViewById(R.id.leftDrawer);
-        //FrameLayout rightDrawer = findViewById(R.id.rightDrawer);
-        //HandView
+        drawerLayout = findViewById(R.id.gamePlayDrawers);
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)
         {
-            getSupportFragmentManager().beginTransaction().add(R.id.leftDrawer, (Fragment) handView).commit();
+            IHandView handView = new HandView();
+            getSupportFragmentManager().beginTransaction().replace(R.id.leftDrawer, (Fragment) handView).commit();
         }
+        drawerLayout.closeDrawers();
     }
 
     @Override

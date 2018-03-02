@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.cs340.tickettoride.Views.GamePlayActivity">
+    tools:context="com.example.cs340.tickettoride.Views.GamePlayActivity"
+    android:id="@+id/gamePlayDrawers">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,7 +67,8 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/leftDrawer"/>
+        android:id="@+id/leftDrawer"
+        android:layout_gravity="start"/>
 
     <!--Right drawer-->
     <LinearLayout
@@ -79,7 +81,7 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp">
         <android.support.design.widget.TabLayout
-            app:tabTextColor="@color/colorWhite"
+            app:tabTextColor="@color/colorGrey"
             app:tabSelectedTextColor="@color/colorWhite"
             android:id="@+id/right_drawer_tabs"
             android:layout_width="match_parent"

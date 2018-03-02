@@ -1,7 +1,9 @@
 package com.example.cs340.tickettoride.Views;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.cs340.tickettoride.R;
@@ -15,12 +17,20 @@ import common.TrainCard;
 public class GamePlayActivity extends Activity implements IGamePlayView {
 
     IMapView mapView = new MapView();
+    IHandView handView = new HandView();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
 
+        FrameLayout leftDrawer = findViewById(R.id.leftDrawer);
+        FrameLayout rightDrawer = findViewById(R.id.rightDrawer);
+        //HandView
+        if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)
+        {
+            getFragmentManager().beginTransaction().add(R.id.leftDrawer, (Fragment) handView).commit();
+        }
         ImageView map = findViewById(R.id.mapView);
         mapView.setParams(this, map);
         mapView.drawRouteAsClaimed("vanc_calg", PlayerAttributes.Color.red);

@@ -163,6 +163,9 @@ public class Game {
             // start the game
             _gameHistory.addStartGameCommand();
             _didStart = true;
+
+            // notify the first player that it is their turn
+            _gameHistory.addCommand(ClientCommandFactory.createTurnBeganCommand(_players.get(0).getPlayerID()));
         }
         return _didStart;
     }

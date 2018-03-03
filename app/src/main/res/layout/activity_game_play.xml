@@ -69,10 +69,12 @@
                 android:layout_width="100dp"
                 android:layout_alignParentEnd="true"
                 android:text="Draw Train Cards"
+                android:id="@+id/drawTrainCardsButton"
                 android:layout_alignParentTop="true"
                 android:layout_height="wrap_content" />
             <Button
                 android:layout_width="100dp"
+                android:id="@+id/phase2PassoffButton"
                 android:text="Phase 2 passoff"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"

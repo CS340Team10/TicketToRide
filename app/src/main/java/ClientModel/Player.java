@@ -10,9 +10,9 @@ public class Player
 {
     private String id;
     private String username;
-    private Deck trainCards;
-    private Deck destCards;
-    private Deck offeredDestCards;
+    private Deck trainCards = new Deck();
+    private Deck destCards = new Deck();
+    private Deck offeredDestCards = new Deck();
     private int points;
     private boolean isMyTurn;
     private int historyPosition;

@@ -23,6 +23,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
 
     IMapView mapView = new MapView();
     IChatHistoryView chatHistoryView = new ChatHistoryView();
+    IPickTrainCardView pickTrainCardView = new PickTrainCardView();
     DrawerLayout drawerLayout;
 
     // For testing
@@ -35,7 +36,9 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
 
         mapView.setup(this);
         chatHistoryView.setup(this);
+        pickTrainCardView.setup(this);
         drawerLayout = findViewById(R.id.gamePlayDrawers);
+
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)
         {
             IHandView handView = new HandView();
@@ -109,7 +112,6 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
                         commandId = 0; // Back to beginning
                         break;
                 }
-
             }
         });
     }

@@ -23,7 +23,7 @@ public class ClientModel extends Observable
     private Player user = new Player();
     private Game game = new Game();
     private List<String> available_games = new ArrayList<>();
-    private GameRoutes gameRoutes = new GameRoutes();
+    private List<Route> gameRoutes = GameRoutes.getAllRoutes();
     private ChatHistory chatHistory = new ChatHistory();
     private GameHistory gameHistory = new GameHistory();
 
@@ -64,7 +64,7 @@ public class ClientModel extends Observable
 
     public Route getRouteById(String routeId) {
         // Implement this
-        for(Route route : gameRoutes.getAllRoutes())
+        for(Route route : gameRoutes)
         {
             if(route.getRouteID().equals(routeId))
             {
@@ -218,6 +218,10 @@ public class ClientModel extends Observable
 
         setChanged();
         notifyObservers();
+    }
+
+    public List<Route> getGameRoutes() {
+        return gameRoutes;
     }
 
     public void addHistory(String historyItem) {

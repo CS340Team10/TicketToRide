@@ -15,6 +15,8 @@ import com.example.cs340.tickettoride.R;
 import java.util.HashMap;
 import java.util.Map;
 
+import Presenters.IMapPresenter;
+import Presenters.MapPresenter;
 import common.PlayerAttributes;
 
 /**
@@ -26,6 +28,8 @@ public class MapView implements IMapView{
     ImageView iv;
     Map<String, Point[]> routeIdToPoints;
     Bitmap bitmap;
+
+    IMapPresenter presenter = new MapPresenter(this);
 
     @Override
     public void drawRouteAsClaimed(String routeId, PlayerAttributes.Color playerColor) {

@@ -2,6 +2,7 @@ package Presenters;
 
 import com.example.cs340.tickettoride.Views.IPickDestCardView;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import ClientModel.ClientModel;
@@ -14,6 +15,8 @@ import static Testing.TestService.IS_TESTING;
 
 /**
  * Created by Joseph on 3/5/2018.
+ *
+ * This presenter manages an IPickDestCardView
  */
 
 public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter, Observer
@@ -36,7 +39,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
         }
         else
         {
-            GamePlayService.getInstance().requestDestCards(this); //This method will request these Dest Cards from the server
+            GamePlayService.getInstance().keepDestCards(this, (List<DestCard>) cards.toList(DestCard.class)); //This method will request these Dest Cards from the server
         }
     }
 

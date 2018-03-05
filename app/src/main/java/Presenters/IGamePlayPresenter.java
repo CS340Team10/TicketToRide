@@ -17,5 +17,5 @@ public interface IGamePlayPresenter
     void onClickDrawTrainCard();
     void onClickDrawRouteCard();
     void onClickClaimRoute();
-    void claimedRoute(String routeID, String playerID);
+    //void claimedRoute(String routeID, String playerID);
 }

@@ -153,7 +153,7 @@ public class ClientModel extends Observable
     }
 
     public void setOfferedDestCards(List<DestCard> cards) {
-        // Set offered cards
+        // Set offered cards here
 
 
         Deck deck = new Deck();

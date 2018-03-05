@@ -9,6 +9,7 @@ import common.DestCard;
 import common.GameRoutes;
 import common.ICard;
 import common.ICommand;
+import common.PlayerAttributes;
 import common.Route;
 import common.TrainCard;
 
@@ -131,15 +132,28 @@ public class Game {
             // give the players their train and destination cards
             for (int playerCount = 0; playerCount < _players.size(); playerCount++){
 
-                String playerID = _players.get(playerCount).getPlayerID();
+                Player currPlayer = _players.get(playerCount);
+                currPlayer.setColor(PlayerAttributes.Color.values()[0]);
+                String playerID = currPlayer.getPlayerID();
 
                 // give train cards
                 for (int cardCount = 0; cardCount < BEGINNING_TRAIN_HAND_COUNT; cardCount++){
-                    _gameHistory.addCommand(ClientCommandFactory.createTrainCardChosenCommand(playerID, (TrainCard)_trainCards.drawCard()));
+
+                    giveTrainCard(playerID, null, false);
+
+                    /*TrainCard currCard = (TrainCard)_trainCards.drawCard();
+                    currPlayer.takeTrainCard(currCard);
+
+                    _gameHistory.addCommand(ClientCommandFactory.createTrainCardChosenCommand(playerID, currCard));*/
                 }
 
                 // give destination cards
                 giveDestCards(playerID);
+
+                // set up the PlayerAttributes to send back for each player
+                PlayerAttributes currPlayerAttributes = getPlayerAttributes(playerCount);
+
+                _gameHistory.addCommand(ClientCommandFactory.createPlayerUpdatedCommand(currPlayerAttributes));
             }
 
             // set up the face-up cards
@@ -149,6 +163,9 @@ public class Game {
             // start the game
             _gameHistory.addStartGameCommand();
             _didStart = true;
+
+            // notify the first player that it is their turn
+            _gameHistory.addCommand(ClientCommandFactory.createTurnBeganCommand(_players.get(0).getPlayerID()));
         }
         return _didStart;
     }
@@ -254,6 +271,9 @@ public class Game {
 
                     // claim the route for the player and discard the cards
                     if (currPlayer.useTrainCars(cardsUsed.size())) {
+
+                        // mark the rout eas claimed
+                        currRoute.setOwnedByPlayerID(playerID);
 
                         // remove the used cards from the player
                         currPlayer.useTrainCards(cardsUsed);
@@ -703,10 +723,15 @@ public class Game {
             }
 
             card = (TrainCard)_trainCards.drawCard();
+            currPlayer.takeTrainCard(card);
         }
 
         // trigger the event for the clients
         _gameHistory.addCommand(ClientCommandFactory.createTrainCardChosenCommand(playerID, card));
+
+        // make sure that the face up cards is full
+        repopulateFaceUpCards();
+
         return "";
     }
 
@@ -748,5 +773,27 @@ public class Game {
 
         // everything was successful
         return "";
+    }
+
+    /**
+     * Creates a PlayerAttribute Object for the specified Player
+     *
+     * @param playerIndex the index of the Player to return for
+     *
+     * @return a PlayerAttributes Object for the specified Player
+     */
+    private PlayerAttributes getPlayerAttributes(int playerIndex){
+        Player currPlayer = _players.get(playerIndex);
+
+        PlayerAttributes returnValue = new PlayerAttributes();
+        returnValue.playerId = currPlayer.getPlayerID();
+        returnValue.username = currPlayer.getUsername();
+        returnValue.color = currPlayer.getColor();
+        returnValue.points = currPlayer.getPoints();
+        returnValue.destCardNum = currPlayer.getDestCardsNum();
+        returnValue.trainCardNum = currPlayer.getTrainCardsNum();
+        returnValue.trainCarNum = currPlayer.getTrainCars();
+
+        return returnValue;
     }
 }

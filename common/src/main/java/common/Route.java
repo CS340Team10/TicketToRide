@@ -19,6 +19,7 @@ public class Route {
         this.endCity = endCity;
         this.routeLength = routeLength;
         this.pathColor = pathColor;
+        this.ownedByPlayerID = null;
     }
 
     public String getRouteID() {

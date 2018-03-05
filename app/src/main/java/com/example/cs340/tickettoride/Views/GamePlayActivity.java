@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ClientModel.ClientModel;
+import ClientModel.Player;
 import Services.GameNotificationService;
 import common.DestCard;
 import common.PlayerAttributes;
@@ -24,6 +25,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     IMapView mapView = new MapView();
     IChatHistoryView chatHistoryView = new ChatHistoryView();
     IPickTrainCardView pickTrainCardView = new PickTrainCardView();
+    ArrayList<IPlayerView> playerViews = new ArrayList<>();
     DrawerLayout drawerLayout;
 
     // For testing
@@ -37,6 +39,17 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         mapView.setup(this);
         chatHistoryView.setup(this);
         pickTrainCardView.setup(this);
+        int playerViewNum = 0;
+        String myUsername = ClientModel.getInstance().getUser().getUsername();
+        for(Player player : ClientModel.getInstance().getGame().getPlayers())
+        {
+            if(!player.getUsername().equals(myUsername))
+            {
+                playerViews.add(new PlayerView(player));
+                playerViews.get(playerViewNum).setup(this, playerViewNum);
+                playerViewNum++;
+            }
+        }
         drawerLayout = findViewById(R.id.gamePlayDrawers);
 
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)

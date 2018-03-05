@@ -17,6 +17,7 @@ public class Player
     private boolean isMyTurn;
     private int historyPosition;
     private int turnOrder;
+    private int trainsLeft = 45;
     public enum PlayerColors{
         yellow,
         red,
@@ -100,6 +101,14 @@ public class Player
 
     public void setTurnOrder(int turnOrder) {
         this.turnOrder = turnOrder;
+    }
+
+    public int getTrainsLeft() {
+        return trainsLeft;
+    }
+
+    public void setTrainsLeft(int trainsLeft) {
+        this.trainsLeft = trainsLeft;
     }
 
     public PlayerColors getColor() {

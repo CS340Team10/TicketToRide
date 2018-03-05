@@ -5,4 +5,7 @@ package Presenters;
  */
 
 public interface IPlayerPresenter {
+
+    public void update();
+
 }

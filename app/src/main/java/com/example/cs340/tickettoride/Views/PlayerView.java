@@ -40,7 +40,7 @@ public class PlayerView implements IPlayerView {
         this.numDestCards = player.getDestCards().size();
         this.numTrainCards = player.getTrainCards().size();
         this.color = player.getColor();
-        //this.hexColor = ColorUtility.getColorFromPlayer(color);
+        this.hexColor = ColorUtility.getColorFromPlayer(color);
         this.infoString = getInfoString();
     }
 

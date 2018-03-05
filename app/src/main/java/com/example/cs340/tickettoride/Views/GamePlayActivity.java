@@ -39,6 +39,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         mapView.setup(this);
         chatHistoryView.setup(this);
         pickTrainCardView.setup(this);
+
         int playerViewNum = 0;
         String myUsername = ClientModel.getInstance().getUser().getUsername();
         for(Player player : ClientModel.getInstance().getGame().getPlayers())
@@ -50,6 +51,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
                 playerViewNum++;
             }
         }
+
         drawerLayout = findViewById(R.id.gamePlayDrawers);
 
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)

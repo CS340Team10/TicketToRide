@@ -27,6 +27,7 @@ public class HandPresenter implements IHandPresenter, Observer
     {
         this.handView = handView;
         ClientModel.getInstance().addObserver(this);
+        update(null, null);
     }
 
     @Override

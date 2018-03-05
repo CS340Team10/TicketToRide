@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
 import com.example.cs340.tickettoride.R;
@@ -51,7 +50,7 @@ public class MapView implements IMapView{
     }
 
     private int getGraphicsColorForPlayerColor(PlayerAttributes.Color playerColor) {
-        return ContextCompat.getColor(context, ColorUtility.getColorFromPlayer(playerColor));
+        return ColorUtility.getColorFromPlayer(playerColor);
     }
 
     @Override

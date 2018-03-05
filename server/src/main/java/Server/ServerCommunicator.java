@@ -72,9 +72,9 @@ public class ServerCommunicator {
         System.out.println("\nServer running\n");
 
         // auto login the default players
-        ServerCommandService.getInstance().login("player1", "password");
+        /*ServerCommandService.getInstance().login("player1", "password");
         ServerCommandService.getInstance().login("player2", "secret");
-        ServerCommandService.getInstance().login("player3", "my_precious");
+        ServerCommandService.getInstance().login("player3", "my_precious");*/
     }
 
     /**

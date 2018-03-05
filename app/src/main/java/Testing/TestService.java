@@ -6,5 +6,5 @@ package Testing;
 
 public class TestService
 {
-    public final static boolean IS_TESTING = true;
+    public final static boolean IS_TESTING = false;
 }

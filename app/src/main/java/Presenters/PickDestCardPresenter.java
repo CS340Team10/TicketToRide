@@ -15,6 +15,8 @@ import static Testing.TestService.IS_TESTING;
 
 /**
  * Created by Joseph on 3/5/2018.
+ *
+ * This presenter manages an IPickDestCardView
  */
 
 public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter, Observer

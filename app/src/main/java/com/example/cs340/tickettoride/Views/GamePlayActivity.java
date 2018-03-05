@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ClientModel.ClientModel;
+import Presenters.GamePlayPresenter;
+import Presenters.IGamePlayPresenter;
 import Services.GameNotificationService;
 import common.DestCard;
 import common.PlayerAttributes;
@@ -30,6 +32,8 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     Button destCardButton;
     Button claimRouteButton;
 
+    IGamePlayPresenter presenter;
+
     // For testing
     int commandId = 0;
 
@@ -37,6 +41,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
+
 
         mapView.setup(this);
         chatHistoryView.setup(this);
@@ -46,6 +51,8 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         trainCardButton = findViewById(R.id.drawTrainCardsButton);
         destCardButton = findViewById(R.id.drawDestCardsButton);
         claimRouteButton = findViewById(R.id.claimRouteButton);
+
+        presenter = new GamePlayPresenter(this); // Must create after buttons inflated
 
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)
         {
@@ -182,10 +189,5 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     {
         String btnText = "Draw Dest Cards ("+Integer.toString(n)+")";
         destCardButton.setText(btnText);
-    }
-
-    @Override
-    public void setTrainDeckSize(int n) {
-
     }
 }

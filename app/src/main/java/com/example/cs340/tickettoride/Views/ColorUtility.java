@@ -12,6 +12,17 @@ import common.TrainCard;
 
 public class ColorUtility
 {
+    public static final int colorWhite=0xFFFFFFFF;
+    public static final int colorBlack = 0xFF000000;
+    public static final int colorGrey = 0xFFAAAAAA;
+    public static final int colorRed = 0xFFFF0000;
+    public static final int colorGreen = 0xFF00FF00;
+    public static final int colorBlue = 0xFF0000FF;
+    public static final int colorPurple = 0xFFFF00FF;
+    public static final int colorOrange = 0xFFFF9900;
+    public static final int colorYellow = 0xFFFFFF00;
+    public static final int colorPink = 0xFFFFBBAA;
+
     public static class CardColors
     {
         CardColors(int backColor, int textColor)
@@ -19,8 +30,8 @@ public class ColorUtility
             this.backColor = backColor;
             this.textColor = textColor;
         }
-        public int backColor = R.color.colorGrey;
-        public int textColor = R.color.colorBlack;
+        public int backColor = colorGrey;
+        public int textColor = colorWhite;
     }
 
     public static CardColors getColorsFromCard(ICard card)
@@ -32,28 +43,28 @@ public class ColorUtility
             switch (tColor)
             {
                 case red:
-                    return new CardColors(R.color.colorRed, R.color.colorWhite);
+                    return new CardColors(colorRed, colorWhite);
                 case green:
-                    return new CardColors(R.color.colorGreen, R.color.colorBlack);
+                    return new CardColors(colorGreen, colorBlack);
                 case blue:
-                    return new CardColors(R.color.colorBlue, R.color.colorWhite);
+                    return new CardColors(colorBlue, colorWhite);
                 case white:
-                    return new CardColors(R.color.colorWhite, R.color.colorBlack);
+                    return new CardColors(colorWhite, colorBlack);
                 case black:
-                    return new CardColors(R.color.colorBlack, R.color.colorWhite);
+                    return new CardColors(colorBlack, colorWhite);
                 case purple:
-                    return new CardColors(R.color.colorPurple, R.color.colorWhite);
+                    return new CardColors(colorPurple, colorWhite);
                 case orange:
-                    return new CardColors(R.color.colorOrange, R.color.colorBlack);
+                    return new CardColors(colorOrange, colorBlack);
                 case yellow:
-                    return new CardColors(R.color.colorYellow, R.color.colorBlack);
+                    return new CardColors(colorYellow, colorBlack);
                 case wildcard:
-                    return new CardColors(R.color.colorPink, R.color.colorBlack);
+                    return new CardColors(colorPink, colorBlack);
                 default:
-                    return new CardColors(R.color.colorGrey, R.color.colorBlack);
+                    return new CardColors(colorGrey, colorWhite);
             }
         }
-        return  new CardColors(R.color.colorGrey, R.color.colorBlack);
+        return  new CardColors(colorWhite, colorBlack);
     }
 
     public static int getColorFromPlayer(PlayerAttributes.Color color)
@@ -61,17 +72,17 @@ public class ColorUtility
         switch (color)
         {
             case red:
-                return R.color.colorRed;
+                return colorRed;
             case green:
-                return R.color.colorGreen;
+                return colorGreen;
             case blue:
-                return R.color.colorBlue;
+                return colorBlue;
             case black:
-                return R.color.colorBlack;
+                return colorBlack;
             case yellow:
-                return R.color.colorYellow;
+                return colorYellow;
             default:
-                return R.color.colorGrey;
+                return colorGrey;
         }
     }
 }

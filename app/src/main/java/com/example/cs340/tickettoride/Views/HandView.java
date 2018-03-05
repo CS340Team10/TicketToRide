@@ -71,7 +71,7 @@ public class HandView extends Fragment implements IHandView, TabLayout.OnTabSele
         trainCardList.add(new TrainCard(TrainCard.Colors.blue));
         trainCardList.add(new TrainCard(TrainCard.Colors.black));
         trainCardList.add(new TrainCard(TrainCard.Colors.white));
-        destCardList.add(new DestCard("Denver0","Salt Lake City5", 0));
+        destCardList.add(new DestCard("Denver5","Salt Lake City5", 0));
         destCardList.add(new DestCard("Denver1","Salt Lake City6", 1));
         destCardList.add(new DestCard("Denver2","Salt Lake City7", 2));
         destCardList.add(new DestCard("Denver3","Salt Lake City8", 3));

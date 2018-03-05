@@ -85,4 +85,13 @@ public class ColorUtility
                 return colorGrey;
         }
     }
+
+    public static int modifyColorAlpha(int newAlpha, int color)
+    {
+        if (newAlpha > 0xFF)
+        {
+            newAlpha = 0xFF;
+        }
+        return (newAlpha << 6) & color;
+    }
 }

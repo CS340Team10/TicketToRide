@@ -201,6 +201,15 @@ public class ClientModel extends Observable
         notifyObservers();
     }
 
+    public void addDestCards(Deck cards) {
+        // Add card to my list of dest cards
+
+        user.getDestCards().addCards(cards);
+
+        setChanged();
+        notifyObservers();
+    }
+
     public void addChat(String playerId, String message) {
         // Add to chat history
         Chat chat = new Chat(playerId, message);

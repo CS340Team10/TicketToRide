@@ -41,6 +41,19 @@ public class Deck {
     }
 
     /**
+     * Adds another Deck to this Deck
+     *
+     * @param cards
+     */
+    public void addCards(Deck cards)
+    {
+        for (int count = 0; count < cards.size(); count++)
+        {
+            _cards.add(cards.viewCard(count));
+        }
+    }
+
+    /**
      * Returns the top card in the deck and removes it
      *
      * @return the top card in the deck

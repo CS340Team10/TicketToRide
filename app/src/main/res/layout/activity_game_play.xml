@@ -78,6 +78,20 @@
                 android:layout_height="wrap_content" />
             <Button
                 android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Draw Dest Cards"
+                android:id="@+id/drawDestCardsButton"
+                android:layout_below="@id/drawTrainCardsButton"
+                android:layout_alignRight="@id/drawTrainCardsButton"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Claim Route"
+                android:id="@+id/claimRouteButton"
+                android:layout_below="@id/drawDestCardsButton"
+                android:layout_alignRight="@id/drawDestCardsButton"/>
+            <Button
+                android:layout_width="100dp"
                 android:id="@+id/phase2PassoffButton"
                 android:text="Phase 2 passoff"
                 android:layout_alignParentEnd="true"

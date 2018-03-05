@@ -47,6 +47,11 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
         ClientModel.getInstance().removeTrainCards(getDiscardList(usedCards));
     }
 
+    /**
+     * Just converts a list of usedCards
+     * @param usedCards
+     * @return
+     */
     private List<TrainCard> getDiscardList(List<Pair<ICard, Integer>> usedCards)
     {
         List<TrainCard> discardPile = new ArrayList<>();

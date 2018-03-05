@@ -765,6 +765,7 @@ public class Game {
         currPlayer.offerDestinationCards(destCards);
 
         _gameHistory.addCommand(ClientCommandFactory.createOfferDestCardsCommand(playerID, destCards));
+        _gameHistory.addCommand(ClientCommandFactory.createDestCardDeckUpdatedCommand(_destinationCards.size()));
 
         // everything was successful
         return "";

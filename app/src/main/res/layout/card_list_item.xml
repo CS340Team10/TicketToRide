@@ -1,10 +1,10 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="136dp"
-    android:layout_height="88dp"
+    android:layout_width="273dp"
+    android:layout_height="176dp"
     android:id="@+id/cardCell"
     android:background="@color/colorWhite">
-    <!-- The card is 273x176, making it twice as small gives the above size -->
+    <!-- The card is 273x176, making it twice as small gives the above size of 136x88-->
 
     <TextView
         android:layout_width="match_parent"
@@ -13,4 +13,4 @@
         android:text="@string/card_default"
         android:gravity="center"/>
 
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>

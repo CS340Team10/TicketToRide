@@ -3,6 +3,7 @@ package Services;
 import java.util.List;
 
 import ClientModel.ClientModel;
+import ClientModel.Player;
 import common.DestCard;
 import common.Route;
 
@@ -26,26 +27,31 @@ public class GameHistoryService {
 
     public void playerChoseDestCards(String playerId, List<DestCard> cards) {
         if(gameStarted()) {
-            model.addHistory(String.format("Player %s chose %d destination cards", playerId, cards.size()));
+            Player player = ClientModel.getInstance().getPlayerByID(playerId);
+            model.addHistory(String.format("Player %s chose %d destination cards", player.getUsername(), cards.size()));
         }
     }
 
     public void playerTurnStarted(String playerId) {
         if(gameStarted()) {
-            model.addHistory(String.format("Player %s started their turn", playerId));
+            Player player = ClientModel.getInstance().getPlayerByID(playerId);
+            model.addHistory(String.format("Player %s started their turn", player.getUsername()));
         }
     }
 
     public void playerChoseTrainCard(String playerId) {
         if(gameStarted()) {
-            model.addHistory(String.format("Player %s chose a train card", playerId));
+            Player player = ClientModel.getInstance().getPlayerByID(playerId);
+            model.addHistory(String.format("Player %s chose a train card", player.getUsername()));
         }
     }
 
     public void playerClaimedRoute(String playerId, String routeId) {
         if(gameStarted()) {
             Route route = model.getRouteById(routeId);
-            model.addHistory(String.format("Player %s claimed a route from %s to %s", playerId, route.getStartCity(), route.getEndCity()));
+            Player player = ClientModel.getInstance().getPlayerByID(playerId);
+
+            model.addHistory(String.format("Player %s claimed a route from %s to %s", player.getUsername(), route.getStartCity(), route.getEndCity()));
         }
     }
 }

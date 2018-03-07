@@ -95,6 +95,17 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     }
 
     @Override
+    public void onChangeSelection(Route selectedRoute, Map<ICard, Integer> selectedCards)
+    {
+        //GamePlayService.getInstance().isValidTrade(selectedRoute, selectedCards);
+        //Check if the combination is valid
+        //If it is, unlock the submit button, but lock all the number pickers EXCEPT for the ones
+        //that were used in the trade. Allow them to decrease those particular number pickers.
+        //If the combination is not valid/enough, then lock the submit button, but unlock all the
+        //number pickers.
+    }
+
+    @Override
     public void update(Observable o, Object arg) {
         //When cards are added or taken from the hand, update view to know
         claimRouteView.offerRoutes(getAvailableRoutes());

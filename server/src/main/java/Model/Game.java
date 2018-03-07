@@ -133,7 +133,7 @@ public class Game {
             for (int playerCount = 0; playerCount < _players.size(); playerCount++){
 
                 Player currPlayer = _players.get(playerCount);
-                currPlayer.setColor(PlayerAttributes.Color.values()[0]);
+                currPlayer.setColor(PlayerAttributes.Color.values()[playerCount]);
                 String playerID = currPlayer.getPlayerID();
 
                 // give train cards

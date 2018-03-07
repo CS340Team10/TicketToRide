@@ -5,10 +5,12 @@ import android.support.v4.util.Pair;
 import com.example.cs340.tickettoride.Views.IClaimRouteView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import ClientModel.ClientModel;
 import Services.GamePlayService;
@@ -44,7 +46,7 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     }
 
     @Override
-    public void choseRoute(Route route, List<Pair<ICard, Integer>> usedCards)
+    public void choseRoute(Route route, Map<ICard, Integer> usedCards)
     {
         GamePlayService.getInstance().claimRoute(this, route.getRouteID());
         ClientModel.getInstance().removeTrainCards(getDiscardList(usedCards));
@@ -62,13 +64,12 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
      * @param usedCards
      * @return
      */
-    private List<TrainCard> getDiscardList(List<Pair<ICard, Integer>> usedCards)
+    private List<TrainCard> getDiscardList(Map<ICard, Integer> usedCards)
     {
         List<TrainCard> discardPile = new ArrayList<>();
-        for (int i = 0; i < usedCards.size(); i++)
+        for (ICard card : usedCards.keySet())
         {
-            ICard card = usedCards.get(i).first;
-            Integer numCards = usedCards.get(i).second;
+            Integer numCards = usedCards.get(card);
             if (card != null && numCards != null)
             {
                 for (int cnt = 0; cnt < numCards; cnt++)

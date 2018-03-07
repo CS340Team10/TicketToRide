@@ -148,29 +148,27 @@ public class GamePlayService {
 
     public boolean isValidTrade(Route selectedRoute, Map<ICard, Integer> selectedCards)
     {
-        if (selectedCards.size() == selectedRoute.getRouteLength())
+        int numCards = 0;
+        Set<ICard> cards = selectedCards.keySet();
+        for (ICard card : cards)
         {
-            if (selectedRoute.getPathColor().equals(TrainCard.Colors.wildcard))
+            numCards+=selectedCards.get(card);
+            if (card.getClass() == TrainCard.class)
             {
-                return true;
-            }
-            Set<ICard> cards = selectedCards.keySet();
-            for (ICard card : cards)
-            {
-                if (card.getClass() == TrainCard.class)
-                {
-                    TrainCard tCard = (TrainCard) card;
-                    if (tCard.getColor() != selectedRoute.getPathColor() && tCard.getColor() != TrainCard.Colors.wildcard)
-                    {
-                        return false;
-                    }
-                }
-                else
+                TrainCard tCard = (TrainCard) card;
+                if (!tCard.getColor().equals(selectedRoute.getPathColor()) && (!tCard.getColor().equals(TrainCard.Colors.wildcard)))
                 {
                     return false;
                 }
             }
-            return true;//if all the cards match colors or are wildcards, and there is the right #, then it is a valid trade
+            else
+            {
+                return false;
+            }
+        }
+        if (numCards == selectedRoute.getRouteLength())
+        {
+            return true;
         }
         return false;
     }

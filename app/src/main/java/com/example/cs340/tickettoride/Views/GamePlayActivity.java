@@ -80,7 +80,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
                     attr.color = PlayerAttributes.Color.green;
                     attr.points = 515;
                     attr.playerId = ClientModel.getInstance().getUser().getId();
-                    attr.username = ClientModel.getInstance().getUser().getUsername();
+                    attr.username = "updated Username";
                     attr.trainCarNum = 1000;
                     attr.destCardNum = 1001;
                     attr.trainCardNum = 1002;
@@ -130,8 +130,12 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
                 case 6:
                     Toast.makeText(getApplicationContext(), "Chat message", Toast.LENGTH_LONG).show();
                     GameNotificationService.getInstance().chat(ClientModel.getInstance().getUser().getId(), "Test chat from test script");
-                    commandId = 0; // Back to beginning
+                    commandId++; // Back to beginning
                     break;
+                case 7:
+                    Toast.makeText(getApplicationContext(), "End turn", Toast.LENGTH_LONG).show();
+                    GameNotificationService.getInstance().turnBegan(ClientModel.getInstance().getGame().getPlayers().get(1).getId());
+                    commandId = 0;
             }
         }
     }

@@ -78,10 +78,15 @@ public class ClientModel extends Observable
         // From list of players, find player with player.playerId
         // Update all relevant fields
 
-        Player thisPlayer = getPlayerByID(player.playerId);
+        Player thisPlayer;
+        thisPlayer = getPlayerByID(player.playerId);
 
-        if(thisPlayer == null)
-            return;
+        if(thisPlayer == null) {
+            // Add the player
+            thisPlayer = new Player();
+            game.addPlayer(thisPlayer);
+            thisPlayer.setId(player.playerId);
+        }
 
         thisPlayer.setUsername(player.username);
 
@@ -248,7 +253,7 @@ public class ClientModel extends Observable
         return chatHistory;
     }
 
-    private Player getPlayerByID(String playerID)
+    public Player getPlayerByID(String playerID)
     {
         for (Player player : game.getPlayers())
         {

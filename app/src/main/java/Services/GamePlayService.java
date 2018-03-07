@@ -70,8 +70,62 @@ public class GamePlayService {
     }
 
     public List<Route> getClaimableRoutes() {
-        // TODO: Actually implement this.
-        return new ArrayList<Route>();
+        List<Route> routes = ClientModel.getInstance().getGameRoutes();
+        List<Route> claimable = new ArrayList<>();
+
+        for (Route route: routes) {
+            // Claimable = not already claimed + have enough of the right cards to claim it.
+            if (route.getOwnedByPlayerID() == null && cardsSufficient(route, ClientModel.getInstance().getUser().getTrainCards())) {
+                claimable.add(route);
+            }
+        }
+
+        return claimable;
+    }
+
+    private boolean cardsSufficient(Route route, Deck deck) {
+        TrainCard.Colors routeColor = route.getPathColor();
+        int routeLength = route.getRouteLength();
+
+        List<TrainCard> cards = (List<TrainCard>) deck.toList(TrainCard.class);
+        Map<TrainCard.Colors, Integer> cardsByColor = getCardsByColor(cards);
+
+        if (haveEnoughCardsOfColor(routeLength, routeColor, cardsByColor)) { // Have enough cards of the right type
+            return true;
+        }
+
+        // Have enough of any color
+        if (routeColor == TrainCard.Colors.wildcard) {
+            for (TrainCard.Colors color : TrainCard.Colors.values()) {
+                if (haveEnoughCardsOfColor(routeLength, color, cardsByColor)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean haveEnoughCardsOfColor(int routeLength, TrainCard.Colors color,  Map<TrainCard.Colors, Integer> cards) {
+        if (color == TrainCard.Colors.wildcard) {
+            return cards.get(color) >= routeLength;
+        }
+
+        return cards.get(color) + cards.get(TrainCard.Colors.wildcard) >= routeLength;
+    }
+
+    private Map<TrainCard.Colors, Integer> getCardsByColor(List<TrainCard> cards) {
+        Map<TrainCard.Colors, Integer> results = new HashMap<>();
+
+        for (TrainCard.Colors color : TrainCard.Colors.values()) {
+            results.put(color, 0);
+        }
+
+        for (TrainCard card : cards) {
+            results.put(card.getColor(), results.get(card.getColor()) + 1);
+        }
+
+        return results;
     }
 
     public Map<ICard,Integer> getAvailableCardsAndCount()

@@ -14,7 +14,7 @@ import common.ICommand;
 
 public class CommandHistory
 {
-    List<ICommand> history = new ArrayList<>();
+    private List<ICommand> history = new ArrayList<>();
 
     public CommandHistory(){
 

@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ClientModel.ClientModel;
-import Presenters.GamePlayPresenter;
-import Presenters.IGamePlayPresenter;
 import Services.GameNotificationService;
 import common.DestCard;
 import common.PlayerAttributes;
@@ -28,12 +26,10 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     IPickTrainCardView pickTrainCardView = new PickTrainCardView();
     DrawerLayout drawerLayout;
     IPickDestCardView pickDestCardView = new PickDestCardView();
-    IClaimRouteView claimRouteView = new ClaimRouteView();
+    ArrayList<IPlayerView> playerViews = new ArrayList<>();
     Button trainCardButton;
     Button destCardButton;
     Button claimRouteButton;
-
-    IGamePlayPresenter presenter;
 
     // For testing
     int commandId = 0;
@@ -43,18 +39,19 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
 
-
         mapView.setup(this);
         chatHistoryView.setup(this);
         pickTrainCardView.setup(this);
         drawerLayout = findViewById(R.id.gamePlayDrawers);
         pickDestCardView.setup(this);
-        claimRouteView.setup(this);
+        for(int i = 0; i < 4; i++)
+        {
+            playerViews.add(new PlayerView());
+            playerViews.get(i).setup(this, i);
+        }
         trainCardButton = findViewById(R.id.drawTrainCardsButton);
         destCardButton = findViewById(R.id.drawDestCardsButton);
         claimRouteButton = findViewById(R.id.claimRouteButton);
-
-        presenter = new GamePlayPresenter(this); // Must create after buttons inflated
 
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)
         {
@@ -82,7 +79,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
                     attr.color = PlayerAttributes.Color.green;
                     attr.points = 515;
                     attr.playerId = ClientModel.getInstance().getUser().getId();
-                    attr.username = "updated Username";
+                    attr.username = ClientModel.getInstance().getUser().getUsername();
                     attr.trainCarNum = 1000;
                     attr.destCardNum = 1001;
                     attr.trainCardNum = 1002;
@@ -132,12 +129,8 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
                 case 6:
                     Toast.makeText(getApplicationContext(), "Chat message", Toast.LENGTH_LONG).show();
                     GameNotificationService.getInstance().chat(ClientModel.getInstance().getUser().getId(), "Test chat from test script");
-                    commandId++; // Back to beginning
+                    commandId = 0; // Back to beginning
                     break;
-                case 7:
-                    Toast.makeText(getApplicationContext(), "End turn", Toast.LENGTH_LONG).show();
-                    GameNotificationService.getInstance().turnBegan(ClientModel.getInstance().getGame().getPlayers().get(1).getId());
-                    commandId = 0;
             }
         }
     }
@@ -195,5 +188,10 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     {
         String btnText = "Draw Dest Cards ("+Integer.toString(n)+")";
         destCardButton.setText(btnText);
+    }
+
+
+    public void setTrainDeckSize(int n) {
+
     }
 }

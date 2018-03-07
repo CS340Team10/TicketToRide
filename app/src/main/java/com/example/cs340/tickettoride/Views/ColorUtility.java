@@ -1,5 +1,10 @@
 package com.example.cs340.tickettoride.Views;
 
+
+import com.example.cs340.tickettoride.R;
+
+import ClientModel.Player;
+
 import common.ICard;
 import common.PlayerAttributes;
 import common.Route;
@@ -146,5 +151,24 @@ public class ColorUtility
             newAlpha = 0xFF;
         }
         return (newAlpha << 6) & color;
+    }
+
+    public static int getColorFromPlayer(Player.PlayerColors color)
+    {
+        switch (color)
+        {
+            case red:
+                return colorRed;
+            case green:
+                return colorGreen;
+            case blue:
+                return colorBlue;
+            case black:
+                return colorGrey;
+            case yellow:
+                return colorYellow;
+            default:
+                return colorGrey;
+        }
     }
 }

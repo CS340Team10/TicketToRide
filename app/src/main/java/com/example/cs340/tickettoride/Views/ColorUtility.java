@@ -1,10 +1,13 @@
 package com.example.cs340.tickettoride.Views;
 
+
 import com.example.cs340.tickettoride.R;
 
 import ClientModel.Player;
+
 import common.ICard;
 import common.PlayerAttributes;
+import common.Route;
 import common.TrainCard;
 
 /**
@@ -24,9 +27,9 @@ public class ColorUtility
     public static final int colorYellow = 0xFFFFFF00;
     public static final int colorPink = 0xFFFFBBAA;
 
-    public static class CardColors
+    public static class BiColorContrastPalette
     {
-        CardColors(int backColor, int textColor)
+        BiColorContrastPalette(int backColor, int textColor)
         {
             this.backColor = backColor;
             this.textColor = textColor;
@@ -35,7 +38,7 @@ public class ColorUtility
         public int textColor = colorWhite;
     }
 
-    public static CardColors getColorsFromCard(ICard card)
+    public static BiColorContrastPalette getColorsFromCard(ICard card)
     {
         if (card.getClass() == TrainCard.class)
         {
@@ -44,28 +47,28 @@ public class ColorUtility
             switch (tColor)
             {
                 case red:
-                    return new CardColors(colorRed, colorWhite);
+                    return new BiColorContrastPalette(colorRed, colorWhite);
                 case green:
-                    return new CardColors(colorGreen, colorBlack);
+                    return new BiColorContrastPalette(colorGreen, colorBlack);
                 case blue:
-                    return new CardColors(colorBlue, colorWhite);
+                    return new BiColorContrastPalette(colorBlue, colorWhite);
                 case white:
-                    return new CardColors(colorWhite, colorBlack);
+                    return new BiColorContrastPalette(colorWhite, colorBlack);
                 case black:
-                    return new CardColors(colorBlack, colorWhite);
+                    return new BiColorContrastPalette(colorBlack, colorWhite);
                 case purple:
-                    return new CardColors(colorPurple, colorWhite);
+                    return new BiColorContrastPalette(colorPurple, colorWhite);
                 case orange:
-                    return new CardColors(colorOrange, colorBlack);
+                    return new BiColorContrastPalette(colorOrange, colorBlack);
                 case yellow:
-                    return new CardColors(colorYellow, colorBlack);
+                    return new BiColorContrastPalette(colorYellow, colorBlack);
                 case wildcard:
-                    return new CardColors(colorPink, colorBlack);
+                    return new BiColorContrastPalette(colorPink, colorBlack);
                 default:
-                    return new CardColors(colorGrey, colorWhite);
+                    return new BiColorContrastPalette(colorGrey, colorWhite);
             }
         }
-        return  new CardColors(colorWhite, colorBlack);
+        return  new BiColorContrastPalette(colorWhite, colorBlack);
     }
 
     public static int getColorFromPlayer(PlayerAttributes.Color color)
@@ -84,6 +87,60 @@ public class ColorUtility
                 return colorYellow;
             default:
                 return colorGrey;
+        }
+    }
+
+    public static int getColorFromRoute(Route route)
+    {
+        switch (route.getPathColor())
+        {
+            case red:
+                return colorRed;
+            case green:
+                return colorGreen;
+            case blue:
+                return colorBlue;
+            case white:
+                return colorWhite;
+            case black:
+                return colorBlack;
+            case purple:
+                return colorPurple;
+            case orange:
+                return colorOrange;
+            case yellow:
+                return colorYellow;
+            case wildcard:
+                return colorPink;
+            default:
+                return colorGrey;
+        }
+    }
+
+    public static BiColorContrastPalette getColorsFromRoute(Route route)
+    {
+        switch (route.getPathColor())
+        {
+            case red:
+                return new BiColorContrastPalette(colorRed, colorWhite);
+            case green:
+                return new BiColorContrastPalette(colorGreen, colorBlack);
+            case blue:
+                return new BiColorContrastPalette(colorBlue, colorWhite);
+            case white:
+                return new BiColorContrastPalette(colorWhite, colorBlack);
+            case black:
+                return new BiColorContrastPalette(colorBlack, colorWhite);
+            case purple:
+                return new BiColorContrastPalette(colorPurple, colorWhite);
+            case orange:
+                return new BiColorContrastPalette(colorOrange, colorBlack);
+            case yellow:
+                return new BiColorContrastPalette(colorYellow, colorBlack);
+            case wildcard:
+                return new BiColorContrastPalette(colorPink, colorBlack);
+            default:
+                return new BiColorContrastPalette(colorGrey, colorWhite);
         }
     }
 

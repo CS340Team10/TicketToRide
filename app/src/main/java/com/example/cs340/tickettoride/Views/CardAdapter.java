@@ -38,7 +38,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ICard card = cards.get(position);
         String text = card.toString();
-        ColorUtility.CardColors colors = ColorUtility.getColorsFromCard(card);
+        ColorUtility.BiColorContrastPalette colors = ColorUtility.getColorsFromCard(card);
         holder.setText(text);
         holder.setBackColor(colors.backColor);
         holder.setTextColor(colors.textColor);

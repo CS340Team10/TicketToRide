@@ -14,4 +14,5 @@ import common.Route;
 public interface IClaimRoutePresenter
 {
     void choseRoute(Route route, List<Pair<ICard, Integer>> usedCards);
+    void onClickClaimRoute();
 }

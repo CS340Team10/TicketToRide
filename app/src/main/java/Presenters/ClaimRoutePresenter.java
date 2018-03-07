@@ -50,6 +50,13 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
         ClientModel.getInstance().removeTrainCards(getDiscardList(usedCards));
     }
 
+    @Override
+    public void onClickClaimRoute()
+    {
+        update(null, null);
+        claimRouteView.dialogCreateAndShow();
+    }
+
     /**
      * Just converts a list of usedCards
      * @param usedCards
@@ -90,7 +97,8 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     @Override
     public void update(Observable o, Object arg) {
         //When cards are added or taken from the hand, update view to know
-
+        claimRouteView.offerRoutes(getAvailableRoutes());
         //When available routes are added or taken, update view to know
+        claimRouteView.setAvailableCards(getAvailableCards());
     }
 }

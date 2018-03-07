@@ -65,7 +65,7 @@ public class ClaimRouteView implements IClaimRouteView
             {
                 ft.remove(prev);
             }
-            ClaimRouteDialog newFrag = ClaimRouteDialog.newInstance();
+            ClaimRouteDialog newFrag = ClaimRouteDialog.newInstance(routes,availableCards);
             newFrag.show(ft, DIALOG_TAG);
         }
     }
@@ -87,9 +87,7 @@ public class ClaimRouteView implements IClaimRouteView
         claimRouteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogCreateAndShow();
-                offerRoutes(routes);
-                setAvailableCards(availableCards);
+                presenter.onClickClaimRoute();
             }
         });
     }

@@ -4,6 +4,7 @@ import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
+import java.util.Map;
 
 import common.ICard;
 import common.Route;
@@ -19,5 +20,5 @@ public interface IClaimRouteView
     void dismissDialog();
     void setup(AppCompatActivity activity);
     void showToast(String msg);
-    void setAvailableCards(List<Pair<ICard, Integer>> availableCards);
+    void setAvailableCards(Map<ICard,Integer> availableCards);
 }

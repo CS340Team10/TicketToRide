@@ -23,6 +23,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
 {
     private IPickDestCardView mView;
     private final int MIN_DEST_CARD_REQ = 2;//The minimum number of dest cards a user must have
+    private Deck keepers;//The destCards that the user is attempting to keep
     public PickDestCardPresenter(IPickDestCardView view)
     {
         this.mView = view;
@@ -32,10 +33,10 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
     @Override
     public void onPickDestCards(Deck cards)
     {
+        keepers = cards;
         if (IS_TESTING)
         {
             onPostExecute(new Results(true, "", "")); //Use this for testing only
-            ClientModel.getInstance().addDestCards(cards);
         }
         else
         {
@@ -84,6 +85,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
         if (result.succeeded())
         {
             msg = "Cards were successfully selected!";//If it worked, say so
+            ClientModel.getInstance().addDestCards(keepers);
         }
         mView.showToast(msg);
     }

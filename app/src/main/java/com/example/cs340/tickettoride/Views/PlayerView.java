@@ -66,6 +66,7 @@ public class PlayerView implements IPlayerView {
 
     public void setup(final Activity activity, int viewNum) {
         this.activity = activity;
+        this.presenter = new PlayerPresenter(this);
         this.viewNum = viewNum;
         switch(viewNum)
         {

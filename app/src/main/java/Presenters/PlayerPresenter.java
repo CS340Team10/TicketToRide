@@ -16,7 +16,7 @@ import common.Results;
  */
 
 public class PlayerPresenter implements IPlayerPresenter, IPresenter, Observer {
-    private IPlayerView playerView;
+    IPlayerView playerView;
 
     public PlayerPresenter(IPlayerView playerView)
     {
@@ -44,26 +44,29 @@ public class PlayerPresenter implements IPlayerPresenter, IPresenter, Observer {
     @Override
     public void update(Observable observable, Object o) {
         ClientModel clientModel = ClientModel.getInstance();
+        int userTurnNum = clientModel.getUser().getTurnOrder();
         for (int i = 0; i < clientModel.getGame().getPlayers().size(); i++) {
             Player p = clientModel.getGame().getPlayers().get(i);
-            if(playerView.getUsername().equals("") && !p.getUsername().equals(playerView.getUsername()))
+            int thisPlayerViewNum = p.getTurnOrder();
+            if(thisPlayerViewNum > userTurnNum)
+                thisPlayerViewNum--;
+            if(playerView.getUsername().equals("") && thisPlayerViewNum == playerView.getViewNum())
             {
-                PlayerView newPlayerView = new PlayerView(p);
-                newPlayerView.setActivity(playerView.getActivity());
-                newPlayerView.setLinearLayout(playerView.getLinearLayout());
-                newPlayerView.setPresenter(playerView.getPresenter());
-
-                playerView = newPlayerView;
-
+                playerView.updatePlayerInfo(p);
                 update();
             }
             if (p.getUsername().equals(playerView.getUsername())) {
-                playerView.setScore(p.getPoints());
-                playerView.setNumDestCards(p.getDestCards().size());
-                playerView.setNumTrainCards(p.getTrainCards().size());
-                playerView.setNumTrainsLeft(p.getTrainsLeft());
+                playerView.updatePlayerInfo(p);
                 update();
             }
         }
+        //delete after testing
+        Player p = new Player();
+        p.setUsername("user");
+        p.setPoints(4000);
+        p.setTrainsLeft(10);
+        p.setColor(Player.PlayerColors.red);
+        playerView.updatePlayerInfo(p);
+        update();
     }
 }

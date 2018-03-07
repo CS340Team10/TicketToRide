@@ -101,17 +101,17 @@ public class ColorUtility
         switch (color)
         {
             case red:
-                return R.color.colorRed;
+                return colorRed;
             case green:
-                return R.color.colorGreen;
+                return colorGreen;
             case blue:
-                return R.color.colorBlue;
+                return colorBlue;
             case black:
-                return R.color.colorBlack;
+                return colorGrey;
             case yellow:
-                return R.color.colorYellow;
+                return colorYellow;
             default:
-                return R.color.colorGrey;
+                return colorGrey;
         }
     }
 }

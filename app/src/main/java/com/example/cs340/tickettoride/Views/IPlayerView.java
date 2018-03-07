@@ -14,6 +14,7 @@ import Presenters.IPlayerPresenter;
 public interface IPlayerView {
     public void update();
     public void setup(Activity activity, int viewNum);
+    public void updatePlayerInfo(Player player);
 
     public Player.PlayerColors getColor();
     public void setColor(Player.PlayerColors color);
@@ -46,4 +47,7 @@ public interface IPlayerView {
 
     public TextView getTextView();
     public void setTextView(TextView textView);
+
+    public int getViewNum();
+    public void setViewNum(int viewNum);
 }

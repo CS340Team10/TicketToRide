@@ -18,4 +18,20 @@ public class ChatHistory {
     {
         return history;
     }
+
+    public ArrayList<String> getDisplayHistory() {
+        ArrayList<String> result = new ArrayList<>();
+        ArrayList<Player> players = ClientModel.getInstance().getGame().getPlayers();
+
+        for (Chat chat: history) {
+            for (Player player: players) {
+                if (chat.getPlayerID().equals(player.getId())) {
+                    result.add(player.getUsername() + " : " + chat.getMessage());
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
 }

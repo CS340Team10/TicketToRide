@@ -1,7 +1,6 @@
 package ClientModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import common.TrainCard;
 
@@ -44,6 +43,11 @@ public class Game
     public ArrayList<Player> getPlayers()
     {
         return players;
+    }
+
+    public void addPlayer(Player player) {
+        players.add(player);
+
     }
 
     public int getDestCardDeckNum() {

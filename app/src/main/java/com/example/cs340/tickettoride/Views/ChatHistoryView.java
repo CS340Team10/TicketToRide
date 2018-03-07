@@ -65,6 +65,7 @@ public class ChatHistoryView implements IChatHistoryView {
             public void onClick(View view) {
                 // Send chat message via presenter
                 presenter.postedChat(newChat.getText().toString());
+                newChat.setText("");
             }
         });
 

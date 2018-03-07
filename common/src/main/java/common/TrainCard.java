@@ -75,4 +75,10 @@ public class TrainCard implements ICard {
             return false;
         }
     }
+
+    @Override
+    public int hashCode()
+    {
+        return toString().hashCode();
+    }
 }

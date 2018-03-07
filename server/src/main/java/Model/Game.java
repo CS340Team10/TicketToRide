@@ -344,15 +344,10 @@ public class Game {
      * @return any error that occurred in claiming the destination cards
      */
     public String keepDestCards(String playerID, List<DestCard> keep){
-        if (!isPlayersTurn(playerID)){
-            return "It is not your turn.";
-        }
-        else {
-            Player currPlayer = getPlayer(playerID);
+        Player currPlayer = getPlayer(playerID);
 
-            currPlayer.acceptDestinationCards(keep);
-            return "";
-        }
+        currPlayer.acceptDestinationCards(keep);
+        return "";
     }
 
     /**
@@ -770,6 +765,7 @@ public class Game {
         currPlayer.offerDestinationCards(destCards);
 
         _gameHistory.addCommand(ClientCommandFactory.createOfferDestCardsCommand(playerID, destCards));
+        _gameHistory.addCommand(ClientCommandFactory.createDestCardDeckUpdatedCommand(_destinationCards.size()));
 
         // everything was successful
         return "";

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ClientModel.ClientModel;
-import ClientModel.Player;
 import Services.GameNotificationService;
 import common.DestCard;
 import common.PlayerAttributes;
@@ -25,7 +24,6 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     IMapView mapView = new MapView();
     IChatHistoryView chatHistoryView = new ChatHistoryView();
     IPickTrainCardView pickTrainCardView = new PickTrainCardView();
-    ArrayList<IPlayerView> playerViews = new ArrayList<>();
     DrawerLayout drawerLayout;
     IPickDestCardView pickDestCardView = new PickDestCardView();
     Button trainCardButton;
@@ -43,13 +41,6 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         mapView.setup(this);
         chatHistoryView.setup(this);
         pickTrainCardView.setup(this);
-
-        for(int i = 0; i < 4; i++)
-        {
-            playerViews.add(new PlayerView());
-            playerViews.get(i).setup(this, i);
-        }
-
         drawerLayout = findViewById(R.id.gamePlayDrawers);
         pickDestCardView.setup(this);
         trainCardButton = findViewById(R.id.drawTrainCardsButton);

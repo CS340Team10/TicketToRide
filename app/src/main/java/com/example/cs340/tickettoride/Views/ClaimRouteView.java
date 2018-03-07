@@ -12,7 +12,9 @@ import android.widget.Toast;
 import com.example.cs340.tickettoride.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Presenters.ClaimRoutePresenter;
 import Presenters.IClaimRoutePresenter;
@@ -26,7 +28,7 @@ import common.Route;
 public class ClaimRouteView implements IClaimRouteView
 {
     List<Route> routes = new ArrayList<>();
-    List<Pair<ICard, Integer>> availableCards = new ArrayList<>();
+    Map<ICard, Integer> availableCards = new HashMap<>();
     ClaimRouteDialog dialog = null;
     AppCompatActivity activity = null;
     IClaimRoutePresenter presenter;
@@ -42,7 +44,7 @@ public class ClaimRouteView implements IClaimRouteView
     }
 
     @Override
-    public void setAvailableCards(List<Pair<ICard, Integer>> availableCards)
+    public void setAvailableCards(Map<ICard,Integer> availableCards)
     {
         if (dialog != null)
         {

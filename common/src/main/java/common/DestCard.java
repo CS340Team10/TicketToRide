@@ -20,8 +20,29 @@ public class DestCard implements ICard {
     }
 
     @Override
+    public boolean equals(Object obj){
+        if (obj instanceof DestCard){
+            DestCard tempCard = (DestCard)obj;
+
+            if (toString().equals(tempCard.toString())){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
     public String toString(){
         return "Start:\t" + startCity + "\n" + "End:\t" + endCity + "\n" + "Points:\t" + pointValue;
     }
 
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

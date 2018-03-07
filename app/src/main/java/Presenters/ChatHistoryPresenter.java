@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import ClientModel.Chat;
 import ClientModel.ClientModel;
 import Services.GamePlayService;
 import common.Results;
@@ -22,6 +21,7 @@ public class ChatHistoryPresenter implements IChatHistoryPresenter, IPresenter, 
     public ChatHistoryPresenter(IChatHistoryView view) {
         this.view = view;
         ClientModel.getInstance().addObserver(this);
+        update(null, null);
     }
 
     @Override
@@ -39,15 +39,11 @@ public class ChatHistoryPresenter implements IChatHistoryPresenter, IPresenter, 
     @Override
     public void update(Observable observable, Object o) {
         // Update history and chat lists
-        ArrayList<Chat> chats = ClientModel.getInstance().getChatHistory().getHistory();
-        List<String> stringChats = new ArrayList<>();
-        for (Chat chat : chats) {
-            stringChats.add(chat.getPlayerID() + ": " + chat.getMessage());
-        }
+        List<String> chats = ClientModel.getInstance().getChatHistory().getDisplayHistory();
 
         ArrayList<String> hist = ClientModel.getInstance().getGameHistory().getHistory();
 
-        view.updateChatHistory(stringChats);
+        view.updateChatHistory(chats);
         view.updateGameHistory(hist);
     }
 }

@@ -28,6 +28,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     IPickTrainCardView pickTrainCardView = new PickTrainCardView();
     DrawerLayout drawerLayout;
     IPickDestCardView pickDestCardView = new PickDestCardView();
+    IClaimRouteView claimRouteView = new ClaimRouteView();
     Button trainCardButton;
     Button destCardButton;
     Button claimRouteButton;
@@ -48,6 +49,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         pickTrainCardView.setup(this);
         drawerLayout = findViewById(R.id.gamePlayDrawers);
         pickDestCardView.setup(this);
+        claimRouteView.setup(this);
         trainCardButton = findViewById(R.id.drawTrainCardsButton);
         destCardButton = findViewById(R.id.drawDestCardsButton);
         claimRouteButton = findViewById(R.id.claimRouteButton);

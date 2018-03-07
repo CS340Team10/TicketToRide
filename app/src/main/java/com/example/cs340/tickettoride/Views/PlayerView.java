@@ -36,20 +36,6 @@ public class PlayerView implements IPlayerView {
 
     public PlayerView() {}
 
-    public PlayerView(Player player)
-    {
-        this.username = player.getUsername();
-        this.score = player.getPoints();
-        this.numTrainsLeft = player.getTrainsLeft();
-        this.numDestCards = player.getDestCards().size();
-        this.numTrainCards = player.getTrainCards().size();
-        if(player.getColor() != null) {
-            this.color = player.getColor();
-        }
-        this.hexColor = ColorUtility.getColorFromPlayer(color);
-        this.infoString = getInfoString();
-    }
-
     public void updatePlayerInfo(Player player)
     {
         this.username = player.getUsername();

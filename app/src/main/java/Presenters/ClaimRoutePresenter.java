@@ -6,6 +6,7 @@ import com.example.cs340.tickettoride.Views.IClaimRouteView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -27,17 +28,19 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     public ClaimRoutePresenter(IClaimRouteView claimRouteView)
     {
         this.claimRouteView = claimRouteView;
-        ClientModel.getInstance().addObserver(this);
         this.claimRouteView.offerRoutes(getAvailableRoutes());
         this.claimRouteView.setAvailableCards(getAvailableCards());
+        ClientModel.getInstance().addObserver(this);
     }
 
-    private List<Pair<ICard,Integer>> getAvailableCards() {
-        return new ArrayList<>();
+    private Map<ICard,Integer> getAvailableCards()
+    {
+        return GamePlayService.getInstance().getAvailableCardsAndCount();
     }
 
-    private List<Route> getAvailableRoutes() {
-        return new ArrayList<>();
+    private List<Route> getAvailableRoutes()
+    {
+        return GamePlayService.getInstance().getClaimableRoutes();
     }
 
     @Override
@@ -85,8 +88,9 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     }
 
     @Override
-    public void update(Observable o, Object arg)
-    {
-        //check to see if routes were offered, if so, show dialog
+    public void update(Observable o, Object arg) {
+        //When cards are added or taken from the hand, update view to know
+
+        //When available routes are added or taken, update view to know
     }
 }

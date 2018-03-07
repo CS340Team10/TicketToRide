@@ -24,4 +24,18 @@ public class DestCard implements ICard {
         return "Start:\t" + startCity + "\n" + "End:\t" + endCity + "\n" + "Points:\t" + pointValue;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (getClass() == o.getClass())
+        {
+            return (toString().equals(o.toString()));
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

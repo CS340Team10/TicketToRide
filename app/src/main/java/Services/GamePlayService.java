@@ -1,11 +1,17 @@
 package Services;
 
+import android.support.v4.util.Pair;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ClientModel.ClientModel;
 import Presenters.IPresenter;
+import common.Deck;
 import common.DestCard;
+import common.ICard;
 import common.Route;
 import common.TrainCard;
 
@@ -66,5 +72,22 @@ public class GamePlayService {
     public List<Route> getClaimableRoutes() {
         // TODO: Actually implement this.
         return new ArrayList<Route>();
+    }
+
+    public Map<ICard,Integer> getAvailableCardsAndCount()
+    {
+        Deck tCards = ClientModel.getInstance().getUser().getTrainCards();
+        Map<ICard,Integer> availableCards = new HashMap<>();
+        for (int i = 0; i < tCards.size(); i++)
+        {
+            ICard card = tCards.viewCard(i);
+            Integer count = 1;
+            if (availableCards.containsKey(card))
+            {
+                count = availableCards.get(card)+1;
+            }
+            availableCards.put(card, count);
+        }
+        return availableCards;
     }
 }

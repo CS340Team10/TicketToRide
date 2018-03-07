@@ -19,6 +19,8 @@ import com.example.cs340.tickettoride.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import common.ICard;
 import common.Route;
@@ -53,9 +55,16 @@ public class ClaimRouteDialog extends DialogFragment
         }
     }
 
-    public void updateCardCountList(List<Pair<ICard, Integer>> cardNumList)
+    public void updateCardCountList(Map<ICard, Integer> cardAndNums)
     {
-
+        List<Pair<ICard, Integer>> cardNumList = new ArrayList<>();
+        Set<ICard> cards = cardAndNums.keySet();
+        for (ICard card : cards)
+        {
+            Integer cnt = cardAndNums.get(card);
+            cardNumList.add(new Pair<>(card, cnt));
+        }
+        trainNumberRecycler.setAdapter(new TrainNumberAdapter(cardNumList));
     }
 
     @Override

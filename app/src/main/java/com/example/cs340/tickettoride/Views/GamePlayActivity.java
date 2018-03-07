@@ -44,16 +44,10 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         chatHistoryView.setup(this);
         pickTrainCardView.setup(this);
 
-        int playerViewNum = 0;
-        String myUsername = ClientModel.getInstance().getUser().getUsername();
-        for(Player player : ClientModel.getInstance().getGame().getPlayers())
+        for(int i = 0; i < 4; i++)
         {
-            if(!player.getUsername().equals(myUsername))
-            {
-                playerViews.add(new PlayerView(player));
-                playerViews.get(playerViewNum).setup(this, playerViewNum);
-                playerViewNum++;
-            }
+            playerViews.add(new PlayerView());
+            playerViews.get(i).setup(this, i);
         }
 
         drawerLayout = findViewById(R.id.gamePlayDrawers);

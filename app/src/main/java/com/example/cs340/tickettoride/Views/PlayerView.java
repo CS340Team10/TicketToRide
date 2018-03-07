@@ -1,6 +1,7 @@
 package com.example.cs340.tickettoride.Views;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -18,10 +19,11 @@ import Presenters.PlayerPresenter;
  */
 
 public class PlayerView implements IPlayerView {
-    IPlayerPresenter presenter;
-    Activity activity;
-    LinearLayout linearLayout = null;
-    TextView textView = null;
+    private IPlayerPresenter presenter;
+    private Activity activity;
+    private LinearLayout linearLayout = null;
+    private TextView textView = null;
+    private int viewNum;
 
     private Player.PlayerColors color = Player.PlayerColors.black;
     private String username = "";
@@ -29,8 +31,10 @@ public class PlayerView implements IPlayerView {
     private int numTrainsLeft = 0;
     private int numDestCards = 0;
     private int numTrainCards = 0;
-    private int hexColor = ColorUtility.getColorFromPlayer(Player.PlayerColors.black);
+    private int hexColor = Color.WHITE;
     private String infoString = "";
+
+    public PlayerView() {}
 
     public PlayerView(Player player)
     {
@@ -46,9 +50,23 @@ public class PlayerView implements IPlayerView {
         this.infoString = getInfoString();
     }
 
+    public void updatePlayerInfo(Player player)
+    {
+        this.username = player.getUsername();
+        this.score = player.getPoints();
+        this.numTrainsLeft = player.getTrainsLeft();
+        this.numDestCards = player.getDestCards().size();
+        this.numTrainCards = player.getTrainCards().size();
+        if(player.getColor() != null) {
+            this.color = player.getColor();
+        }
+        this.hexColor = ColorUtility.getColorFromPlayer(color);
+        this.infoString = getInfoString();
+    }
+
     public void setup(final Activity activity, int viewNum) {
         this.activity = activity;
-        presenter = new PlayerPresenter(this);
+        this.viewNum = viewNum;
         switch(viewNum)
         {
             case 0:
@@ -78,6 +96,7 @@ public class PlayerView implements IPlayerView {
 
     public void update()
     {
+        linearLayout.setBackgroundColor(hexColor);
         infoString = getInfoString();
         textView.setText(infoString);
     }
@@ -85,6 +104,9 @@ public class PlayerView implements IPlayerView {
     @Override
     public String getInfoString()
     {
+        if(username.equals("")) {
+            return username;
+        }
         String info = username + "   Points: " + score + "\nTR: "
                     + numTrainsLeft + " TC: " + numTrainCards + " DC: " + numDestCards;
         return info;
@@ -151,4 +173,43 @@ public class PlayerView implements IPlayerView {
         this.numTrainCards = numTrainCards;
     }
 
+    public IPlayerPresenter getPresenter() {
+        return presenter;
+    }
+
+    public void setPresenter(IPlayerPresenter presenter) {
+        this.presenter = presenter;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public LinearLayout getLinearLayout() {
+        return linearLayout;
+    }
+
+    public void setLinearLayout(LinearLayout linearLayout) {
+        this.linearLayout = linearLayout;
+    }
+
+    public TextView getTextView() {
+        return textView;
+    }
+
+    public void setTextView(TextView textView) {
+        this.textView = textView;
+    }
+
+    public int getViewNum() {
+        return viewNum;
+    }
+
+    public void setViewNum(int viewNum) {
+        this.viewNum = viewNum;
+    }
 }

@@ -50,6 +50,13 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
         ClientModel.getInstance().removeTrainCards(getDiscardList(usedCards));
     }
 
+    @Override
+    public void onClickClaimRoute()
+    {
+        update(null, null);
+        claimRouteView.dialogCreateAndShow();
+    }
+
     /**
      * Just converts a list of usedCards
      * @param usedCards
@@ -88,9 +95,32 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     }
 
     @Override
+    public void onChangeSelection(Route selectedRoute, Map<ICard, Integer> selectedCards)
+    {
+        boolean valid = GamePlayService.getInstance().isValidTrade(selectedRoute, selectedCards);
+        //Check if the combination is valid
+        //If it is, unlock the submit button, but lock all the number pickers EXCEPT for the ones
+        //that were used in the trade. Allow them to decrease those particular number pickers.
+        if (valid)
+        {
+            claimRouteView.enableSubmitButton();
+            claimRouteView.disableCardNumberPickers();
+            claimRouteView.enableCardNumberPickers(selectedCards.keySet());
+        }
+        else
+        {
+            //If the combination is not valid/enough, then lock the submit button, but unlock all the
+            //number pickers.
+            claimRouteView.disableSubmitButton();
+            claimRouteView.enableCardNumberPickers();
+        }
+    }
+
+    @Override
     public void update(Observable o, Object arg) {
         //When cards are added or taken from the hand, update view to know
-
+        claimRouteView.offerRoutes(getAvailableRoutes());
         //When available routes are added or taken, update view to know
+        claimRouteView.setAvailableCards(getAvailableCards());
     }
 }

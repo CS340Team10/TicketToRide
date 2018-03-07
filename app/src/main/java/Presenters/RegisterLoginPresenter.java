@@ -83,17 +83,27 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
 
     @Override
     public void onPostExecute(Results result) {
-        if (result.succeeded()) {
-            // Save playerId from the data.
-            GUIService.getInstance().getClientModel().getUser().setId(result.getData());
+        if (result != null)
+        {
+            if (result.succeeded()) {
+                // Save playerId from the data.
+                GUIService.getInstance().getClientModel().getUser().setId(result.getData());
 
-            // Move to next screen.
-            view.switchToView(CreateJoinGameActivity.class);
-        } else {
+                // Move to next screen.
+                view.switchToView(CreateJoinGameActivity.class);
+            } else {
+                // Show error
+                waitingForServer = false;
+                textChanged(); // Re-enable buttons immediately if necessary
+                view.displayErrorMessage(result.getError());
+            }
+        }
+        else
+        {
             // Show error
             waitingForServer = false;
             textChanged(); // Re-enable buttons immediately if necessary
-            view.displayErrorMessage(result.getError());
+            view.displayErrorMessage("Could not register/login. Unable to process null result.");
         }
     }
 

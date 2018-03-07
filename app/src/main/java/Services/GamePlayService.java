@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ClientModel.ClientModel;
 import Presenters.IPresenter;
@@ -143,5 +144,34 @@ public class GamePlayService {
             availableCards.put(card, count);
         }
         return availableCards;
+    }
+
+    public boolean isValidTrade(Route selectedRoute, Map<ICard, Integer> selectedCards)
+    {
+        if (selectedCards.size() == selectedRoute.getRouteLength())
+        {
+            if (selectedRoute.getPathColor().equals(TrainCard.Colors.wildcard))
+            {
+                return true;
+            }
+            Set<ICard> cards = selectedCards.keySet();
+            for (ICard card : cards)
+            {
+                if (card.getClass() == TrainCard.class)
+                {
+                    TrainCard tCard = (TrainCard) card;
+                    if (tCard.getColor() != selectedRoute.getPathColor() && tCard.getColor() != TrainCard.Colors.wildcard)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;//if all the cards match colors or are wildcards, and there is the right #, then it is a valid trade
+        }
+        return false;
     }
 }

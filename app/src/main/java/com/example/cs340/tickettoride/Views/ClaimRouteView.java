@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import Presenters.ClaimRoutePresenter;
 import Presenters.IClaimRoutePresenter;
@@ -54,6 +55,52 @@ public class ClaimRouteView implements IClaimRouteView
     }
 
     @Override
+    public void disableSubmitButton() {
+        if (dialog != null)
+        {
+            dialog.disableSubmitButton();
+        }
+    }
+
+    @Override
+    public void enableSubmitButton() {
+        if (dialog != null)
+        {
+            dialog.enableSubmitButton();
+        }
+    }
+
+    @Override
+    public void disableCardNumberPickers(Set<ICard> cards) {
+        if (dialog != null) {
+            dialog.disableCardNumberPickers(cards);
+        }
+    }
+
+    @Override
+    public void enableCardNumberPickers(Set<ICard> cards) {
+        if (dialog != null) {
+            dialog.enableCardNumberPickers(cards);
+        }
+    }
+
+    @Override
+    public void enableCardNumberPickers() {
+        if (availableCards != null && dialog != null)
+        {
+            dialog.enableCardNumberPickers(availableCards.keySet());
+        }
+    }
+
+    @Override
+    public void disableCardNumberPickers() {
+        if (availableCards != null && dialog != null)
+        {
+            dialog.disableCardNumberPickers(availableCards.keySet());
+        }
+    }
+
+    @Override
     public void dialogCreateAndShow()
     {
         String DIALOG_TAG = "CLAIM_ROUTE_DIALOG";
@@ -65,8 +112,8 @@ public class ClaimRouteView implements IClaimRouteView
             {
                 ft.remove(prev);
             }
-            ClaimRouteDialog newFrag = ClaimRouteDialog.newInstance(routes,availableCards);
-            newFrag.show(ft, DIALOG_TAG);
+            dialog = ClaimRouteDialog.newInstance(presenter, routes,availableCards);
+            dialog.show(ft, DIALOG_TAG);
         }
     }
 

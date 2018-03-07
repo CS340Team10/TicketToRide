@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import common.ICard;
 import common.Route;
@@ -21,4 +22,10 @@ public interface IClaimRouteView
     void setup(AppCompatActivity activity);
     void showToast(String msg);
     void setAvailableCards(Map<ICard,Integer> availableCards);
+    void disableSubmitButton();
+    void enableSubmitButton();
+    void disableCardNumberPickers(Set<ICard> cards);
+    void enableCardNumberPickers(Set<ICard> cards);
+    void enableCardNumberPickers();
+    void disableCardNumberPickers();
 }

@@ -21,10 +21,13 @@ import com.example.cs340.tickettoride.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import Presenters.ClaimRoutePresenter;
+import Presenters.IClaimRoutePresenter;
 import common.ICard;
 import common.Route;
 import common.TrainCard;
@@ -40,16 +43,24 @@ public class ClaimRouteDialog extends DialogFragment
     Button submitButton;
     List<Route> routes = new ArrayList<>();
     Map<ICard, Integer> availableCards = new HashMap<>();
+    Route selectedRoute = null;
+    Map<ICard, Integer> selectedCards = new HashMap<>();
+    Set<ICard> disabledNumberPickers = new HashSet<>();
+    private final boolean SUBMIT_ENABLED = true;
+    private final boolean SUBMIT_DISABLED = false;
+    private IClaimRoutePresenter presenter;
 
     public ClaimRouteDialog() {
         // Required empty public constructor
     }
 
-    public static ClaimRouteDialog newInstance(List<Route> routes, Map<ICard, Integer> availableCards)
+    public static ClaimRouteDialog newInstance(IClaimRoutePresenter presenter,
+                                               List<Route> routes, Map<ICard, Integer> availableCards)
     {
         ClaimRouteDialog dialog = new ClaimRouteDialog();
         dialog.routes = routes;
         dialog.availableCards = availableCards;
+        dialog.presenter = presenter;
         return dialog;
     }
 
@@ -92,17 +103,41 @@ public class ClaimRouteDialog extends DialogFragment
         trainNumberRecycler.setLayoutManager(trainLayoutManager);
         trainNumberRecycler.setAdapter(new TrainNumberAdapter(new ArrayList<Pair<ICard, Integer>>()));
         submitButton = v.findViewById(R.id.submitClaimRouteBtn);
-        //submitButton.setEnabled(false);
+        submitButton.setEnabled(false);
         updateRouteList(routes);
         updateCardCountList(availableCards);
         return v;
     }
 
+    public void disableSubmitButton() {
+        if (submitButton != null)
+        {
+            submitButton.setEnabled(SUBMIT_DISABLED);
+        }
+    }
+
+    public void enableSubmitButton() {
+        if (submitButton != null)
+        {
+            submitButton.setEnabled(SUBMIT_ENABLED);
+        }
+    }
+
+    public void disableCardNumberPickers(Set<ICard> cards) {
+        disabledNumberPickers.addAll(cards);
+        updateCardCountList(availableCards);//refresh recycler view
+    }
+
+    public void enableCardNumberPickers(Set<ICard> cards)
+    {
+        disabledNumberPickers.removeAll(cards);
+        updateCardCountList(availableCards);//refresh recycler view
+    }
+
     private class ClaimRouteAdapter extends RecyclerView.Adapter<ClaimRouteViewHolder>
     {
         List<Route> routeList;
-        int selectedPosition = 0;
-        RadioButton selectedButton;
+        RadioButton lastSelectedButton;
 
         public ClaimRouteAdapter(List<Route> routeList)
         {
@@ -131,28 +166,39 @@ public class ClaimRouteDialog extends DialogFragment
             holder.mTextView.setBackgroundColor(backColor);
             holder.mTextView.setTextColor(textColor);
             holder.mRoute = route;
-            if (selectedButton == null)
+            if (selectedRoute == null || selectedRoute == holder.mRoute)
             {
-                selectedButton = holder.mRadioButton;
-                selectedPosition = position;
-                selectedButton.setChecked(true);
+                lastSelectedButton = holder.mRadioButton;
+                selectedRoute = holder.mRoute;
+                holder.mRadioButton.setChecked(true);
+                presenter.onChangeSelection(selectedRoute, selectedCards);
             }
-            final int pos = position;
             final ClaimRouteViewHolder hldr = holder;
             holder.mRadioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (selectedPosition != pos)
+                    if (selectedRoute!=hldr.mRoute)
                     {
-                        if (selectedButton != null)
+                        if (lastSelectedButton != null)
                         {
-                            selectedButton.setChecked(false);
+                            lastSelectedButton.setChecked(false);
                         }
-                        selectedButton = hldr.mRadioButton;
-                        selectedPosition = pos;
+                        lastSelectedButton = hldr.mRadioButton;
+                        selectedRoute = hldr.mRoute;
+                        presenter.onChangeSelection(selectedRoute, selectedCards);
                     }
                 }
             });
+        }
+
+        @Override
+        public void onViewRecycled(@NonNull ClaimRouteViewHolder holder) {
+            super.onViewRecycled(holder);
+            holder.mRadioButton.setChecked(false);
+            if (holder.mRadioButton==lastSelectedButton)
+            {
+                lastSelectedButton = null;
+            }
         }
 
         @Override
@@ -206,9 +252,33 @@ public class ClaimRouteDialog extends DialogFragment
             {
                 txt = card.toString() + "(" + num.toString() + ")";
             }
+            holder.mCard = card;
             holder.mTextView.setText(txt);
             holder.mPicker.setMaxValue(num);
             holder.mPicker.setMinValue(0);
+            if (disabledNumberPickers.contains(card))
+            {
+                holder.mPicker.setEnabled(false);
+            }
+            else
+            {
+                holder.mPicker.setEnabled(true);
+            }
+            final TrainNumberViewHolder hldr = holder;
+            holder.mPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                    if (newVal == 0 && selectedCards.containsKey(hldr.mCard))
+                    {
+                        selectedCards.remove(hldr.mCard);
+                    }
+                    else if (newVal != 0)
+                    {
+                        selectedCards.put(hldr.mCard, newVal);
+                    }
+                    presenter.onChangeSelection(selectedRoute, selectedCards);
+                }
+            });
         }
 
         @Override
@@ -219,6 +289,7 @@ public class ClaimRouteDialog extends DialogFragment
 
     private class TrainNumberViewHolder extends RecyclerView.ViewHolder
     {
+        ICard mCard;
         TextView mTextView;
         NumberPicker mPicker;
 

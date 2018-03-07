@@ -70,6 +70,10 @@ public class PickDestCardView implements IPickDestCardView
         }
         else
         {
+            if (offeredCards == null)
+            {
+                showToast("Sorry, you cannot take more Destination Cards.");
+            }
             Log.d(TAG, "WARNING: Please offer DestCards before attempting to show the dialog");
         }
     }
@@ -118,7 +122,7 @@ public class PickDestCardView implements IPickDestCardView
         pickDestCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogCreateAndShow();
+                presenter.requestDestCards();
             }
         });
         this.context = activity;

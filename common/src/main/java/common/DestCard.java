@@ -42,16 +42,6 @@ public class DestCard implements ICard {
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (getClass() == o.getClass())
-        {
-            return (toString().equals(o.toString()));
-        }
-        return false;
-    }
-
-    @Override
     public int hashCode() {
         return toString().hashCode();
     }

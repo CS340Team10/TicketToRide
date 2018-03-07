@@ -26,6 +26,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     IPickTrainCardView pickTrainCardView = new PickTrainCardView();
     DrawerLayout drawerLayout;
     IPickDestCardView pickDestCardView = new PickDestCardView();
+    ArrayList<IPlayerView> playerViews = new ArrayList<>();
     Button trainCardButton;
     Button destCardButton;
     Button claimRouteButton;
@@ -43,6 +44,11 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         pickTrainCardView.setup(this);
         drawerLayout = findViewById(R.id.gamePlayDrawers);
         pickDestCardView.setup(this);
+        for(int i = 0; i < 4; i++)
+        {
+            playerViews.add(new PlayerView());
+            playerViews.get(i).setup(this, i);
+        }
         trainCardButton = findViewById(R.id.drawTrainCardsButton);
         destCardButton = findViewById(R.id.drawDestCardsButton);
         claimRouteButton = findViewById(R.id.claimRouteButton);
@@ -184,7 +190,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         destCardButton.setText(btnText);
     }
 
-    @Override
+
     public void setTrainDeckSize(int n) {
 
     }

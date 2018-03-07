@@ -86,6 +86,7 @@ public class ClientModel extends Observable
             thisPlayer = new Player();
             game.addPlayer(thisPlayer);
             thisPlayer.setId(player.playerId);
+            thisPlayer.setTurnOrder(game.getPlayers().size() - 1);
         }
 
         thisPlayer.setUsername(player.username);
@@ -113,8 +114,9 @@ public class ClientModel extends Observable
                 break;
         }
         thisPlayer.setColor(playerColor);
-
         thisPlayer.setPoints(player.points);
+
+
 
         setChanged();
         notifyObservers();

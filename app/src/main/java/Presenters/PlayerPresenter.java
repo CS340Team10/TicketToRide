@@ -60,13 +60,5 @@ public class PlayerPresenter implements IPlayerPresenter, IPresenter, Observer {
                 update();
             }
         }
-        //delete after testing
-        Player p = new Player();
-        p.setUsername("user");
-        p.setPoints(4000);
-        p.setTrainsLeft(10);
-        p.setColor(Player.PlayerColors.red);
-        playerView.updatePlayerInfo(p);
-        update();
     }
 }

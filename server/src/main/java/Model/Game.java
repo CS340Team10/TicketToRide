@@ -136,6 +136,11 @@ public class Game {
                 currPlayer.setColor(PlayerAttributes.Color.values()[playerCount]);
                 String playerID = currPlayer.getPlayerID();
 
+                // set up the PlayerAttributes to send back for each player
+                PlayerAttributes currPlayerAttributes = getPlayerAttributes(playerCount);
+
+                _gameHistory.addCommand(ClientCommandFactory.createPlayerUpdatedCommand(currPlayerAttributes));
+
                 // give train cards
                 for (int cardCount = 0; cardCount < BEGINNING_TRAIN_HAND_COUNT; cardCount++){
 
@@ -149,11 +154,6 @@ public class Game {
 
                 // give destination cards
                 giveDestCards(playerID);
-
-                // set up the PlayerAttributes to send back for each player
-                PlayerAttributes currPlayerAttributes = getPlayerAttributes(playerCount);
-
-                _gameHistory.addCommand(ClientCommandFactory.createPlayerUpdatedCommand(currPlayerAttributes));
             }
 
             // set up the face-up cards
@@ -346,7 +346,10 @@ public class Game {
     public String keepDestCards(String playerID, List<DestCard> keep){
         Player currPlayer = getPlayer(playerID);
 
-        currPlayer.acceptDestinationCards(keep);
+        List<? extends ICard> returnCards = currPlayer.acceptDestinationCards(keep);
+
+        _gameHistory.addCommand(ClientCommandFactory.createDestCardsChosenCommand(playerID, keep));
+
         return "";
     }
 

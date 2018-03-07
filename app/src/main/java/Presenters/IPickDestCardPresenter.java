@@ -9,4 +9,5 @@ import common.Deck;
 public interface IPickDestCardPresenter
 {
     void onPickDestCards(Deck selectedCards);
+    void requestDestCards();
 }

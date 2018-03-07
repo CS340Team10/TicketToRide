@@ -23,7 +23,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
 {
     private IPickDestCardView mView;
     private final int MIN_DEST_CARD_REQ = 2;//The minimum number of dest cards a user must have
-    private Deck keepers;//The destCards that the user is attempting to keep
+    private Deck keepers = null;//The destCards that the user is attempting to keep
     public PickDestCardPresenter(IPickDestCardView view)
     {
         this.mView = view;
@@ -42,6 +42,12 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
         {
             GamePlayService.getInstance().keepDestCards(this, (List<DestCard>) cards.toList(DestCard.class)); //This method will request these Dest Cards from the server
         }
+    }
+
+    @Override
+    public void requestDestCards()
+    {
+        GamePlayService.getInstance().requestDestCards(this);
     }
 
     private static boolean firstTime = true; //ONLY USED FOR TESTING THIS METHOD
@@ -79,14 +85,28 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
     @Override
     public void onPostExecute(Results result)
     {
-        mView.dismissDialog();//Dismiss the dialog
-        //Show a Toast on whether it worked or not
-        String msg = "Cards could not be selected!";//Assume it didn't work
-        if (result.succeeded())
+        if (keepers != null)//This means that the user is attempting to keep Dest Cards
         {
-            msg = "Cards were successfully selected!";//If it worked, say so
-            ClientModel.getInstance().addDestCards(keepers);
+            mView.dismissDialog();//Dismiss the dialog
+            //Show a Toast on whether it worked or not
+            String msg = "Cards could not be selected!";//Assume it didn't work
+            if (result.succeeded()) {
+                msg = "Cards were successfully selected!";//If it worked, say so
+                ClientModel.getInstance().addDestCards(keepers);
+            }
+            mView.showToast(msg);
+            keepers = null;
         }
-        mView.showToast(msg);
+        else//this means that the user pushed the "Draw Dest Cards" button
+        {
+            if (result.succeeded())
+            {
+                mView.dialogCreateAndShow();
+            }
+            else
+            {
+                mView.showToast(result.getError());
+            }
+        }
     }
 }

@@ -48,7 +48,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         pickTrainCardView.setup(this);
         drawerLayout = findViewById(R.id.gamePlayDrawers);
         pickDestCardView.setup(this);
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 5; i++)
         {
             playerViews.add(new PlayerView());
             playerViews.get(i).setup(this, i);
@@ -87,10 +87,9 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
                     attr.playerId = ClientModel.getInstance().getUser().getId();
                     attr.username = "updated Username";
                     attr.trainCarNum = 1000;
-                    attr.destCardNum = 1001;
-                    attr.trainCardNum = 1002;
 
                     GameNotificationService.getInstance().playerUpdated(attr);
+
                     commandId ++;
                     break;
                 case 1:

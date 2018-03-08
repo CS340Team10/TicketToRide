@@ -2,8 +2,6 @@ package com.example.cs340.tickettoride.Views;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,7 +9,6 @@ import com.example.cs340.tickettoride.R;
 
 import ClientModel.Player;
 import Presenters.IPlayerPresenter;
-import Presenters.PickTrainCardPresenter;
 import Presenters.PlayerPresenter;
 
 /**
@@ -72,6 +69,9 @@ public class PlayerView implements IPlayerView {
                 linearLayout = activity.findViewById(R.id.playerView4);
                 textView = activity.findViewById(R.id.playerText4);
                 break;
+            case 4:
+                linearLayout = activity.findViewById(R.id.playerView5);
+                textView = activity.findViewById(R.id.playerText5);
             default:
                 linearLayout = activity.findViewById(R.id.playerView1);
                 textView = activity.findViewById(R.id.playerText1);
@@ -109,6 +109,15 @@ public class PlayerView implements IPlayerView {
         this.color = color;
         this.hexColor = ColorUtility.getColorFromPlayer(color);
     }
+
+    public void setTextColor(boolean isMyTurn)
+    {
+        if(isMyTurn)
+            textView.setTextColor(Color.WHITE);
+        else
+            textView.setTextColor(Color.BLACK);
+    }
+
 
     @Override
     public String getUsername() {
@@ -199,4 +208,6 @@ public class PlayerView implements IPlayerView {
     public void setViewNum(int viewNum) {
         this.viewNum = viewNum;
     }
+
+
 }

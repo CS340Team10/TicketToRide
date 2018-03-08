@@ -1,9 +1,7 @@
 package Presenters;
 
 import com.example.cs340.tickettoride.Views.IPlayerView;
-import com.example.cs340.tickettoride.Views.PlayerView;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -44,19 +42,13 @@ public class PlayerPresenter implements IPlayerPresenter, IPresenter, Observer {
     @Override
     public void update(Observable observable, Object o) {
         ClientModel clientModel = ClientModel.getInstance();
-        int userTurnNum = clientModel.getUser().getTurnOrder();
         for (int i = 0; i < clientModel.getGame().getPlayers().size(); i++) {
             Player p = clientModel.getGame().getPlayers().get(i);
-            int thisPlayerViewNum = p.getTurnOrder();
-            if(thisPlayerViewNum > userTurnNum)
-                thisPlayerViewNum--;
-            if(playerView.getUsername().equals("") && thisPlayerViewNum == playerView.getViewNum())
+            int thisPlayerViewNum = playerView.getViewNum();
+            if(thisPlayerViewNum == p.getTurnOrder())
             {
                 playerView.updatePlayerInfo(p);
-                update();
-            }
-            if (p.getUsername().equals(playerView.getUsername())) {
-                playerView.updatePlayerInfo(p);
+                playerView.setTextColor(p.isMyTurn());
                 update();
             }
         }

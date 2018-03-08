@@ -54,17 +54,13 @@ public class GameNotificationService {
     public void destCardsChosen(String playerId, List<DestCard> cards) {
         historyService.playerChoseDestCards(playerId, cards);
 
-        if (isMe(playerId)) {
-            model.setChosenDestCards(cards);
-        }
+        model.setChosenDestCards(playerId, cards);
     }
 
     public void trainCardChosen(String playerId, TrainCard card) {
         historyService.playerChoseTrainCard(playerId);
 
-        if (isMe(playerId)) {
-            model.addTrainCard(card);
-        }
+        model.addTrainCard(playerId, card);
     }
 
     public void chat(String playerId, String message) {

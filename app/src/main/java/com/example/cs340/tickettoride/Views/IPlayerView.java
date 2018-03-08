@@ -15,6 +15,8 @@ public interface IPlayerView {
     public void update();
     public void setup(Activity activity, int viewNum);
     public void updatePlayerInfo(Player player);
+    public void setTextColor(boolean isMyTurn);
+
 
     public Player.PlayerColors getColor();
     public void setColor(Player.PlayerColors color);

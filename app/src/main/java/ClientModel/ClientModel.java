@@ -83,9 +83,15 @@ public class ClientModel extends Observable
 
         if(thisPlayer == null) {
             // Add the player
-            thisPlayer = new Player();
+            if (player.playerId.equals(user.getId())) {
+                thisPlayer = user;
+            } else {
+                thisPlayer = new Player();
+            }
+
             game.addPlayer(thisPlayer);
             thisPlayer.setId(player.playerId);
+            thisPlayer.setTurnOrder(game.getPlayers().size() - 1);
         }
 
         thisPlayer.setUsername(player.username);
@@ -113,8 +119,8 @@ public class ClientModel extends Observable
                 break;
         }
         thisPlayer.setColor(playerColor);
-
         thisPlayer.setPoints(player.points);
+        thisPlayer.setTrainsLeft(player.trainCarNum);
 
         setChanged();
         notifyObservers();
@@ -170,10 +176,11 @@ public class ClientModel extends Observable
         notifyObservers();
     }
 
-    public void setChosenDestCards(List<DestCard> cards) {
+    public void setChosenDestCards(String playerId, List<DestCard> cards) {
         // Set chosen cards
 
-        Deck destCardDeck = user.getDestCards();
+        Player player = getPlayerByID(playerId);
+        Deck destCardDeck = player.getDestCards();
         for(DestCard card : cards)
             destCardDeck.addCard(card);
 
@@ -181,10 +188,10 @@ public class ClientModel extends Observable
         notifyObservers();
     }
 
-    public void addTrainCard(TrainCard card) {
+    public void addTrainCard(String playerId, TrainCard card) {
         // Add card to my list of train cards
-
-        user.getTrainCards().addCard(card);
+        Player player = getPlayerByID(playerId);
+        player.getTrainCards().addCard(card);
 
         setChanged();
         notifyObservers();

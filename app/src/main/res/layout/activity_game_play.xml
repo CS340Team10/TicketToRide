@@ -16,42 +16,57 @@
             android:orientation="horizontal"
             android:layout_height="50dp">
             <LinearLayout
+                android:id="@+id/playerView1"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/playerText1"
                     android:layout_width="match_parent"
-                    android:text="Player1"
                     android:gravity="center"
                     android:layout_height="match_parent" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/playerView2"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/playerText2"
                     android:layout_width="match_parent"
-                    android:text="Player2"
                     android:gravity="center"
                     android:layout_height="match_parent" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/playerView3"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/playerText3"
                     android:layout_width="match_parent"
-                    android:text="Player3"
                     android:gravity="center"
                     android:layout_height="match_parent" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/playerView4"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/playerText4"
                     android:layout_width="match_parent"
-                    android:text="Player4"
+                    android:gravity="center"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/playerView5"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/playerText5"
+                    android:layout_width="match_parent"
                     android:gravity="center"
                     android:layout_height="match_parent" />
             </LinearLayout>

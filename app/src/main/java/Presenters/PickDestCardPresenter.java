@@ -5,6 +5,7 @@ import com.example.cs340.tickettoride.Views.IPickDestCardView;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
 import ClientModel.ClientModel;
 import Services.GamePlayService;
 import common.Deck;
@@ -92,7 +93,6 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
             String msg = "Cards could not be selected!";//Assume it didn't work
             if (result.succeeded()) {
                 msg = "Cards were successfully selected!";//If it worked, say so
-                ClientModel.getInstance().addDestCards(keepers);
             }
             mView.showToast(msg);
             keepers = null;

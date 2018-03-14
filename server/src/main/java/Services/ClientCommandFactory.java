@@ -6,6 +6,7 @@ import common.Command;
 import common.DestCard;
 import common.ICommand;
 import common.PlayerAttributes;
+import common.PlayerPointSummary;
 import common.TrainCard;
 
 /**
@@ -65,8 +66,18 @@ public class ClientCommandFactory {
         return command;
     }
 
-    public static ICommand createRouteClaimedCommand(String playerId, String routeId) {
-        Command command = new Command("Services.GameNotificationService", "routeClaimed", new String[]{"java.lang.String", "java.lang.String"}, new Object[]{playerId, routeId} );
+    public static ICommand createRouteClaimedCommand(String playerId, String routeId, List<TrainCard> cardsUsed) {
+        Command command = new Command("Services.GameNotificationService", "routeClaimed", new String[]{"java.lang.String", "java.lang.String", "java.util.List"}, new Object[]{playerId, routeId} );
+        return command;
+    }
+
+    public static ICommand createGameOverStatisticsCommand(List<PlayerPointSummary> pointSummaries) {
+        Command command = new Command("Services.GameNotificationService", "gameOverStatistics", new String[]{"java.util.List"}, new Object[]{pointSummaries});
+        return command;
+    }
+
+    public static ICommand createLastRoundBeganCommand() {
+        Command command = new Command("Services.GameNotificationService", "lastRoundBegan", new String[]{}, new Object[]{});
         return command;
     }
 }

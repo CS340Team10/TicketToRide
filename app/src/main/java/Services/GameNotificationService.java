@@ -5,6 +5,7 @@ import java.util.List;
 import ClientModel.ClientModel;
 import common.DestCard;
 import common.PlayerAttributes;
+import common.PlayerPointSummary;
 import common.TrainCard;
 
 /**
@@ -74,5 +75,13 @@ public class GameNotificationService {
         if (isMe(playerId)) {
             model.removeTrainCards(cardsUsed);
         }
+    }
+
+    public void gameOverStatistics(List<PlayerPointSummary> pointSummaries) {
+        model.gameOver(pointSummaries);
+    }
+
+    public void lastRoundBegan() {
+        model.lastRoundBegan();
     }
 }

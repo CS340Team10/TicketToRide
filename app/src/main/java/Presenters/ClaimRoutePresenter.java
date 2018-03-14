@@ -46,7 +46,11 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     @Override
     public void choseRoute(Route route, List<Pair<ICard, Integer>> usedCards)
     {
-        GamePlayService.getInstance().claimRoute(this, route.getRouteID());
+        List<TrainCard> cardsUsed = new ArrayList<>();
+        for(Pair<ICard, Integer> pair : usedCards) {
+            cardsUsed.add((TrainCard)pair.first);
+        }
+        GamePlayService.getInstance().claimRoute(this, route.getRouteID(), cardsUsed);
         ClientModel.getInstance().removeTrainCards(getDiscardList(usedCards));
     }
 

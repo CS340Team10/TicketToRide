@@ -104,7 +104,7 @@
             <Button
                 android:layout_width="100dp"
                 android:id="@+id/phase2PassoffButton"
-                android:text="Phase 2 passoff"
+                android:text="Game over trigger"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_height="wrap_content" />

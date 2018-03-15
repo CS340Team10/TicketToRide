@@ -82,8 +82,8 @@ public class MapView implements IMapView{
         routeIdToPoints.put("seat_vanc_2", new Point[]{new Point(74, 84)});
         routeIdToPoints.put("port_seat_1", new Point[]{new Point(49, 136)});
         routeIdToPoints.put("port_seat_2", new Point[]{new Point(61, 141)});
-        routeIdToPoints.put("sanfran_seat_1", new Point[]{new Point(19, 331), new Point(16, 295), new Point(13, 259), new Point(17, 228), new Point(25, 190)});
-        routeIdToPoints.put("sanfran_seat_2", new Point[]{new Point(32, 331), new Point(26, 295), new Point(27, 259), new Point(31, 228), new Point(41, 190)});
+        routeIdToPoints.put("sanfran_port_1", new Point[]{new Point(19, 331), new Point(16, 295), new Point(13, 259), new Point(17, 228), new Point(25, 190)});
+        routeIdToPoints.put("sanfran_port_2", new Point[]{new Point(32, 331), new Point(26, 295), new Point(27, 259), new Point(31, 228), new Point(41, 190)});
         routeIdToPoints.put("la_sanfran_1", new Point[]{new Point(35, 392), new Point(55, 423), new Point(78, 451)});
         routeIdToPoints.put("la_sanfran_2", new Point[]{new Point(48, 384), new Point(65, 419), new Point(88, 444)});
         routeIdToPoints.put("seat_calg", new Point[]{new Point(94, 113), new Point(133, 111), new Point(168, 97), new Point(189, 68)});

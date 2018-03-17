@@ -112,6 +112,15 @@ public class Player {
         return _currPoints;
     }
 
+    /**
+     * Increment the number of points for the Player
+     *
+     * @param newPoints the new points to add to the Player
+     */
+    public void incrementPoints(int newPoints){
+        _currPoints += newPoints;
+    }
+
     public int getDestCardsNum(){
         return _destinationCards.size();
     }

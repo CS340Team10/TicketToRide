@@ -1,5 +1,7 @@
 package Model;
 
+import com.sun.security.ntlm.Client;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import common.GameRoutes;
 import common.ICard;
 import common.ICommand;
 import common.PlayerAttributes;
+import common.PlayerPointSummary;
 import common.Route;
 import common.TrainCard;
 
@@ -49,6 +52,11 @@ public class Game {
      */
     public final static int MAX_WILDS_AVALABLE = 2;
 
+    /**
+     * The minimum number of train cars that can be held by a player to continue game play
+     */
+    public final static int MIN_TRAIN_CARS_IN_GAME = 3;
+
     private CommandHistory _gameHistory = new CommandHistory();
     private List<Player> _players = new ArrayList<Player>();
     private int currPlayerTurn = 0;
@@ -64,6 +72,12 @@ public class Game {
     private String _name;
     private int _numOfPlayers;
     private boolean _didStart = false;
+
+    // keeps track of whether the game is in the last round
+    private boolean _isLastRound = false;
+
+    // keeps track of which player triggered the last round
+    private int _endGameTriggerPlayerIndex = -1;
 
     public Game(String name, int numOfPlayers) {
         _name = name;
@@ -281,6 +295,13 @@ public class Game {
                         // discard the used cards
                         _discardedTrainCards.addCards(cardsUsed);
 
+                        // award the player points for the route
+                        currPlayer.incrementPoints(currRoute.getPointValue());
+                        _gameHistory.addCommand(ClientCommandFactory.createPlayerUpdatedCommand(getPlayerAttributes(currPlayer)));
+
+                        // inform the clients that the route has been claimed
+                        _gameHistory.addCommand(ClientCommandFactory.createRouteClaimedCommand(playerID, routeID, cardsUsed));
+
                         return "";
                     }
                     else {
@@ -475,6 +496,28 @@ public class Game {
      * Sets the turn of the next player and triggers a command to notify the clients
      */
     private void incrementCurrPlayer(){
+
+        // ----------------------------------------------------------------------------
+        // check if the game state needs to change
+        // ----------------------------------------------------------------------------
+        // check how many train cars the former "currPlayerTurn" has
+        if (!_isLastRound){
+            if (_players.get(currPlayerTurn).getTrainCars() < MIN_TRAIN_CARS_IN_GAME){
+                // the player that just ended their turn triggered the last round
+                _isLastRound = true;
+                _gameHistory.addCommand(ClientCommandFactory.createLastRoundBeganCommand());
+                _endGameTriggerPlayerIndex = currPlayerTurn;
+            }
+        }
+        else {
+            if (currPlayerTurn == _endGameTriggerPlayerIndex){
+                // the game is over
+                endGame();
+                return;
+            }
+        }
+
+
         if (currPlayerTurn == _players.size() - 1){
             // reset to 0
             currPlayerTurn = 0;
@@ -781,8 +824,19 @@ public class Game {
      *
      * @return a PlayerAttributes Object for the specified Player
      */
-    private PlayerAttributes getPlayerAttributes(int playerIndex){
+    private PlayerAttributes getPlayerAttributes(int playerIndex) {
         Player currPlayer = _players.get(playerIndex);
+
+        return getPlayerAttributes(currPlayer);
+    }
+    /**
+     * Creates a PlayerAttribute Object for the specified Player
+     *
+     * @param currPlayer the Player to return the PlayerAttributes for
+     *
+     * @return a PlayerAttributes Object for the specified Player
+     */
+    private PlayerAttributes getPlayerAttributes(Player currPlayer){
 
         PlayerAttributes returnValue = new PlayerAttributes();
         returnValue.playerId = currPlayer.getPlayerID();
@@ -794,5 +848,15 @@ public class Game {
         returnValue.trainCarNum = currPlayer.getTrainCars();
 
         return returnValue;
+    }
+
+    /**
+     * Ends the game and calculates the points for each player
+     */
+    private void endGame(){
+
+        ArrayList<PlayerPointSummary> playerPoints = new ArrayList<PlayerPointSummary>();
+
+        _gameHistory.addCommand(ClientCommandFactory.createGameOverStatisticsCommand(playerPoints));
     }
 }

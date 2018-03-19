@@ -32,6 +32,7 @@ public class PickDestCardView implements IPickDestCardView
     private int numSelected;
     private int minNumSelected;
     private Button okButton;
+    private boolean isShowing = false;
 
     /**
      * This method should be called before attempting to create and show the dialog
@@ -56,7 +57,7 @@ public class PickDestCardView implements IPickDestCardView
     @Override
     public void dialogCreateAndShow()
     {
-        if (dialog == null && context != null && offeredCards != null && minNumSelected <= offeredCards.size())
+        if (!isShowing && context != null && offeredCards != null && minNumSelected <= offeredCards.size())
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Choose Destination cards")
@@ -67,6 +68,8 @@ public class PickDestCardView implements IPickDestCardView
             dialog.show();
             okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             okButton.setEnabled(false);
+            isShowing = true;
+            numSelected = 0;
         }
         else
         {
@@ -75,26 +78,6 @@ public class PickDestCardView implements IPickDestCardView
                 showToast("Sorry, you cannot take more Destination Cards.");
             }
             Log.d(TAG, "WARNING: Please offer DestCards before attempting to show the dialog");
-        }
-    }
-
-    /**
-     * This method will dismiss the dialog if it is currently being shown. Otherwise nothing will happen.
-     * The dialog will automatically dismiss itself when the user finishes inputting their
-     * data, so this won't need to be called in most cases.
-     */
-    @Override
-    public void dismissDialog()
-    {
-        if (dialog != null)
-        {
-            dialog.dismiss();
-            dialog = null;
-            offeredCards = null;
-            if (numSelected < minNumSelected)
-            {
-                Log.d(TAG, "Warning: Dialog dismissed before minimum number of destCards could be selected.");
-            }
         }
     }
 
@@ -156,7 +139,10 @@ public class PickDestCardView implements IPickDestCardView
                     selectedCards.addCard(offeredCards.viewCard(i));
                 }
             }
+
             presenter.onPickDestCards(selectedCards);
+            offeredCards = null;
+            isShowing = false;
         }
     }
 }

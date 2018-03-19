@@ -1,19 +1,16 @@
 package Presenters;
 
-import android.support.v4.util.Pair;
-
 import com.example.cs340.tickettoride.Views.IClaimRouteView;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 
 import ClientModel.ClientModel;
 import Services.GamePlayService;
+import States.IState;
 import common.ICard;
 import common.Results;
 import common.Route;
@@ -26,6 +23,7 @@ import common.TrainCard;
 public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Observer
 {
     IClaimRouteView claimRouteView;
+    IState state;
 
     public ClaimRoutePresenter(IClaimRouteView claimRouteView)
     {
@@ -33,6 +31,7 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
         this.claimRouteView.offerRoutes(getAvailableRoutes());
         this.claimRouteView.setAvailableCards(getAvailableCards());
         ClientModel.getInstance().addObserver(this);
+        update(null, null);
     }
 
     private Map<ICard,Integer> getAvailableCards()
@@ -48,8 +47,7 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     @Override
     public void choseRoute(Route route, Map<ICard, Integer> usedCards)
     {
-        GamePlayService.getInstance().claimRoute(this, route.getRouteID(), toCardList(usedCards));
-        ClientModel.getInstance().removeTrainCards(toCardList(usedCards));
+        state.claimedRoute(this, route, usedCards);
     }
 
     @Override
@@ -130,5 +128,7 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
         claimRouteView.offerRoutes(getAvailableRoutes());
         //When available routes are added or taken, update view to know
         claimRouteView.setAvailableCards(getAvailableCards());
+
+        state = ClientModel.getInstance().getState();
     }
 }

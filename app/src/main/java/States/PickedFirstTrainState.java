@@ -1,5 +1,10 @@
 package States;
 
+import com.example.cs340.tickettoride.Views.IGamePlayView;
+
+import ClientModel.ClientModel;
+import Presenters.IPresenter;
+import Services.GamePlayService;
 import common.TrainCard;
 
 /**
@@ -7,8 +12,18 @@ import common.TrainCard;
  */
 
 public class PickedFirstTrainState extends IState {
-    public void choseTrainCard(TrainCard card)
+    @Override
+    public void enableDisableButtons(IGamePlayView view) {
+        view.enableTrainCardButton();
+        view.disableDrawRouteButton();
+        view.disableClaimRouteButton();
+    }
+
+    @Override
+    public void pickedTrainCard(IPresenter presenter, TrainCard card)
     {
-        //TODO this
+        GamePlayService.getInstance().selectTrainCard(presenter, card);
+        GamePlayService.getInstance().turnEnded(presenter);
+        ClientModel.getInstance().setState(new NotMyTurnState());
     }
 }

@@ -7,6 +7,5 @@ import common.TrainCard;
  */
 
 public interface IPickTrainCardPresenter {
-    void pickedFacedown();
-    void pickedFaceup(TrainCard card);
+    void pickedTrainCard(TrainCard card);
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import States.IState;
+import States.NotMyTurnState;
 import common.Deck;
 import common.DestCard;
 import common.GameRoutes;
@@ -27,6 +29,7 @@ public class ClientModel extends Observable
     private List<Route> gameRoutes = GameRoutes.getAllRoutes();
     private ChatHistory chatHistory = new ChatHistory();
     private GameHistory gameHistory = new GameHistory();
+    private IState gameState = new NotMyTurnState();
 
     public static ClientModel getInstance()
     {
@@ -283,6 +286,16 @@ public class ClientModel extends Observable
     public void lastRoundBegan() {
         // TODO: Store the fact that we are now on the last round.
 
+        setChanged();
+        notifyObservers();
+    }
+
+    public IState getState() {
+        return gameState;
+    }
+
+    public void setState(IState state) {
+        gameState = state;
         setChanged();
         notifyObservers();
     }

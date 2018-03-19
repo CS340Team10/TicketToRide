@@ -164,6 +164,7 @@ public class ClaimRouteView implements IClaimRouteView
     public void dialogCreateAndShow()
     {
         String DIALOG_TAG = "CLAIM_ROUTE_DIALOG";
+        dismissDialog();//If the dialog wasn't properly dismissed, dismiss it
         if (dialog == null && activity != null) {
             FragmentManager fm = activity.getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();

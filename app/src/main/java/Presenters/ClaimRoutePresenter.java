@@ -84,9 +84,16 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     @Override
     public void onPostExecute(Results result) {
         String msg = "ERROR: Failed to claim route!";
-        if (result.succeeded())
+        if (result != null)
         {
-            msg = "Route claimed successfully!";
+            if (result.succeeded())
+            {
+                msg = "Route claimed successfully!";
+            }
+            else
+            {
+                msg = result.getError();
+            }
         }
         if (claimRouteView != null)
         {

@@ -6,6 +6,16 @@ dependencies {
     implementation project(':jackson-core-2.9.4')
     implementation project(':jackson-databind-2.9.4')
     implementation project(':jackson-annotations-2.9.4')
+    implementation project(':antlr4-runtime-4.6')
+    implementation project(':commons-lang3-3.5')
+    implementation project(':jgraph-5.13.0.0')
+    implementation project(':jgrapht-core-1.1.0')
+    implementation project(':jgrapht-demo-1.1.0')
+    implementation project(':jgrapht-ext-1.1.0')
+    implementation project(':jgrapht-ext-1.1.0-uber')
+    implementation project(':jgrapht-io-1.1.0')
+    implementation project(':jgrapht-io-1.1.0-uber')
+    implementation project(':jgraphx-2.0.0.1')
 }
 
 sourceCompatibility = "1.7"

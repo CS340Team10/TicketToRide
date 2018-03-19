@@ -104,6 +104,12 @@ public class ClaimRouteDialog extends DialogFragment
         trainNumberRecycler.setAdapter(new TrainNumberAdapter(new ArrayList<Pair<ICard, Integer>>()));
         submitButton = v.findViewById(R.id.submitClaimRouteBtn);
         submitButton.setEnabled(false);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.choseRoute(selectedRoute, selectedCards);
+            }
+        });
         updateRouteList(routes);
         updateCardCountList(availableCards);
         return v;
@@ -125,13 +131,27 @@ public class ClaimRouteDialog extends DialogFragment
 
     public void disableCardNumberPickers(Set<ICard> cards) {
         disabledNumberPickers.addAll(cards);
-        updateCardCountList(availableCards);//refresh recycler view
+        if (trainNumberRecycler != null)
+        {
+            TrainNumberAdapter adapter = (TrainNumberAdapter) trainNumberRecycler.getAdapter();
+            if (adapter != null)
+            {
+                adapter.refreshEnabledStatus();
+            }
+        }
     }
 
     public void enableCardNumberPickers(Set<ICard> cards)
     {
         disabledNumberPickers.removeAll(cards);
-        updateCardCountList(availableCards);//refresh recycler view
+        if (trainNumberRecycler != null)
+        {
+            TrainNumberAdapter adapter = (TrainNumberAdapter) trainNumberRecycler.getAdapter();
+            if (adapter != null)
+            {
+                adapter.refreshEnabledStatus();
+            }
+        }
     }
 
     private class ClaimRouteAdapter extends RecyclerView.Adapter<ClaimRouteViewHolder>
@@ -224,10 +244,23 @@ public class ClaimRouteDialog extends DialogFragment
     private class TrainNumberAdapter extends RecyclerView.Adapter<TrainNumberViewHolder>
     {
         List<Pair<ICard, Integer>> cardNumList;
+        Set<TrainNumberViewHolder> viewHolders = new HashSet<>();
 
         public TrainNumberAdapter(List<Pair<ICard, Integer>> cardNumList)
         {
             this.cardNumList = cardNumList;
+        }
+
+        public void refreshEnabledStatus()
+        {
+            for (TrainNumberViewHolder holder : viewHolders)
+            {
+                holder.mPicker.setEnabled(true);
+                if (disabledNumberPickers.contains(holder.mCard))
+                {
+                    holder.mPicker.setEnabled(false);
+                }
+            }
         }
 
         @NonNull
@@ -235,7 +268,16 @@ public class ClaimRouteDialog extends DialogFragment
         public TrainNumberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View v = inflater.inflate(R.layout.train_card_number_item, parent, false);
-            return new TrainNumberViewHolder(v);
+            TrainNumberViewHolder holder = new TrainNumberViewHolder(v);
+            viewHolders.add(holder);
+            return holder;
+        }
+
+        @Override
+        public void onViewRecycled(@NonNull TrainNumberViewHolder holder)
+        {
+            super.onViewRecycled(holder);
+            viewHolders.remove(holder);
         }
 
         @Override

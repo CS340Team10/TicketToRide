@@ -24,6 +24,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     IPickTrainCardView pickTrainCardView = new PickTrainCardView();
     DrawerLayout drawerLayout;
     IPickDestCardView pickDestCardView = new PickDestCardView();
+    IClaimRouteView claimRouteView = new ClaimRouteView();
     ArrayList<IPlayerView> playerViews = new ArrayList<>();
     Button trainCardButton;
     Button destCardButton;
@@ -41,6 +42,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         pickTrainCardView.setup(this);
         drawerLayout = findViewById(R.id.gamePlayDrawers);
         pickDestCardView.setup(this);
+        claimRouteView.setup(this);
         for(int i = 0; i < 5; i++)
         {
             playerViews.add(new PlayerView());
@@ -49,7 +51,6 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         trainCardButton = findViewById(R.id.drawTrainCardsButton);
         destCardButton = findViewById(R.id.drawDestCardsButton);
         claimRouteButton = findViewById(R.id.claimRouteButton);
-
         presenter = new GamePlayPresenter(this); // Must create after buttons inflated.
 
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)

@@ -144,32 +144,56 @@ public class GamePlayService {
         return availableCards;
     }
 
-    public boolean isValidTrade(Route selectedRoute, Map<ICard, Integer> selectedCards)
+    /**
+     * Tells you whether the given cards can be used to claim the given route
+     * @param route the route you want to check
+     * @param cards the cards you want to check against the route
+     * @return whether the given cards can be used to claim the given route
+     */
+    public boolean isValidTrade(Route route, Map<ICard, Integer> cards)
     {
-        if (selectedCards.size() == selectedRoute.getRouteLength())
+        return !(route == null || cards == null)
+                && isMatchingColor(route, cards)
+                && isMatchingNumber(route, cards);
+    }
+
+    /**
+     * Tells you whether the given cards match the given route. Takes wildcards and wild routes into
+     * account, so that if the route is a wild, cards of any color will match.
+     * And wildcards can be applied to any route, even in combination with other valid colors.
+     * @param route the route you want to check against
+     * @param cards the cards you want to see if they can be used to claim the route
+     * @return
+     */
+    private boolean isMatchingColor(Route route, Map<ICard, Integer> cards)
+    {
+        if (route.getPathColor().equals(TrainCard.Colors.wildcard))
         {
-            if (selectedRoute.getPathColor().equals(TrainCard.Colors.wildcard))
-            {
-                return true;
-            }
-            Set<ICard> cards = selectedCards.keySet();
-            for (ICard card : cards)
-            {
-                if (card.getClass() == TrainCard.class)
-                {
-                    TrainCard tCard = (TrainCard) card;
-                    if (tCard.getColor() != selectedRoute.getPathColor() && tCard.getColor() != TrainCard.Colors.wildcard)
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return true;//if all the cards match colors or are wildcards, and there is the right #, then it is a valid trade
+            return true;
         }
-        return false;
+        for (ICard card : cards.keySet())
+        {
+            if (card.getClass() != TrainCard.class)
+            {
+                return false;
+            }
+            TrainCard tCard = (TrainCard) card;
+            if (!tCard.getColor().equals(route.getPathColor())
+                    && (!tCard.getColor().equals(TrainCard.Colors.wildcard)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isMatchingNumber(Route route, Map<ICard, Integer> cards)
+    {
+        int numCards = 0;
+        for (ICard card : cards.keySet())
+        {
+            numCards += cards.get(card);
+        }
+        return numCards == route.getRouteLength();
     }
 }

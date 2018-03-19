@@ -20,19 +20,15 @@ public class MyTurnState extends IState {
     }
 
     @Override
-    public void pickedTrainCard(IPresenter presenter, TrainCard card){
+    public void choseTrainCard(IPresenter presenter, TrainCard card){
         GamePlayService.getInstance().selectTrainCard(presenter, card);
         ClientModel.getInstance().setState(new PickedFirstTrainState());
     }
 
     @Override
-    public void onClickDrawDestCard(){
-        //TODO this
-    }
-
-    @Override
-    public void onClickClaimRoute(){
-        //TODO this
+    public void requestedDestCards(IPresenter presenter) {
+        GamePlayService.getInstance().requestDestCards(presenter);
+        ClientModel.getInstance().setState(new RequestedDestCardsState());
     }
 
     @Override

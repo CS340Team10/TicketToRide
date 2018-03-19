@@ -19,6 +19,33 @@ public class DestCard implements ICard {
         this.pointValue = pointValue;
     }
 
+    /**
+     * Returns the name of the start city
+     *
+     * @return the name of the start city on the Card
+     */
+    public String getStartCity(){
+        return startCity;
+    }
+
+    /**
+     * Returns the name of the end city
+     *
+     * @return the name of the end city
+     */
+    public String getEndCity(){
+        return endCity;
+    }
+
+    /**
+     * Returns the point value associated with this DestCard
+     *
+     * @return the point value associated with this DestCard
+     */
+    public int getPointValue(){
+        return pointValue;
+    }
+
     @Override
     public boolean equals(Object obj){
         if (obj instanceof DestCard){

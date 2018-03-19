@@ -855,8 +855,116 @@ public class Game {
      */
     private void endGame(){
 
+        // get the destination card points
+        for (Player currPlayer : _players){
+            currPlayer.calculateFinalPoints(_routes);
+        }
+
+        // determine who has the longest route
+        calculateLongestRoute();
+
+        // determine the winner
+        determineWinner();
+
         ArrayList<PlayerPointSummary> playerPoints = new ArrayList<PlayerPointSummary>();
+        for (Player currPlayer : _players){
+            playerPoints.add(currPlayer.getPlayerPoints());
+        }
 
         _gameHistory.addCommand(ClientCommandFactory.createGameOverStatisticsCommand(playerPoints));
+    }
+
+    /**
+     * Calculates which player has the longest route and awards them bonus points
+     */
+    private void calculateLongestRoute(){
+
+        // get the player(s) that have the longest route
+        List<Integer> longestPathIndexes = PlayerGraph.calculateLongestPath(_players, _routes);
+        for (int index : longestPathIndexes) {
+            // apply the bonus
+            _players.get(index).applyLongestPathBonus();
+        }
+    }
+
+    /**
+     * Determines which Player is the winner
+     */
+    private void determineWinner(){
+
+        int highestPoints = 0;
+        List<Integer> winnerIndexes = new ArrayList<Integer>();
+        int finalWinnerIndex = -1;
+
+        for (int count = 0; count < _players.size(); count++){
+            Player currPlayer = _players.get(count);
+
+            int currPoints = currPlayer.getPlayerPoints().getTotalPoints();
+
+            if (currPoints == highestPoints) {
+                winnerIndexes.add(count);
+            }
+            if (currPoints > highestPoints) {
+                highestPoints = currPoints;
+                winnerIndexes.clear();
+                winnerIndexes.add(count);
+            }
+        }
+
+        if (winnerIndexes.size() > 1){
+            // there was a tie, so go to the destination cards to determine the winner
+
+            int mostDestCardsFinished = -1;
+            List<Integer> destWinnerIndexes = new ArrayList<Integer>();
+
+            for (int winnerIndex : winnerIndexes){
+                int currDestCardCount = _players.get(winnerIndex).getCompletedDestCardCount();
+
+                if (currDestCardCount == mostDestCardsFinished){
+                    // the number of finished dest cards is the same
+                    destWinnerIndexes.add(winnerIndex);
+                }
+                else if (currDestCardCount > mostDestCardsFinished){
+                    // this player finished more destination cards
+                    mostDestCardsFinished = currDestCardCount;
+                    destWinnerIndexes.clear();
+                    destWinnerIndexes.add(winnerIndex);
+                }
+            }
+
+            if (destWinnerIndexes.size() > 1){
+
+                // there was still a tie, so go to the Longest Route Bonus to determine the winner
+
+                List<Integer> longestRouteWinnerIndex = new ArrayList<Integer>();
+                for (int destWinnerIndex : destWinnerIndexes){
+                    if (_players.get(destWinnerIndex).getPlayerPoints().getLongestRoutePoints() > 0){
+                        longestRouteWinnerIndex.add(destWinnerIndex);
+                    }
+                }
+
+                if (longestRouteWinnerIndex.size() > 1){
+
+                    // if there is still a tie at this point, then choose the first player in the list as the winner
+                    finalWinnerIndex = longestRouteWinnerIndex.get(0);
+                }
+                else {
+                    // chose the only winner
+                    finalWinnerIndex = longestRouteWinnerIndex.get(0);
+                }
+
+            }
+            else {
+                // there is only one winner at this point
+                finalWinnerIndex = destWinnerIndexes.get(0);
+            }
+        }
+        else {
+            // there were no ties at all, so there is only one winner
+            finalWinnerIndex = winnerIndexes.get(0);
+        }
+
+        _players.get(finalWinnerIndex).setWinner();
+
     }
 }

@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 
 public class PlayerPointSummary {
+
+    private static final int LONGEST_ROUTE_BONUS = 10;
+
     private String playerId;
     private int claimedRoutePoints;
     private int destCardPoints;
@@ -23,6 +26,41 @@ public class PlayerPointSummary {
         this.isWinner = isWinner;
     }
 
+    public void applyLongestPathBonus(){
+        this.longestRoutePoints = LONGEST_ROUTE_BONUS;
+    }
+
+    /**
+     * Sets the points for the longest path after the Object has been created
+     *
+     * @param newPoints the longest path bonus to be added
+     */
+    public void setLongestRoutePoints(int newPoints){
+        this.longestRoutePoints = newPoints;
+    }
+
+    /**
+     * Returns the longest route points
+     * @return
+     */
+    public int getLongestRoutePoints(){
+        return longestRoutePoints;
+    }
+
+    /**
+     * Sets whether the Player represented by this Object is the winner
+     *
+     * @param isWinner true if this Player won, false otherwise
+     */
+    public void setIsWinner(boolean isWinner){
+        this.isWinner = isWinner;
+    }
+
+    /**
+     * Returns the total points earned
+     *
+     * @return the total number of points earned
+     */
     public int getTotalPoints() {
         return claimedRoutePoints + destCardPoints + longestRoutePoints;
     }

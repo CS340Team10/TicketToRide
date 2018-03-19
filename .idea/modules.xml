@@ -3,12 +3,22 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TicketToRide.iml" filepath="$PROJECT_DIR$/TicketToRide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/antlr4-runtime-4.6/antlr4-runtime-4.6.iml" filepath="$PROJECT_DIR$/antlr4-runtime-4.6/antlr4-runtime-4.6.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commons-lang3-3.5/commons-lang3-3.5.iml" filepath="$PROJECT_DIR$/commons-lang3-3.5/commons-lang3-3.5.iml" />
       <module fileurl="file://$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" filepath="$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-annotations-2.9.4/jackson-annotations-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-annotations-2.9.4/jackson-annotations-2.9.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-core-2.9.4/jackson-core-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-core-2.9.4/jackson-core-2.9.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-databind-2.9.4/jackson-databind-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-databind-2.9.4/jackson-databind-2.9.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgraph-5.13.0.0/jgraph-5.13.0.0.iml" filepath="$PROJECT_DIR$/jgraph-5.13.0.0/jgraph-5.13.0.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-core-1.1.0/jgrapht-core-1.1.0.iml" filepath="$PROJECT_DIR$/jgrapht-core-1.1.0/jgrapht-core-1.1.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-demo-1.1.0/jgrapht-demo-1.1.0.iml" filepath="$PROJECT_DIR$/jgrapht-demo-1.1.0/jgrapht-demo-1.1.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-ext-1.1.0/jgrapht-ext-1.1.0.iml" filepath="$PROJECT_DIR$/jgrapht-ext-1.1.0/jgrapht-ext-1.1.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-ext-1.1.0-uber/jgrapht-ext-1.1.0-uber.iml" filepath="$PROJECT_DIR$/jgrapht-ext-1.1.0-uber/jgrapht-ext-1.1.0-uber.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-io-1.1.0/jgrapht-io-1.1.0.iml" filepath="$PROJECT_DIR$/jgrapht-io-1.1.0/jgrapht-io-1.1.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-io-1.1.0-uber/jgrapht-io-1.1.0-uber.iml" filepath="$PROJECT_DIR$/jgrapht-io-1.1.0-uber/jgrapht-io-1.1.0-uber.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgraphx-2.0.0.1/jgraphx-2.0.0.1.iml" filepath="$PROJECT_DIR$/jgraphx-2.0.0.1/jgraphx-2.0.0.1.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
     </modules>
   </component>

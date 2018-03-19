@@ -1,11 +1,18 @@
 package Model;
 
+import org.jgrapht.alg.ConnectivityInspector;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.SimpleWeightedGraph;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import common.Deck;
+import common.DestCard;
 import common.ICard;
 import common.PlayerAttributes;
+import common.PlayerPointSummary;
+import common.Route;
 import common.TrainCard;
 
 /**
@@ -29,6 +36,10 @@ public class Player {
 
     private int _currPoints = 0;
     private int _currTrainCars = 45;
+
+    // these variables are used at the end of the game to determine the score of the Player
+    private PlayerPointSummary _pointSummary = null;
+    private Deck completedDestCards = new Deck();
 
     public Player(String username, String password){
         _username = username;
@@ -228,6 +239,104 @@ public class Player {
         _currTrainCars -= numOfCars;
         return true;
 
+    }
+
+    /**
+     * Returns a PlayerPointSummary for the Player
+     *
+     * @param allRoutes a List of all available Routes in the game
+     *
+     * @return a PlayerPointSummary for the Player
+     */
+    public void calculateFinalPoints(List<Route> allRoutes){
+
+        // clear this variable in case this method has been called before
+        completedDestCards.clear();
+
+        // determine the points from the routes
+        int routePoints = 0;
+        List<Route> routes = getPlayerRoutes(allRoutes);
+        for (Route route : routes){
+            routePoints += route.getPointValue();
+        }
+
+        // determine the points from the destination cards
+        SimpleWeightedGraph g = PlayerGraph.getPlayerGraph(routes);
+        ConnectivityInspector<String, DefaultWeightedEdge> ci = new ConnectivityInspector<>(g);
+        int cardPoints = 0;
+
+        Deck tempDestCards = new Deck();
+        _destinationCards.copyToDeck(tempDestCards);
+        for(int count = tempDestCards.size() - 1; count >= 0; count--){
+            DestCard card = (DestCard)tempDestCards.viewCard(count);
+            if(!(g.containsVertex(card.getStartCity()) && g.containsVertex(card.getEndCity()))) {
+                continue;
+            }
+            if(ci.pathExists(card.getStartCity(), card.getEndCity())) {
+                cardPoints += card.getPointValue();
+                completedDestCards.addCard(tempDestCards.drawCard(count));
+            }
+        }
+
+        // subtract out points for any destination card that was not completed
+        for (int count = 0; count < tempDestCards.size(); count++){
+            DestCard card = (DestCard)tempDestCards.viewCard(count);
+            cardPoints -= card.getPointValue();
+        }
+
+        _pointSummary = new PlayerPointSummary(getPlayerID(), routePoints, cardPoints, 0, false);
+    }
+
+    /**
+     * Returns the PlayerPointSummary for this Player
+     *
+     * @return the PlayerPointSummary for this Player
+     */
+    public PlayerPointSummary getPlayerPoints(){
+        return _pointSummary;
+    }
+
+    /**
+     * Applies the Longest Route bonus to the Player
+     */
+    public void applyLongestPathBonus(){
+        _pointSummary.applyLongestPathBonus();
+    }
+
+    /**
+     * Sets this Player as the winner
+     */
+    public void setWinner(){
+        _pointSummary.setIsWinner(true);
+    }
+
+    /**
+     * Returns the number of destination cards that were completed in the Game
+     *
+     * @return the number of destinatino cards that were completed in the Game
+     */
+    public int getCompletedDestCardCount(){
+        return completedDestCards.size();
+    }
+
+    /**
+     * Returns a list of all Routes claimed by the Player
+     *
+     * @param allRoutes a List of all Routes in the Game
+     *
+     * @return a List of all Routes claimed by the Player
+     */
+    public List<Route> getPlayerRoutes(List<Route> allRoutes){
+
+        // get all of the routes claimed by the Player
+        List<Route> routes = new ArrayList<Route>();
+        for (Route route : allRoutes){
+            if (route.getOwnedByPlayerID().equals(getPlayerID())){
+                routes.add(route);
+            }
+        }
+
+        return routes;
     }
 
     /**

@@ -14,11 +14,9 @@ import common.TrainCard;
 
 public abstract class IState {
     public void enableDisableButtons(IGamePlayView view){}
-    public void choseDestCards(List<DestCard> cards){}
-    public void choseTrainCard(TrainCard card){}
-    public void pickedTrainCard(IPresenter presenter, TrainCard card){}
-    public void onClickDrawDestCard(){}
-    public void onClickClaimRoute(){}
+    public void choseDestCards(IPresenter presenter, List<DestCard> cards){}
+    public void choseTrainCard(IPresenter presenter, TrainCard card){}
+    public void requestedDestCards(IPresenter presenter){}
     public void claimedRoute(String routeID, String playerID){}
 
 }

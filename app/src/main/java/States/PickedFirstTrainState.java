@@ -20,7 +20,7 @@ public class PickedFirstTrainState extends IState {
     }
 
     @Override
-    public void pickedTrainCard(IPresenter presenter, TrainCard card)
+    public void choseTrainCard(IPresenter presenter, TrainCard card)
     {
         GamePlayService.getInstance().selectTrainCard(presenter, card);
         GamePlayService.getInstance().turnEnded(presenter);

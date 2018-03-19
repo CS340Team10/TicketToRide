@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Observable;
 
 import States.IState;
-import States.NotMyTurnState;
+import States.StartGameState;
 import common.Deck;
 import common.DestCard;
 import common.GameRoutes;
@@ -29,7 +29,7 @@ public class ClientModel extends Observable
     private List<Route> gameRoutes = GameRoutes.getAllRoutes();
     private ChatHistory chatHistory = new ChatHistory();
     private GameHistory gameHistory = new GameHistory();
-    private IState gameState = new NotMyTurnState();
+    private IState gameState = new StartGameState();
 
     public static ClientModel getInstance()
     {

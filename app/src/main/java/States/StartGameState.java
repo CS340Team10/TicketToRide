@@ -8,16 +8,18 @@ import Services.GamePlayService;
 import common.DestCard;
 
 /**
- * Created by matto on 3/14/2018.
+ * Created by ephraimkunz on 3/19/18.
  */
 
-public class RequestedDestCardsState extends IState {
-
+public class StartGameState extends IState {
     @Override
     public void choseDestCards(IPresenter presenter, List<DestCard> cards)
     {
         GamePlayService.getInstance().keepDestCards(presenter, cards); //This method will request these Dest Cards from the server
-        GamePlayService.getInstance().turnEnded(presenter);
-        ClientModel.getInstance().setState(new NotMyTurnState());
+        if(ClientModel.getInstance().getUser().isMyTurn()) {
+            ClientModel.getInstance().setState(new MyTurnState());
+        } else {
+            ClientModel.getInstance().setState(new NotMyTurnState());
+        }
     }
 }

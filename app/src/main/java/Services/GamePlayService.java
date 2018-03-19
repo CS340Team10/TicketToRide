@@ -1,7 +1,5 @@
 package Services;
 
-import android.support.v4.util.Pair;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +32,9 @@ public class GamePlayService {
         return ClientModel.getInstance().getUser().getId();
     }
 
-    public void claimRoute(IPresenter presenter, String routeId) {
-        GenericAsyncTask task = new GenericAsyncTask(presenter, "claimRoute", new String[]{"java.lang.String", "java.lang.String"});
-        task.execute(getPlayerId(), routeId);
+    public void claimRoute(IPresenter presenter, String routeId, List<TrainCard> cardsUsed) {
+        GenericAsyncTask task = new GenericAsyncTask(presenter, "claimRoute", new String[]{"java.lang.String", "java.lang.String", "java.util.List"});
+        task.execute(getPlayerId(), routeId, cardsUsed);
     }
 
     public void turnEnded(IPresenter presenter) {

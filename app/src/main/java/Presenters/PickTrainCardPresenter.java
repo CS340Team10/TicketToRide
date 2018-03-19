@@ -7,7 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ClientModel.ClientModel;
-import Services.GamePlayService;
+import States.IState;
 import common.Results;
 import common.TrainCard;
 
@@ -17,21 +17,18 @@ import common.TrainCard;
 
 public class PickTrainCardPresenter implements IPickTrainCardPresenter, IPresenter, Observer {
     IPickTrainCardView view;
+    IState state;
 
     public PickTrainCardPresenter(IPickTrainCardView view) {
         this.view = view;
+        this.state = ClientModel.getInstance().getState();
         ClientModel.getInstance().addObserver(this);
         update(null, null); // Load data the first time
     }
 
     @Override
-    public void pickedFacedown() {
-        GamePlayService.getInstance().selectTrainCard(this, null);
-    }
-
-    @Override
-    public void pickedFaceup(TrainCard card) {
-        GamePlayService.getInstance().selectTrainCard(this, card);
+    public void pickedTrainCard(TrainCard card) {
+        state.choseTrainCard(this, card);
     }
 
     @Override
@@ -45,5 +42,6 @@ public class PickTrainCardPresenter implements IPickTrainCardPresenter, IPresent
     public void update(Observable observable, Object o) {
         view.setInvisibleCards(ClientModel.getInstance().getGame().getTrainCardDeckNum());
         view.setVisibleCards(ClientModel.getInstance().getGame().getFaceupTrainCards());
+        state = ClientModel.getInstance().getState();
     }
 }

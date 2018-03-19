@@ -2,12 +2,13 @@ package Presenters;
 
 import com.example.cs340.tickettoride.Views.IPickDestCardView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import ClientModel.ClientModel;
-import Services.GamePlayService;
+import States.IState;
 import common.Deck;
 import common.DestCard;
 import common.Results;
@@ -23,32 +24,26 @@ import static Testing.TestService.IS_TESTING;
 public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter, Observer
 {
     private IPickDestCardView mView;
+    private IState state;
     private final int MIN_DEST_CARD_REQ = 2;//The minimum number of dest cards a user must have
     private Deck keepers = null;//The destCards that the user is attempting to keep
     public PickDestCardPresenter(IPickDestCardView view)
     {
         this.mView = view;
+        ClientModel.getInstance().addObserver(this);
         update(null, null);//Check to see if any cards have been offered before this presenter was created
     }
 
     @Override
     public void onPickDestCards(Deck cards)
     {
-        keepers = cards;
-        if (IS_TESTING)
-        {
-            onPostExecute(new Results(true, "", "")); //Use this for testing only
-        }
-        else
-        {
-            GamePlayService.getInstance().keepDestCards(this, (List<DestCard>) cards.toList(DestCard.class)); //This method will request these Dest Cards from the server
-        }
+        state.choseDestCards(this, (List<DestCard>) cards.toList(DestCard.class));
     }
 
     @Override
     public void requestDestCards()
     {
-        GamePlayService.getInstance().requestDestCards(this);
+        state.requestedDestCards(this);
     }
 
     private static boolean firstTime = true; //ONLY USED FOR TESTING THIS METHOD
@@ -68,6 +63,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
         }
         else
         {
+            state = ClientModel.getInstance().getState();
             offeredCards = ClientModel.getInstance().getUser().getOfferedDestCards();
             Deck cardsInHand = ClientModel.getInstance().getUser().getDestCards();
             int minSelect = MIN_DEST_CARD_REQ - cardsInHand.size();
@@ -93,6 +89,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
             String msg = "Cards could not be selected!";//Assume it didn't work
             if (result.succeeded()) {
                 msg = "Cards were successfully selected!";//If it worked, say so
+                ClientModel.getInstance().setOfferedDestCards(new ArrayList<DestCard>());
             }
             mView.showToast(msg);
             keepers = null;
@@ -101,7 +98,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
         {
             if (result.succeeded())
             {
-                mView.dialogCreateAndShow();
+//                mView.dialogCreateAndShow();
             }
             else
             {

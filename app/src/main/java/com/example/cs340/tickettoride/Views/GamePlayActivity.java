@@ -6,20 +6,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.cs340.tickettoride.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ClientModel.ClientModel;
 import Presenters.GamePlayPresenter;
 import Presenters.IGamePlayPresenter;
 import Services.GameNotificationService;
-import common.DestCard;
-import common.PlayerAttributes;
-import common.TrainCard;
+import common.PlayerPointSummary;
 
 public class GamePlayActivity extends AppCompatActivity implements IGamePlayView {
 
@@ -35,9 +31,6 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     Button claimRouteButton;
 
     IGamePlayPresenter presenter;
-
-    // For testing
-    int commandId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,72 +70,12 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
 
         @Override
         public void onClick(View v) {
-
-            // Run this little test script for the TA's.
-            switch (commandId) {
-                case 0:
-                    Toast.makeText(getApplicationContext(), "Updating player points, num train cards, num dest cards, num train cars", Toast.LENGTH_LONG).show();
-                    PlayerAttributes attr = new PlayerAttributes();
-                    attr.color = PlayerAttributes.Color.green;
-                    attr.points = 515;
-                    attr.playerId = ClientModel.getInstance().getUser().getId();
-                    attr.username = "updated Username";
-                    attr.trainCarNum = 1000;
-
-                    GameNotificationService.getInstance().playerUpdated(attr);
-
-                    commandId ++;
-                    break;
-                case 1:
-                    Toast.makeText(getApplicationContext(), "Add 3 black train cards for this player", Toast.LENGTH_LONG).show();
-                    GameNotificationService.getInstance().trainCardChosen(ClientModel.getInstance().getUser().getId(), new TrainCard(TrainCard.Colors.black));
-                    GameNotificationService.getInstance().trainCardChosen(ClientModel.getInstance().getUser().getId(), new TrainCard(TrainCard.Colors.black));
-                    GameNotificationService.getInstance().trainCardChosen(ClientModel.getInstance().getUser().getId(), new TrainCard(TrainCard.Colors.black));
-                    commandId++;
-                    break;
-                case 2:
-                    Toast.makeText(getApplicationContext(), "Add dest cards for this player", Toast.LENGTH_LONG).show();
-                    List<DestCard> newCards = new ArrayList<>();
-                    newCards.add(new DestCard("The Shire", "Mt. Doom", 100000));
-                    GameNotificationService.getInstance().destCardsChosen(ClientModel.getInstance().getUser().getId(), newCards);
-                    commandId++;
-                    break;
-                case 3:
-                    Toast.makeText(getApplicationContext(), "Update visible and invisible train card deck", Toast.LENGTH_LONG).show();
-                    List<TrainCard> newVisible = new ArrayList<>();
-                    newVisible.add(new TrainCard(TrainCard.Colors.wildcard));
-                    newVisible.add(new TrainCard(TrainCard.Colors.wildcard));
-                    newVisible.add(new TrainCard(TrainCard.Colors.wildcard));
-                    newVisible.add(new TrainCard(TrainCard.Colors.wildcard));
-                    newVisible.add(new TrainCard(TrainCard.Colors.wildcard));
-                    GameNotificationService.getInstance().trainCardDeckUpdated(newVisible, 505);
-                    commandId++;
-                    break;
-                case 4:
-                    Toast.makeText(getApplicationContext(), "Update invisible dest card deck", Toast.LENGTH_LONG).show();
-                    GameNotificationService.getInstance().destCardDeckUpdated(565);
-                    commandId++;
-                    break;
-                case 5:
-                    Toast.makeText(getApplicationContext(), "Claim route", Toast.LENGTH_LONG).show();
-                    List<TrainCard> used = new ArrayList<>();
-                    used.add(new TrainCard(TrainCard.Colors.black));
-                    used.add(new TrainCard(TrainCard.Colors.black));
-                    used.add(new TrainCard(TrainCard.Colors.black));
-                    GameNotificationService.getInstance().routeClaimed(ClientModel.getInstance().getUser().getId(), "vanc_calg", used);
-                    commandId++;
-                    break;
-                case 6:
-                    Toast.makeText(getApplicationContext(), "Chat message", Toast.LENGTH_LONG).show();
-                    GameNotificationService.getInstance().chat(ClientModel.getInstance().getUser().getId(), "Test chat from test script");
-                    commandId++;
-                    break;
-
-                case 7:
-                    Toast.makeText(getApplicationContext(), "End turn", Toast.LENGTH_LONG).show();
-                    GameNotificationService.getInstance().turnBegan(ClientModel.getInstance().getGame().getPlayers().get(1).getId());
-                    commandId = 0;
-            }
+            // Fake like the game is over for testing the score screen
+            List<PlayerPointSummary> pps = new ArrayList<>();
+            pps.add(new PlayerPointSummary("pid1", 1, 2, 3, false));
+            pps.add(new PlayerPointSummary("pid2", 55, 66, 77, true));
+            pps.add(new PlayerPointSummary("pid3", 5, 4, 3, false));
+            GameNotificationService.getInstance().gameOverStatistics(pps);
         }
     }
 

@@ -3,8 +3,11 @@ package Services;
 import java.util.List;
 
 import ClientModel.ClientModel;
+import States.MyTurnState;
+import States.StartGameState;
 import common.DestCard;
 import common.PlayerAttributes;
+import common.PlayerPointSummary;
 import common.TrainCard;
 
 /**
@@ -35,6 +38,10 @@ public class GameNotificationService {
     public void turnBegan(String playerId) {
         model.playerTurnBegan(playerId);
         historyService.playerTurnStarted(playerId);
+
+        if (isMe(playerId) && !(ClientModel.getInstance().getState() instanceof StartGameState)) {
+            model.setState(new MyTurnState());
+        }
     }
 
     public void trainCardDeckUpdated(List<TrainCard> visible, Integer invisible) {
@@ -74,5 +81,13 @@ public class GameNotificationService {
         if (isMe(playerId)) {
             model.removeTrainCards(cardsUsed);
         }
+    }
+
+    public void gameOverStatistics(List<PlayerPointSummary> pointSummaries) {
+        model.gameOver(pointSummaries);
+    }
+
+    public void lastRoundBegan() {
+        model.lastRoundBegan();
     }
 }

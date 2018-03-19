@@ -40,12 +40,12 @@ public class ServerCommandFactory {
         return new Command("Services.ServerCommandService", "joinGame", objects, values);
     }
 
-    public static ICommand createClaimRouteCommand(String playerId, String routeId) {
+    public static ICommand createClaimRouteCommand(String playerId, String routeId, List<TrainCard> cardsUsed) {
         Command command = new Command(
                 "Services.ServerCommandService",
                 "claimRoute",
-                new String[]{"java.lang.String", "java.lang.String"},
-                new Object[]{playerId, routeId});
+                new String[]{"java.lang.String", "java.lang.String", "java.util.List"},
+                new Object[]{playerId, routeId, cardsUsed});
         return command;
     }
 

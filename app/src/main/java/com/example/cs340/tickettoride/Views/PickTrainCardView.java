@@ -62,9 +62,9 @@ public class PickTrainCardView implements IPickTrainCardView {
                     public void onClick(View view) {
                         // If they've selected a card, send to server.
                         if(chosenCard != null) {
-                            presenter.pickedFaceup(chosenCard);
+                            presenter.pickedTrainCard(chosenCard);
                         } else if (choseFacedown) {
-                            presenter.pickedFacedown();
+                            presenter.pickedTrainCard(null);
                         }
 
                         // Do nothing if they haven't picked anything

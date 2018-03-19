@@ -56,7 +56,7 @@ public class PickDestCardView implements IPickDestCardView
     @Override
     public void dialogCreateAndShow()
     {
-        if (context != null && offeredCards != null && minNumSelected <= offeredCards.size())
+        if (dialog == null && context != null && offeredCards != null && minNumSelected <= offeredCards.size())
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Choose Destination cards")

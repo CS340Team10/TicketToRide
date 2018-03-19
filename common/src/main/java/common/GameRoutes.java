@@ -16,8 +16,8 @@ public class GameRoutes {
         routes.add(new Route("seat_vanc_2", "Seattle", "Vancouver", 1, TrainCard.Colors.wildcard));
         routes.add(new Route("port_seat_1", "Portland", "Seattle", 1, TrainCard.Colors.wildcard));
         routes.add(new Route("port_seat_2", "Portland", "Seattle", 1, TrainCard.Colors.wildcard));
-        routes.add(new Route("sanfran_seat_1", "San Franciso", "Seattle", 5, TrainCard.Colors.green));
-        routes.add(new Route("sanfran_seat_2", "San Franciso", "Seattle", 5, TrainCard.Colors.purple));
+        routes.add(new Route("sanfran_port_1", "San Francisco", "Portland", 5, TrainCard.Colors.green));
+        routes.add(new Route("sanfran_port_2", "San Francisco", "Portland", 5, TrainCard.Colors.purple));
         routes.add(new Route("la_sanfran_1", "Los Angeles", "San Francisco", 3, TrainCard.Colors.yellow));
         routes.add(new Route("la_sanfran_2", "Los Angeles", "San Francisco", 3, TrainCard.Colors.purple));
         routes.add(new Route("seat_calg", "Seattle", "Calgary", 4, TrainCard.Colors.wildcard));

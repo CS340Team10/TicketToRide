@@ -48,12 +48,8 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     @Override
     public void choseRoute(Route route, Map<ICard, Integer> usedCards)
     {
-        List<TrainCard> cardsUsed = new ArrayList<>();
-        for(Pair<ICard, Integer> pair : usedCards) {
-            cardsUsed.add((TrainCard)pair.first);
-        }
-        GamePlayService.getInstance().claimRoute(this, route.getRouteID(), cardsUsed);
-        ClientModel.getInstance().removeTrainCards(getDiscardList(usedCards));
+        GamePlayService.getInstance().claimRoute(this, route.getRouteID(), toCardList(usedCards));
+        ClientModel.getInstance().removeTrainCards(toCardList(usedCards));
     }
 
     @Override
@@ -64,25 +60,25 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
     }
 
     /**
-     * Just converts a list of usedCards
-     * @param usedCards
-     * @return
+     * Just converts a map of cards to a list of train cards
+     * @param cards a map of cards
+     * @return a list of train cards
      */
-    private List<TrainCard> getDiscardList(Map<ICard, Integer> usedCards)
+    private List<TrainCard> toCardList(Map<ICard, Integer> cards)
     {
-        List<TrainCard> discardPile = new ArrayList<>();
-        for (ICard card : usedCards.keySet())
+        List<TrainCard> cardList = new ArrayList<>();
+        for (ICard card : cards.keySet())
         {
-            Integer numCards = usedCards.get(card);
-            if (card != null && numCards != null)
+            Integer numCards = cards.get(card);
+            if (card != null && numCards != null && card.getClass() == TrainCard.class)
             {
                 for (int cnt = 0; cnt < numCards; cnt++)
                 {
-                    discardPile.add(new TrainCard(((TrainCard) card).getColor()));
+                    cardList.add((TrainCard) card);
                 }
             }
         }
-        return discardPile;
+        return cardList;
     }
 
     @Override

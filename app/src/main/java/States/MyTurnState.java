@@ -1,8 +1,10 @@
 package States;
 
-import java.util.List;
+import com.example.cs340.tickettoride.Views.IGamePlayView;
 
-import common.DestCard;
+import ClientModel.ClientModel;
+import Presenters.IPresenter;
+import Services.GamePlayService;
 import common.TrainCard;
 
 /**
@@ -10,19 +12,30 @@ import common.TrainCard;
  */
 
 public class MyTurnState extends IState {
-
-    public void onClickDrawTrainCard(){
-        //TODO this
+    @Override
+    public void enableDisableButtons(IGamePlayView view) {
+        view.enableTrainCardButton();
+        view.enableDrawRouteButton();
+        view.enableClaimRouteButton();
     }
 
+    @Override
+    public void pickedTrainCard(IPresenter presenter, TrainCard card){
+        GamePlayService.getInstance().selectTrainCard(presenter, card);
+        ClientModel.getInstance().setState(new PickedFirstTrainState());
+    }
+
+    @Override
     public void onClickDrawDestCard(){
         //TODO this
     }
 
+    @Override
     public void onClickClaimRoute(){
         //TODO this
     }
 
+    @Override
     public void claimedRoute(String routeID, String playerID){
         //TODO this
     }

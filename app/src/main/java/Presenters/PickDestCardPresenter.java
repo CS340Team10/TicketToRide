@@ -2,6 +2,7 @@ package Presenters;
 
 import com.example.cs340.tickettoride.Views.IPickDestCardView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -28,6 +29,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
     public PickDestCardPresenter(IPickDestCardView view)
     {
         this.mView = view;
+        ClientModel.getInstance().addObserver(this);
         update(null, null);//Check to see if any cards have been offered before this presenter was created
     }
 
@@ -93,6 +95,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
             String msg = "Cards could not be selected!";//Assume it didn't work
             if (result.succeeded()) {
                 msg = "Cards were successfully selected!";//If it worked, say so
+                ClientModel.getInstance().setOfferedDestCards(new ArrayList<DestCard>());
             }
             mView.showToast(msg);
             keepers = null;
@@ -101,7 +104,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
         {
             if (result.succeeded())
             {
-                mView.dialogCreateAndShow();
+//                mView.dialogCreateAndShow();
             }
             else
             {

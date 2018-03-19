@@ -3,6 +3,7 @@ package Services;
 import java.util.List;
 
 import ClientModel.ClientModel;
+import States.MyTurnState;
 import common.DestCard;
 import common.PlayerAttributes;
 import common.PlayerPointSummary;
@@ -36,6 +37,10 @@ public class GameNotificationService {
     public void turnBegan(String playerId) {
         model.playerTurnBegan(playerId);
         historyService.playerTurnStarted(playerId);
+
+        if (isMe(playerId)) {
+            model.setState(new MyTurnState());
+        }
     }
 
     public void trainCardDeckUpdated(List<TrainCard> visible, Integer invisible) {

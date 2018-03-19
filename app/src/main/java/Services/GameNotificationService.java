@@ -4,6 +4,7 @@ import java.util.List;
 
 import ClientModel.ClientModel;
 import States.MyTurnState;
+import States.StartGameState;
 import common.DestCard;
 import common.PlayerAttributes;
 import common.PlayerPointSummary;
@@ -38,7 +39,7 @@ public class GameNotificationService {
         model.playerTurnBegan(playerId);
         historyService.playerTurnStarted(playerId);
 
-        if (isMe(playerId)) {
+        if (isMe(playerId) && !(ClientModel.getInstance().getState() instanceof StartGameState)) {
             model.setState(new MyTurnState());
         }
     }

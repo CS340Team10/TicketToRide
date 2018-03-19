@@ -28,7 +28,7 @@ public class PickTrainCardPresenter implements IPickTrainCardPresenter, IPresent
 
     @Override
     public void pickedTrainCard(TrainCard card) {
-        state.pickedTrainCard(this, card);
+        state.choseTrainCard(this, card);
     }
 
     @Override

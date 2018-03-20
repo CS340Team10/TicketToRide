@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import ClientModel.ClientModel;
 import Presenters.IPresenter;
@@ -79,7 +78,40 @@ public class GamePlayService {
             }
         }
 
-        return claimable;
+        // Check for special rules:
+        // 1. if numPlayers <= 3, double routes disappear.
+        // 2. Player can claim only 1 of double routes
+
+        List<Route> rule1 = new ArrayList<>();
+        for(Route r : claimable) {
+            if (ClientModel.getInstance().getGame().getPlayers().size() <= 3) {
+                if (!r.getRouteID().endsWith("2")) {
+                    rule1.add(r);
+                }
+            } else {
+                rule1.add(r);
+            }
+        }
+
+        List<Route> rule2 = new ArrayList<>();
+        for (Route r : rule1) {
+            String routeId = r.getRouteID();
+            if(routeId.endsWith("1")) {
+                Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "2");
+                if(dup.getOwnedByPlayerID() == null || !dup.getOwnedByPlayerID().equals(ClientModel.getInstance().getUser().getId())) {
+                    rule2.add(r);
+                }
+            } else if(r.getRouteID().endsWith("2")) {
+                Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "1");
+                if(dup.getOwnedByPlayerID() == null || !dup.getOwnedByPlayerID().equals(ClientModel.getInstance().getUser().getId())) {
+                    rule2.add(r);
+                }
+            } else {
+                rule2.add(r);
+            }
+        }
+
+        return rule2;
     }
 
     private boolean cardsSufficient(Route route, Deck deck) {

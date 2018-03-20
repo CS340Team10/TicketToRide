@@ -30,6 +30,7 @@ public class ClientModel extends Observable
     private ChatHistory chatHistory = new ChatHistory();
     private GameHistory gameHistory = new GameHistory();
     private IState gameState = new StartGameState();
+    private List<PlayerPointSummary> pointSummaries = new ArrayList<>();
 
     public static ClientModel getInstance()
     {
@@ -293,14 +294,18 @@ public class ClientModel extends Observable
     }
 
     public void gameOver(List<PlayerPointSummary> pointSummaries) {
-        // TODO: Store summaries
+        this.pointSummaries = pointSummaries;
 
         setChanged();
         notifyObservers();
     }
 
+    public List<PlayerPointSummary> getPointSummaries() {
+        return pointSummaries;
+    }
+
     public void lastRoundBegan() {
-        // TODO: Store the fact that we are now on the last round.
+        game.setLastRoundBegan(true);
 
         setChanged();
         notifyObservers();

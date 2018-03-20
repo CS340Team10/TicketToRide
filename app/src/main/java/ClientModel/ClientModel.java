@@ -217,6 +217,22 @@ public class ClientModel extends Observable
         notifyObservers();
     }
 
+    public void removeTrainCards(String playerId, List<TrainCard> cards) {
+        // For each card in cards, remove from list of train cards
+        Deck deck = getPlayerByID(playerId).getTrainCards();
+        for(TrainCard card : cards)
+        {
+            TrainCard drawnCard = (TrainCard) deck.drawCard();
+            while(!drawnCard.getColor().equals(card.getColor()))
+            {
+                deck.addCard(drawnCard);
+                drawnCard = (TrainCard) deck.drawCard();
+            }
+        }
+        setChanged();
+        notifyObservers();
+    }
+
     public void addDestCards(Deck cards) {
         // Add card to my list of dest cards
 

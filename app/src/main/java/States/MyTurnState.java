@@ -40,7 +40,6 @@ public class MyTurnState extends IState {
     @Override
     public void claimedRoute(IPresenter presenter, Route route, Map<ICard, Integer> usedCards) {
         GamePlayService.getInstance().claimRoute(presenter, route.getRouteID(), toCardList(usedCards));
-        ClientModel.getInstance().removeTrainCards(toCardList(usedCards));
         GamePlayService.getInstance().turnEnded(presenter);
         ClientModel.getInstance().setState(new NotMyTurnState());
     }

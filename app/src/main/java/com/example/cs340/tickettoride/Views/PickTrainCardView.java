@@ -129,4 +129,9 @@ public class PickTrainCardView implements IPickTrainCardView {
         // Call this after all setup is done, so that when the presenter refreshes, he can call methods on us without fear.
         presenter = new PickTrainCardPresenter(this);
     }
+
+    public Activity getActivity()
+    {
+        return activity;
+    }
 }

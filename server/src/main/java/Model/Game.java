@@ -369,6 +369,9 @@ public class Game {
         Player currPlayer = getPlayer(playerID);
 
         List<? extends ICard> returnCards = currPlayer.acceptDestinationCards(keep);
+        for (int count = 0; count < returnCards.size(); count++){
+            _discardedDestinationCards.addCard(returnCards.get(count));
+        }
 
         _gameHistory.addCommand(ClientCommandFactory.createDestCardsChosenCommand(playerID, keep));
 
@@ -792,24 +795,30 @@ public class Game {
             return "There is no such player.";
         }
 
-        // ensure that there are enough destination cards left
-        if (_destinationCards.size() < DESTINATION_CARD_DEAL){
-            _discardedDestinationCards.copyToDeck(_destinationCards);
-            _discardedDestinationCards.clear();
-            _destinationCards.shuffle();
-        }
-
         if (_destinationCards.size() < DESTINATION_CARD_DEAL){
             // there are not enough cards left on the server
             return "There are not enough cards to choose from. Please try a different action.";
         }
 
+        int dealSize = ((_destinationCards.size() >= DESTINATION_CARD_DEAL) ? DESTINATION_CARD_DEAL : _destinationCards.size());
+
         ArrayList<DestCard> destCards = new ArrayList<DestCard>();
-        for (int cardCount = 0; cardCount < DESTINATION_CARD_DEAL; cardCount++){
+        for (int cardCount = 0; cardCount < dealSize; cardCount++){
             destCards.add((DestCard)_destinationCards.drawCard());
         }
 
         currPlayer.offerDestinationCards(destCards);
+
+        // ensure that there are enough destination cards left
+        if (_destinationCards.size() < DESTINATION_CARD_DEAL + 1){
+
+            System.out.println("discard size: " + _discardedDestinationCards.size());
+
+            _discardedDestinationCards.copyToDeck(_destinationCards);
+            _discardedDestinationCards.clear();
+            _destinationCards.shuffle();
+            System.out.println("shuffle cards - " + _destinationCards.size());
+        }
 
         _gameHistory.addCommand(ClientCommandFactory.createOfferDestCardsCommand(playerID, destCards));
         _gameHistory.addCommand(ClientCommandFactory.createDestCardDeckUpdatedCommand(_destinationCards.size()));

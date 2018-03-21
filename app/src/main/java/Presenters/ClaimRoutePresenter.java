@@ -2,7 +2,6 @@ package Presenters;
 
 import com.example.cs340.tickettoride.Views.IClaimRouteView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -14,7 +13,6 @@ import States.IState;
 import common.ICard;
 import common.Results;
 import common.Route;
-import common.TrainCard;
 
 /**
  * Created by Joseph on 3/5/2018.
@@ -57,46 +55,11 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
         claimRouteView.dialogCreateAndShow();
     }
 
-    /**
-     * Just converts a map of cards to a list of train cards
-     * @param cards a map of cards
-     * @return a list of train cards
-     */
-    private List<TrainCard> toCardList(Map<ICard, Integer> cards)
-    {
-        List<TrainCard> cardList = new ArrayList<>();
-        for (ICard card : cards.keySet())
-        {
-            Integer numCards = cards.get(card);
-            if (card != null && numCards != null && card.getClass() == TrainCard.class)
-            {
-                for (int cnt = 0; cnt < numCards; cnt++)
-                {
-                    cardList.add((TrainCard) card);
-                }
-            }
-        }
-        return cardList;
-    }
-
     @Override
     public void onPostExecute(Results result) {
-        String msg = "ERROR: Failed to claim route!";
-        if (result != null)
-        {
-            if (result.succeeded())
-            {
-                msg = "Route claimed successfully!";
-            }
-            else
-            {
-                msg = result.getError();
-            }
-        }
         if (claimRouteView != null)
         {
             claimRouteView.dismissDialog();
-            claimRouteView.showToast(msg);
         }
     }
 

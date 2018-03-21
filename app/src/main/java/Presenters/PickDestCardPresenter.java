@@ -13,7 +13,7 @@ import common.Deck;
 import common.DestCard;
 import common.Results;
 
-import static Testing.TestService.IS_TESTING;
+//import static Testing.TestService.IS_TESTING;
 
 /**
  * Created by Joseph on 3/5/2018.
@@ -27,6 +27,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
     private IState state;
     private final int MIN_DEST_CARD_REQ = 2;//The minimum number of dest cards a user must have
     private Deck keepers = null;//The destCards that the user is attempting to keep
+    private final boolean IS_TESTING = false;
     public PickDestCardPresenter(IPickDestCardView view)
     {
         this.mView = view;

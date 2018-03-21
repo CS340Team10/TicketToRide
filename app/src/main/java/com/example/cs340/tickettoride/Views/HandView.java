@@ -20,7 +20,7 @@ import common.DestCard;
 import common.ICard;
 import common.TrainCard;
 
-import static Testing.TestService.IS_TESTING;
+//import static Testing.TestService.IS_TESTING;
 
 /**
  * Create by Joseph on 27/Feb/2018
@@ -56,7 +56,7 @@ public class HandView extends Fragment implements IHandView, TabLayout.OnTabSele
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_hand_view, container, false);
-        if (IS_TESTING) {loadTestData();}
+        //if you would like to test this call the following: loadTestData()
         getSubviews(v);
         return v;
     }

@@ -1,5 +1,7 @@
 package Presenters;
 
+import android.content.Intent;
+
 import com.example.cs340.tickettoride.Views.IGamePlayView;
 
 import java.util.Observable;
@@ -33,5 +35,10 @@ public class GamePlayPresenter implements Observer, IPresenter, IGamePlayPresent
         view.setDestDeckSize(ClientModel.getInstance().getGame().getDestCardDeckNum());
         state = ClientModel.getInstance().getState();
         state.enableDisableButtons(view);
+        if (ClientModel.getInstance().getPointSummaries() != null
+                && !ClientModel.getInstance().getPointSummaries().isEmpty())
+        {
+            view.goToEndGameView();
+        }
     }
 }

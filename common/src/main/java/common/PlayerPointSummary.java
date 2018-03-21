@@ -41,14 +41,6 @@ public class PlayerPointSummary {
         this.destCardPoints = destCardPoints;
     }
 
-    public int getLongestRoutePoints() {
-        return longestRoutePoints;
-    }
-
-    public void setLongestRoutePoints(int longestRoutePoints) {
-        this.longestRoutePoints = longestRoutePoints;
-    }
-
     public boolean isWinner() {
         return isWinner;
     }

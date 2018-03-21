@@ -262,7 +262,10 @@ public class Game {
                 // check that the cards are valid
                 boolean cardsValid = true;
                 for (TrainCard card : cardsUsed){
-                    if ((card.getColor() == TrainCard.Colors.wildcard) || (card.getColor() == currRoute.getPathColor())){
+                    if ((currRoute.getPathColor() == TrainCard.Colors.wildcard)){
+                        // any card is accepted here
+                    }
+                    else if ((card.getColor() == TrainCard.Colors.wildcard) || (card.getColor() == currRoute.getPathColor())){
                         // the card is valid
                     }
                     else {

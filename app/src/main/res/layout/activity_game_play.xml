@@ -17,7 +17,7 @@
             android:layout_height="50dp">
             <LinearLayout
                 android:id="@+id/playerView1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
                 <TextView
@@ -29,7 +29,7 @@
             <LinearLayout
                 android:id="@+id/playerView2"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/playerText2"
@@ -40,7 +40,7 @@
             <LinearLayout
                 android:id="@+id/playerView3"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/playerText3"
@@ -51,7 +51,7 @@
             <LinearLayout
                 android:id="@+id/playerView4"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/playerText4"
@@ -61,7 +61,7 @@
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/playerView5"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
                 <TextView

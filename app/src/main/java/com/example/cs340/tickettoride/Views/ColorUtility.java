@@ -24,7 +24,7 @@ public class ColorUtility
     public static final int colorBlue = 0xFF0000FF;
     public static final int colorPurple = 0xFFFF00FF;
     public static final int colorOrange = 0xFFFF9900;
-    public static final int colorYellow = 0xFFFFFF00;
+    public static final int colorYellow = 0xFFCCCC00;
     public static final int colorPink = 0xFFFFBBAA;
 
     public static class BiColorContrastPalette

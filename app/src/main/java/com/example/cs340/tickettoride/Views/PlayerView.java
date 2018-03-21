@@ -72,6 +72,7 @@ public class PlayerView implements IPlayerView {
             case 4:
                 linearLayout = activity.findViewById(R.id.playerView5);
                 textView = activity.findViewById(R.id.playerText5);
+                break;
             default:
                 linearLayout = activity.findViewById(R.id.playerView1);
                 textView = activity.findViewById(R.id.playerText1);

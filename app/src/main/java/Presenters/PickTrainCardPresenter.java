@@ -44,4 +44,10 @@ public class PickTrainCardPresenter implements IPickTrainCardPresenter, IPresent
         view.setVisibleCards(ClientModel.getInstance().getGame().getFaceupTrainCards());
         state = ClientModel.getInstance().getState();
     }
+
+    public IPickTrainCardView getView()
+    {
+        return view;
+    }
+
 }

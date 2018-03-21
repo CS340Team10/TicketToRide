@@ -204,7 +204,7 @@ public class ServerModel {
         // get the Commands from the Game
         returnValue = game.getCommands(commandIndex);
 
-        System.out.println(toString());
+        //System.out.println(toString());
 
         return returnValue;
     }

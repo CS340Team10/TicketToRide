@@ -15,6 +15,8 @@ public class Game
     private int destCardDeckNum = 0;
     private int trainCardDeckNum = 0;
     ArrayList<TrainCard> faceupTrainCards = new ArrayList<>();
+    private boolean lastRoundBegan = false;
+
     public Game()
     {
 
@@ -74,4 +76,11 @@ public class Game
         this.faceupTrainCards = faceupTrainCards;
     }
 
+    public boolean isLastRoundBegan() {
+        return lastRoundBegan;
+    }
+
+    public void setLastRoundBegan(boolean lastRoundBegan) {
+        this.lastRoundBegan = lastRoundBegan;
+    }
 }

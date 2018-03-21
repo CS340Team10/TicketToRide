@@ -1,6 +1,7 @@
 package com.example.cs340.tickettoride.Views;
 
 import android.app.Activity;
+
 import common.Deck;
 
 /**
@@ -11,7 +12,6 @@ public interface IPickDestCardView
 {
     void offerDestCards(Deck cards, int minSelected);
     void dialogCreateAndShow();
-    void dismissDialog();
     void showToast(String msg);
     void setup(Activity activity);
 }

@@ -10,6 +10,7 @@ import common.GameRoutes;
 import common.ICard;
 import common.ICommand;
 import common.PlayerAttributes;
+import common.PlayerPointSummary;
 import common.Route;
 import common.TrainCard;
 
@@ -49,6 +50,11 @@ public class Game {
      */
     public final static int MAX_WILDS_AVALABLE = 2;
 
+    /**
+     * The minimum number of train cars that can be held by a player to continue game play
+     */
+    public final static int MIN_TRAIN_CARS_IN_GAME = 3;
+
     private CommandHistory _gameHistory = new CommandHistory();
     private List<Player> _players = new ArrayList<Player>();
     private int currPlayerTurn = 0;
@@ -64,6 +70,12 @@ public class Game {
     private String _name;
     private int _numOfPlayers;
     private boolean _didStart = false;
+
+    // keeps track of whether the game is in the last round
+    private boolean _isLastRound = false;
+
+    // keeps track of which player triggered the last round
+    private int _endGameTriggerPlayerIndex = -1;
 
     public Game(String name, int numOfPlayers) {
         _name = name;
@@ -240,7 +252,7 @@ public class Game {
             // verify that the route has not been claimed
             Route currRoute = getRoute(routeID);
 
-            if (!currRoute.getOwnedByPlayerID().equals("")){
+            if (currRoute.getOwnedByPlayerID() == null){
 
                 // check that there are enough cards
                 if (currRoute.getRouteLength() != cardsUsed.size()){
@@ -250,7 +262,10 @@ public class Game {
                 // check that the cards are valid
                 boolean cardsValid = true;
                 for (TrainCard card : cardsUsed){
-                    if ((card.getColor() == TrainCard.Colors.wildcard) || (card.getColor() == currRoute.getPathColor())){
+                    if ((currRoute.getPathColor() == TrainCard.Colors.wildcard)){
+                        // any card is accepted here
+                    }
+                    else if ((card.getColor() == TrainCard.Colors.wildcard) || (card.getColor() == currRoute.getPathColor())){
                         // the card is valid
                     }
                     else {
@@ -280,6 +295,13 @@ public class Game {
 
                         // discard the used cards
                         _discardedTrainCards.addCards(cardsUsed);
+
+                        // award the player points for the route
+                        currPlayer.incrementPoints(currRoute.getPointValue());
+                        _gameHistory.addCommand(ClientCommandFactory.createPlayerUpdatedCommand(getPlayerAttributes(currPlayer)));
+
+                        // inform the clients that the route has been claimed
+                        _gameHistory.addCommand(ClientCommandFactory.createRouteClaimedCommand(playerID, routeID, cardsUsed));
 
                         return "";
                     }
@@ -446,7 +468,7 @@ public class Game {
      */
     private Route getRoute(String routeID){
         for (Route route: _routes){
-            if (route.getRouteID() == routeID){
+            if (route.getRouteID().equals(routeID)){
                 return route;
             }
         }
@@ -475,6 +497,28 @@ public class Game {
      * Sets the turn of the next player and triggers a command to notify the clients
      */
     private void incrementCurrPlayer(){
+
+        // ----------------------------------------------------------------------------
+        // check if the game state needs to change
+        // ----------------------------------------------------------------------------
+        // check how many train cars the former "currPlayerTurn" has
+        if (!_isLastRound){
+            if (_players.get(currPlayerTurn).getTrainCars() < MIN_TRAIN_CARS_IN_GAME){
+                // the player that just ended their turn triggered the last round
+                _isLastRound = true;
+                _gameHistory.addCommand(ClientCommandFactory.createLastRoundBeganCommand());
+                _endGameTriggerPlayerIndex = currPlayerTurn;
+            }
+        }
+        else {
+            if (currPlayerTurn == _endGameTriggerPlayerIndex){
+                // the game is over
+                endGame();
+                return;
+            }
+        }
+
+
         if (currPlayerTurn == _players.size() - 1){
             // reset to 0
             currPlayerTurn = 0;
@@ -781,8 +825,19 @@ public class Game {
      *
      * @return a PlayerAttributes Object for the specified Player
      */
-    private PlayerAttributes getPlayerAttributes(int playerIndex){
+    private PlayerAttributes getPlayerAttributes(int playerIndex) {
         Player currPlayer = _players.get(playerIndex);
+
+        return getPlayerAttributes(currPlayer);
+    }
+    /**
+     * Creates a PlayerAttribute Object for the specified Player
+     *
+     * @param currPlayer the Player to return the PlayerAttributes for
+     *
+     * @return a PlayerAttributes Object for the specified Player
+     */
+    private PlayerAttributes getPlayerAttributes(Player currPlayer){
 
         PlayerAttributes returnValue = new PlayerAttributes();
         returnValue.playerId = currPlayer.getPlayerID();
@@ -794,5 +849,123 @@ public class Game {
         returnValue.trainCarNum = currPlayer.getTrainCars();
 
         return returnValue;
+    }
+
+    /**
+     * Ends the game and calculates the points for each player
+     */
+    private void endGame(){
+
+        // get the destination card points
+        for (Player currPlayer : _players){
+            currPlayer.calculateFinalPoints(_routes);
+        }
+
+        // determine who has the longest route
+        calculateLongestRoute();
+
+        // determine the winner
+        determineWinner();
+
+        ArrayList<PlayerPointSummary> playerPoints = new ArrayList<PlayerPointSummary>();
+        for (Player currPlayer : _players){
+            playerPoints.add(currPlayer.getPlayerPoints());
+        }
+
+        _gameHistory.addCommand(ClientCommandFactory.createGameOverStatisticsCommand(playerPoints));
+    }
+
+    /**
+     * Calculates which player has the longest route and awards them bonus points
+     */
+    private void calculateLongestRoute(){
+
+        // get the player(s) that have the longest route
+        List<Integer> longestPathIndexes = PlayerGraph.calculateLongestPath(_players, _routes);
+        for (int index : longestPathIndexes) {
+            // apply the bonus
+            _players.get(index).applyLongestPathBonus();
+        }
+    }
+
+    /**
+     * Determines which Player is the winner
+     */
+    private void determineWinner(){
+
+        int highestPoints = 0;
+        List<Integer> winnerIndexes = new ArrayList<Integer>();
+        int finalWinnerIndex = -1;
+
+        for (int count = 0; count < _players.size(); count++){
+            Player currPlayer = _players.get(count);
+
+            int currPoints = currPlayer.getPlayerPoints().getTotalPoints();
+
+            if (currPoints == highestPoints) {
+                winnerIndexes.add(count);
+            }
+            if (currPoints > highestPoints) {
+                highestPoints = currPoints;
+                winnerIndexes.clear();
+                winnerIndexes.add(count);
+            }
+        }
+
+        if (winnerIndexes.size() > 1){
+            // there was a tie, so go to the destination cards to determine the winner
+
+            int mostDestCardsFinished = -1;
+            List<Integer> destWinnerIndexes = new ArrayList<Integer>();
+
+            for (int winnerIndex : winnerIndexes){
+                int currDestCardCount = _players.get(winnerIndex).getCompletedDestCardCount();
+
+                if (currDestCardCount == mostDestCardsFinished){
+                    // the number of finished dest cards is the same
+                    destWinnerIndexes.add(winnerIndex);
+                }
+                else if (currDestCardCount > mostDestCardsFinished){
+                    // this player finished more destination cards
+                    mostDestCardsFinished = currDestCardCount;
+                    destWinnerIndexes.clear();
+                    destWinnerIndexes.add(winnerIndex);
+                }
+            }
+
+            if (destWinnerIndexes.size() > 1){
+
+                // there was still a tie, so go to the Longest Route Bonus to determine the winner
+
+                List<Integer> longestRouteWinnerIndex = new ArrayList<Integer>();
+                for (int destWinnerIndex : destWinnerIndexes){
+                    if (_players.get(destWinnerIndex).getPlayerPoints().getLongestRoutePoints() > 0){
+                        longestRouteWinnerIndex.add(destWinnerIndex);
+                    }
+                }
+
+                if (longestRouteWinnerIndex.size() > 1){
+
+                    // if there is still a tie at this point, then choose the first player in the list as the winner
+                    finalWinnerIndex = longestRouteWinnerIndex.get(0);
+                }
+                else {
+                    // chose the only winner
+                    finalWinnerIndex = longestRouteWinnerIndex.get(0);
+                }
+
+            }
+            else {
+                // there is only one winner at this point
+                finalWinnerIndex = destWinnerIndexes.get(0);
+            }
+        }
+        else {
+            // there were no ties at all, so there is only one winner
+            finalWinnerIndex = winnerIndexes.get(0);
+        }
+
+        _players.get(finalWinnerIndex).setWinner();
+
     }
 }

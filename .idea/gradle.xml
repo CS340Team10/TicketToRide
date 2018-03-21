@@ -8,12 +8,22 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/antlr4-runtime-4.6" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/commons-lang3-3.5" />
             <option value="$PROJECT_DIR$/gson-2.8.2" />
             <option value="$PROJECT_DIR$/jackson-annotations-2.9.4" />
             <option value="$PROJECT_DIR$/jackson-core-2.9.4" />
             <option value="$PROJECT_DIR$/jackson-databind-2.9.4" />
+            <option value="$PROJECT_DIR$/jgraph-5.13.0.0" />
+            <option value="$PROJECT_DIR$/jgrapht-core-1.1.0" />
+            <option value="$PROJECT_DIR$/jgrapht-demo-1.1.0" />
+            <option value="$PROJECT_DIR$/jgrapht-ext-1.1.0" />
+            <option value="$PROJECT_DIR$/jgrapht-ext-1.1.0-uber" />
+            <option value="$PROJECT_DIR$/jgrapht-io-1.1.0" />
+            <option value="$PROJECT_DIR$/jgrapht-io-1.1.0-uber" />
+            <option value="$PROJECT_DIR$/jgraphx-2.0.0.1" />
             <option value="$PROJECT_DIR$/server" />
           </set>
         </option>

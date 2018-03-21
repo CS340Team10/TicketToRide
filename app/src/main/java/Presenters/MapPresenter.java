@@ -7,7 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ClientModel.ClientModel;
-import common.PlayerAttributes;
+import ClientModel.Player;
 import common.Results;
 import common.Route;
 
@@ -31,8 +31,10 @@ public class MapPresenter implements IMapPresenter, IPresenter, Observer {
     public void update(Observable observable, Object o) {
         List<Route> routes = ClientModel.getInstance().getGameRoutes();
         for(Route r : routes) {
-            if (r.getOwnedByPlayerID() != null)
-                view.drawRouteAsClaimed(r.getRouteID(), PlayerAttributes.Color.green);
+            if (r.getOwnedByPlayerID() != null) {
+                Player player = ClientModel.getInstance().getPlayerByID(r.getOwnedByPlayerID());
+                view.drawRouteAsClaimed(r.getRouteID(), player.getColor());
+            }
         }
     }
 }

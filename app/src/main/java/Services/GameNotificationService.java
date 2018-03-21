@@ -80,6 +80,8 @@ public class GameNotificationService {
 
         if (isMe(playerId)) {
             model.removeTrainCards(cardsUsed);
+        } else {
+            model.removeTrainCards(playerId, cardsUsed);
         }
     }
 

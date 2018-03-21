@@ -30,6 +30,7 @@ public class ClientModel extends Observable
     private ChatHistory chatHistory = new ChatHistory();
     private GameHistory gameHistory = new GameHistory();
     private IState gameState = new StartGameState();
+    private List<PlayerPointSummary> pointSummaries = new ArrayList<>();
 
     public static ClientModel getInstance()
     {
@@ -217,6 +218,22 @@ public class ClientModel extends Observable
         notifyObservers();
     }
 
+    public void removeTrainCards(String playerId, List<TrainCard> cards) {
+        // For each card in cards, remove from list of train cards
+        Deck deck = getPlayerByID(playerId).getTrainCards();
+        for(TrainCard card : cards)
+        {
+            TrainCard drawnCard = (TrainCard) deck.drawCard();
+            while(!drawnCard.getColor().equals(card.getColor()))
+            {
+                deck.addCard(drawnCard);
+                drawnCard = (TrainCard) deck.drawCard();
+            }
+        }
+        setChanged();
+        notifyObservers();
+    }
+
     public void addDestCards(Deck cards) {
         // Add card to my list of dest cards
 
@@ -277,14 +294,18 @@ public class ClientModel extends Observable
     }
 
     public void gameOver(List<PlayerPointSummary> pointSummaries) {
-        // TODO: Store summaries
+        this.pointSummaries = pointSummaries;
 
         setChanged();
         notifyObservers();
     }
 
+    public List<PlayerPointSummary> getPointSummaries() {
+        return pointSummaries;
+    }
+
     public void lastRoundBegan() {
-        // TODO: Store the fact that we are now on the last round.
+        game.setLastRoundBegan(true);
 
         setChanged();
         notifyObservers();

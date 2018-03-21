@@ -1,7 +1,5 @@
 package Model;
 
-import com.sun.security.ntlm.Client;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -254,7 +252,7 @@ public class Game {
             // verify that the route has not been claimed
             Route currRoute = getRoute(routeID);
 
-            if (!currRoute.getOwnedByPlayerID().equals("")){
+            if (currRoute.getOwnedByPlayerID() == null){
 
                 // check that there are enough cards
                 if (currRoute.getRouteLength() != cardsUsed.size()){
@@ -467,7 +465,7 @@ public class Game {
      */
     private Route getRoute(String routeID){
         for (Route route: _routes){
-            if (route.getRouteID() == routeID){
+            if (route.getRouteID().equals(routeID)){
                 return route;
             }
         }

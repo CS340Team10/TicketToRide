@@ -67,7 +67,7 @@ public class ClientCommandFactory {
     }
 
     public static ICommand createRouteClaimedCommand(String playerId, String routeId, List<TrainCard> cardsUsed) {
-        Command command = new Command("Services.GameNotificationService", "routeClaimed", new String[]{"java.lang.String", "java.lang.String", "java.util.List"}, new Object[]{playerId, routeId} );
+        Command command = new Command("Services.GameNotificationService", "routeClaimed", new String[]{"java.lang.String", "java.lang.String", "java.util.List"}, new Object[]{playerId, routeId, cardsUsed} );
         return command;
     }
 

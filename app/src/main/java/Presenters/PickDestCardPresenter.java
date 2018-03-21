@@ -13,8 +13,6 @@ import common.Deck;
 import common.DestCard;
 import common.Results;
 
-import static Testing.TestService.IS_TESTING;
-
 /**
  * Created by Joseph on 3/5/2018.
  *
@@ -25,8 +23,8 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
 {
     private IPickDestCardView mView;
     private IState state;
-    private final int MIN_DEST_CARD_REQ = 2;//The minimum number of dest cards a user must have
-    private Deck keepers = null;//The destCards that the user is attempting to keep
+    private int minSelect = 2;
+
     public PickDestCardPresenter(IPickDestCardView view)
     {
         this.mView = view;
@@ -44,66 +42,29 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
     public void requestDestCards()
     {
         state.requestedDestCards(this);
+        minSelect = 1; // After the first pick to setup the game.
     }
 
-    private static boolean firstTime = true; //ONLY USED FOR TESTING THIS METHOD
     @Override
     public void update(Observable o, Object arg)
     {
-        Deck offeredCards;
-        if (IS_TESTING && firstTime)
+        state = ClientModel.getInstance().getState();
+
+        Deck offeredCards = ClientModel.getInstance().getUser().getOfferedDestCards();
+
+        if (offeredCards != null && offeredCards.size() > 0)
         {
-            firstTime = false;
-            offeredCards = new Deck();
-            offeredCards.addCard(new DestCard("Albuquerque1", "Santa Fe1", 10));
-            offeredCards.addCard(new DestCard("Albuquerque2", "Santa Fe2", 20));
-            offeredCards.addCard(new DestCard("Albuquerque3", "Santa Fe3", 30));
-            mView.offerDestCards(offeredCards, 2);
+            mView.offerDestCards(offeredCards, minSelect);
             mView.dialogCreateAndShow();
         }
-        else
-        {
-            state = ClientModel.getInstance().getState();
-            offeredCards = ClientModel.getInstance().getUser().getOfferedDestCards();
-            Deck cardsInHand = ClientModel.getInstance().getUser().getDestCards();
-            int minSelect = MIN_DEST_CARD_REQ - cardsInHand.size();
-            if (minSelect < 0)
-            {
-                minSelect = 0;
-            }
-            if (offeredCards != null && offeredCards.size() > 0)
-            {
-                mView.offerDestCards(offeredCards, minSelect);
-                mView.dialogCreateAndShow();
-            }
-        }
+
     }
 
     @Override
     public void onPostExecute(Results result)
     {
-        if (keepers != null)//This means that the user is attempting to keep Dest Cards
-        {
-            mView.dismissDialog();//Dismiss the dialog
-            //Show a Toast on whether it worked or not
-            String msg = "Cards could not be selected!";//Assume it didn't work
-            if (result.succeeded()) {
-                msg = "Cards were successfully selected!";//If it worked, say so
-                ClientModel.getInstance().setOfferedDestCards(new ArrayList<DestCard>());
-            }
-            mView.showToast(msg);
-            keepers = null;
-        }
-        else//this means that the user pushed the "Draw Dest Cards" button
-        {
-            if (result.succeeded())
-            {
-//                mView.dialogCreateAndShow();
-            }
-            else
-            {
-                mView.showToast(result.getError());
-            }
+        if (result.succeeded()) {
+            ClientModel.getInstance().setOfferedDestCards(new ArrayList<DestCard>());
         }
     }
 }

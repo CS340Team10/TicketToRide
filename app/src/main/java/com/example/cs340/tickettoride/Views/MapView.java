@@ -14,9 +14,9 @@ import com.example.cs340.tickettoride.R;
 import java.util.HashMap;
 import java.util.Map;
 
+import ClientModel.Player;
 import Presenters.IMapPresenter;
 import Presenters.MapPresenter;
-import common.PlayerAttributes;
 
 /**
  * Created by ephraimkunz on 2/28/18.
@@ -31,7 +31,7 @@ public class MapView implements IMapView{
     IMapPresenter presenter = new MapPresenter(this);
 
     @Override
-    public void drawRouteAsClaimed(String routeId, PlayerAttributes.Color playerColor) {
+    public void drawRouteAsClaimed(String routeId, Player.PlayerColors playerColor) {
         // Get points
         Point[] points = routeIdToPoints.get(routeId);
 
@@ -49,7 +49,7 @@ public class MapView implements IMapView{
         iv.setImageBitmap(bitmap);
     }
 
-    private int getGraphicsColorForPlayerColor(PlayerAttributes.Color playerColor) {
+    private int getGraphicsColorForPlayerColor(Player.PlayerColors playerColor) {
         return ColorUtility.getColorFromPlayer(playerColor);
     }
 

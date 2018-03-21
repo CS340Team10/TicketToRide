@@ -8,7 +8,7 @@ import common.PlayerPointSummary;
  * Created by Joseph on 3/19/2018.
  */
 
-interface IGameEndView
+public interface IGameEndView
 {
     void loadPointSummary(List<PlayerPointSummary> playerPointSummaries);
 }

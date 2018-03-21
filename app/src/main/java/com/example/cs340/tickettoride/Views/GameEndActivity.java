@@ -17,7 +17,7 @@ import common.PlayerPointSummary;
 public class GameEndActivity extends AppCompatActivity implements IGameEndView
 {
     private final int MAX_SUPPORTED_PLAYERS = 5;//The view is designed to only display up to 5 people
-    IGameEndPresenter presenter = new GameEndPresenter();
+    IGameEndPresenter presenter = new GameEndPresenter(this);
     TextView[] txtPlayerNames = new TextView[MAX_SUPPORTED_PLAYERS];
     TextView[] txtClaimedRoutePnts = new TextView[MAX_SUPPORTED_PLAYERS];
     TextView[] txtDestCardPnts = new TextView[MAX_SUPPORTED_PLAYERS];

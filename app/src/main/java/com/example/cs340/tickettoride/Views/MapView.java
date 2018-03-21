@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.widget.ImageView;
@@ -35,14 +36,19 @@ public class MapView implements IMapView{
         // Get points
         Point[] points = routeIdToPoints.get(routeId);
 
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
+        Paint paintFG = new Paint();
+        paintFG.setAntiAlias(true);
         int drawColor = getGraphicsColorForPlayerColor(playerColor);
-        paint.setColor(drawColor);
+        paintFG.setColor(drawColor);
+
+        Paint paintBG = new Paint();
+        paintBG.setAntiAlias(true);
+        paintBG.setColor(Color.BLACK);
 
         Canvas canvas = new Canvas(bitmap);
         for (Point p : points) {
-            canvas.drawCircle(p.x, p.y, 10, paint);
+            canvas.drawCircle(p.x, p.y, 10, paintBG);
+            canvas.drawCircle(p.x, p.y, 8, paintFG);
         }
 
         iv.setAdjustViewBounds(true);

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.cs340.tickettoride.R;
 
+import Communication.ClientCommunicator;
 import Presenters.IRegisterLoginPresenter;
 import Presenters.RegisterLoginPresenter;
 
@@ -24,6 +25,9 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
     private EditText registerUsername;
     private EditText registerPassword;
     private EditText registerPasswordConfirm;
+
+    private Button setIp;
+    private EditText ipAddress;
 
     // We would prefer to pass this in, but since this is the first view launched, the system instantiates it.
     private IRegisterLoginPresenter presenter = new RegisterLoginPresenter(this);
@@ -51,6 +55,8 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
         registerUsername = findViewById(R.id.registerUsername);
         registerPassword = findViewById(R.id.registerPassword);
         registerPasswordConfirm = findViewById(R.id.registerPasswordConfirm);
+        setIp = findViewById(R.id.setIpAddress);
+        ipAddress = findViewById(R.id.ipAddress);
     }
 
     private void setupListeners() {
@@ -73,6 +79,16 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
         registerUsername.addTextChangedListener(this);
         registerPassword.addTextChangedListener(this);
         registerPasswordConfirm.addTextChangedListener(this);
+
+        ipAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!ipAddress.getText().toString().isEmpty()) {
+                    ClientCommunicator.getInstance().setIPAddress(ipAddress.getText().toString());
+                    Toast.makeText(getApplicationContext(), "IP Address set to " + ClientCommunicator.getInstance().getIPAddress(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     // IRegisterLoginView

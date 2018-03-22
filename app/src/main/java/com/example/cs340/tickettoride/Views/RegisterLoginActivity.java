@@ -80,7 +80,7 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
         registerPassword.addTextChangedListener(this);
         registerPasswordConfirm.addTextChangedListener(this);
 
-        ipAddress.setOnClickListener(new View.OnClickListener() {
+        setIp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!ipAddress.getText().toString().isEmpty()) {

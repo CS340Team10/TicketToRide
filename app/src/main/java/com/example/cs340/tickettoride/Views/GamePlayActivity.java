@@ -1,5 +1,6 @@
 package com.example.cs340.tickettoride.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -132,6 +133,12 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     {
         String btnText = "Draw Dest Cards ("+Integer.toString(n)+")";
         destCardButton.setText(btnText);
+    }
+
+    @Override
+    public void goToEndGameView() {
+        Intent intent = new Intent(this, GameEndActivity.class);
+        startActivity(intent);
     }
 
 

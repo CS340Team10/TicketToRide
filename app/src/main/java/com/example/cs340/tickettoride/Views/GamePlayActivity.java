@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.cs340.tickettoride.R;
 
@@ -30,6 +31,7 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     Button trainCardButton;
     Button destCardButton;
     Button claimRouteButton;
+    TextView lastRoundWarningTxt;
 
     IGamePlayPresenter presenter;
 
@@ -52,6 +54,8 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         trainCardButton = findViewById(R.id.drawTrainCardsButton);
         destCardButton = findViewById(R.id.drawDestCardsButton);
         claimRouteButton = findViewById(R.id.claimRouteButton);
+        lastRoundWarningTxt = findViewById(R.id.lastRoundWarningTxt);
+        hideLastRoundWarning();
         presenter = new GamePlayPresenter(this); // Must create after buttons inflated.
 
         if (getFragmentManager().findFragmentById(R.id.leftDrawer) == null)
@@ -139,6 +143,24 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
     public void goToEndGameView() {
         Intent intent = new Intent(this, GameEndActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void showLastRoundWarning()
+    {
+        if (lastRoundWarningTxt != null)
+        {
+            lastRoundWarningTxt.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideLastRoundWarning()
+    {
+        if (lastRoundWarningTxt != null)
+        {
+            lastRoundWarningTxt.setVisibility(View.INVISIBLE);
+        }
     }
 
 

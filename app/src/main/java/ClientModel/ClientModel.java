@@ -319,4 +319,9 @@ public class ClientModel extends Observable
         setChanged();
         notifyObservers();
     }
+
+    public boolean hasLastRoundBegan()
+    {
+        return game.isLastRoundBegan();
+    }
 }

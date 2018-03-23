@@ -40,5 +40,9 @@ public class GamePlayPresenter implements Observer, IPresenter, IGamePlayPresent
         {
             view.goToEndGameView();
         }
+        if (ClientModel.getInstance().hasLastRoundBegan())
+        {
+            view.showLastRoundWarning();
+        }
     }
 }

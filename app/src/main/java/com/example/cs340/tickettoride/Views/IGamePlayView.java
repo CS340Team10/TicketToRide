@@ -14,4 +14,6 @@ public interface IGamePlayView
     void disableClaimRouteButton();
     void setDestDeckSize(int n);
     void goToEndGameView();
+    void showLastRoundWarning();
+    void hideLastRoundWarning();
 }

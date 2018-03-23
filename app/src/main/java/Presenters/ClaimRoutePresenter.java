@@ -61,6 +61,10 @@ public class ClaimRoutePresenter implements IClaimRoutePresenter, IPresenter, Ob
         {
             claimRouteView.dismissDialog();
         }
+        if (result != null && !result.succeeded())
+        {
+            claimRouteView.showToast(result.getError());
+        }
     }
 
     @Override

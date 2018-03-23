@@ -32,8 +32,13 @@ public class PickTrainCardPresenter implements IPickTrainCardPresenter, IPresent
     }
 
     @Override
-    public void onPostExecute(Results result) {
-        if (result.succeeded()) {
+    public void onPostExecute(Results result)
+    {
+        if (result != null && !result.succeeded())
+        {
+            view.showToast(result.getError());
+        }
+        else if (result.succeeded()) {
             view.dismissView();
         }
     }

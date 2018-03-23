@@ -21,37 +21,37 @@ import common.TrainCard;
 public class Game {
 
     /**
-     * The number of cards that are face up at any point in the game
+     * The number of cards that are face up at any point in the game (5)
      */
     public final static int FACE_UP_CARD_MAX = 5;
 
     /**
-     * The number of train cards initially dealt to each player
+     * The number of train cards initially dealt to each player (4)
      */
     public final static int BEGINNING_TRAIN_HAND_COUNT = 4;
 
     /**
-     * The number of destination cards dealt to each player
+     * The number of destination cards dealt to each player (3)
      */
     public final static int DESTINATION_CARD_DEAL = 3;
 
     /**
-     * The number of wild train cards in the deck
+     * The number of wild train cards in the deck (14)
      */
     public final static int WILD_TRAIN_CARDS_COUNT = 14;
 
     /**
-     * The number of normal train cards of each color in the deck
+     * The number of normal train cards of each color in the deck (12)
      */
     public final static int NORMAL_TRAIN_CARDS_COUNT = 12;
 
     /**
-     * The maximum number of wild cards that are available in the face up deck
+     * The maximum number of wild cards that are available in the face up deck (2)
      */
     public final static int MAX_WILDS_AVALABLE = 2;
 
     /**
-     * The minimum number of train cars that can be held by a player to continue game play
+     * The minimum number of train cars that can be held by a player to continue game play (3)
      */
     public final static int MIN_TRAIN_CARS_IN_GAME = 3;
 
@@ -795,7 +795,7 @@ public class Game {
             return "There is no such player.";
         }
 
-        if (_destinationCards.size() < DESTINATION_CARD_DEAL){
+        if (_destinationCards.size() == 0){
             // there are not enough cards left on the server
             return "There are not enough cards to choose from. Please try a different action.";
         }

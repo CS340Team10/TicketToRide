@@ -15,4 +15,5 @@ public interface IPickTrainCardView {
     void setVisibleCards(List<TrainCard> cards);
     void setInvisibleCards(int invisible);
     void dismissView();
+    void showToast(String message);
 }

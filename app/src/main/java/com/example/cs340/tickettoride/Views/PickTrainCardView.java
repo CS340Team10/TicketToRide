@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.cs340.tickettoride.R;
 
@@ -133,5 +134,11 @@ public class PickTrainCardView implements IPickTrainCardView {
     public Activity getActivity()
     {
         return activity;
+    }
+
+    @Override
+    public void showToast(String message)
+    {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

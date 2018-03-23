@@ -38,7 +38,7 @@ public class PickTrainCardView implements IPickTrainCardView {
                 .setSingleChoiceItems(stringsFromCards(), -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i == 5) {
+                        if (invisible > 0 && i == stringsFromCards().length - 1) {
                             // Picked from facedown
                             choseFacedown = true;
                             chosenCard = null;
@@ -58,6 +58,9 @@ public class PickTrainCardView implements IPickTrainCardView {
             @Override
             public void onShow(DialogInterface dialogInterface) {
                 Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                if(visible.size() == 0) {
+                    button.setEnabled(false);
+                }
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -100,18 +103,18 @@ public class PickTrainCardView implements IPickTrainCardView {
         invisible = 0;
     }
 
-    private String[] stringsFromCards() {
-        String[] result = new String[6];
-        for(int i = 0; i < 5; ++i) {
-            if (i > visible.size() - 1) {
-                // Not initialized yet
-                result[i] = String.format("Fake Card %d", i + 1);
-            } else {
-                result[i] = visible.get(i).getColor().toString();
-            }
+    private CharSequence[] stringsFromCards() {
+        List<String> result = new ArrayList<>();
+        for(int i = 0; i < visible.size(); ++i) {
+            result.add(visible.get(i).getColor().toString());
         }
-        result[5] = String.format("Choose From Deck (%d)", invisible);
-        return result;
+
+        if(invisible > 0) {
+            result.add(String.format("Choose From Deck (%d)", invisible));
+        }
+
+        CharSequence[] cs = result.toArray(new CharSequence[result.size()]);
+        return cs;
     }
 
     @Override

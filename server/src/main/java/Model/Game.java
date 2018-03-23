@@ -38,12 +38,12 @@ public class Game {
     /**
      * The number of wild train cards in the deck (14)
      */
-    public final static int WILD_TRAIN_CARDS_COUNT = 14;
+    public final static int WILD_TRAIN_CARDS_COUNT = 2;
 
     /**
      * The number of normal train cards of each color in the deck (12)
      */
-    public final static int NORMAL_TRAIN_CARDS_COUNT = 12;
+    public final static int NORMAL_TRAIN_CARDS_COUNT = 2;
 
     /**
      * The maximum number of wild cards that are available in the face up deck (2)
@@ -699,11 +699,10 @@ public class Game {
      */
     private void repopulateFaceUpCards(){
 
-        boolean triggerCommand = false;
-
         for (int count = _faceUpTrainCards.size(); count < FACE_UP_CARD_MAX; count++){
-            triggerCommand = true;
-            _faceUpTrainCards.addCard(_trainCards.drawCard());
+            if (_trainCards.size() > 0) {
+                _faceUpTrainCards.addCard(_trainCards.drawCard());
+            }
         }
 
         // check if there are three wild cards in the deck

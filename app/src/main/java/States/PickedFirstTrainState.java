@@ -30,7 +30,7 @@ public class PickedFirstTrainState extends IState {
     @Override
     public void choseTrainCard(IPresenter presenter, TrainCard card)
     {
-        if(card.getColor().equals(TrainCard.Colors.wildcard))
+        if(card != null && card.getColor().equals(TrainCard.Colors.wildcard))
         {
             //need to send a toast here
             PickTrainCardPresenter pickTrainCardPresenter = (PickTrainCardPresenter) presenter;

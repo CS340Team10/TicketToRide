@@ -30,7 +30,7 @@ public class MyTurnState extends IState {
         GamePlayService.getInstance().selectTrainCard(presenter, card);
         if(
                 (card != null && card.getColor().equals(TrainCard.Colors.wildcard)) ||
-                (ClientModel.getInstance().getGame().getFaceupTrainCards().size() == 1))
+                (noMoreFaceupToDraw()))
         {
             GamePlayService.getInstance().turnEnded(presenter);
             ClientModel.getInstance().setState(new NotMyTurnState());
@@ -38,6 +38,12 @@ public class MyTurnState extends IState {
         else {
             ClientModel.getInstance().setState(new PickedFirstTrainState());
         }
+    }
+
+    private boolean noMoreFaceupToDraw() {
+        return (ClientModel.getInstance().getGame().getFaceupTrainCards().size() == 1);
+
+        // TODO: If the last cards are wild and red and I draw red, make sure that the turn ends and I don't get stuck.
     }
 
     @Override

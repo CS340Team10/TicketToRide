@@ -27,14 +27,20 @@
         <activity
             android:name=".Views.WaitForGameActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".Views.GamePlayActivity"
+        <activity
+            android:name=".Views.GamePlayActivity"
             android:screenOrientation="landscape">
-            <!--intent-filter>
+
+            <!--
+            intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter-->
+            </intent-filter
+            -->
         </activity>
+        <activity android:name=".Views.GameEndActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

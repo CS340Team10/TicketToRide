@@ -295,7 +295,6 @@ public class ClientModel extends Observable
 
     public void gameOver(List<PlayerPointSummary> pointSummaries) {
         this.pointSummaries = pointSummaries;
-
         setChanged();
         notifyObservers();
     }

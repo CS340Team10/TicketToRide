@@ -17,6 +17,38 @@ public class PlayerPointSummary {
     private int longestRoutePoints;
     private boolean isWinner;
 
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
+
+    public int getClaimedRoutePoints() {
+        return claimedRoutePoints;
+    }
+
+    public void setClaimedRoutePoints(int claimedRoutePoints) {
+        this.claimedRoutePoints = claimedRoutePoints;
+    }
+
+    public int getDestCardPoints() {
+        return destCardPoints;
+    }
+
+    public void setDestCardPoints(int destCardPoints) {
+        this.destCardPoints = destCardPoints;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
+    }
+
+    public void setWinner(boolean winner) {
+        isWinner = winner;
+    }
+
     @JsonCreator
     public PlayerPointSummary(@JsonProperty("playerId") String playerId, @JsonProperty("claimedRoutePoints") int claimedRoutePoints, @JsonProperty("destCardPoints") int destCardPoints, @JsonProperty("longestRoutePoints") int longestRoutePoints, @JsonProperty("isWinner") boolean isWinner) {
         this.playerId = playerId;

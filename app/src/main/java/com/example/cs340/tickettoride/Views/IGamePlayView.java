@@ -13,4 +13,5 @@ public interface IGamePlayView
     void enableClaimRouteButton();
     void disableClaimRouteButton();
     void setDestDeckSize(int n);
+    void goToEndGameView();
 }

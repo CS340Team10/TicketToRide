@@ -18,6 +18,12 @@ public class GameEndActivity extends AppCompatActivity implements IGameEndView
 {
     private final int MAX_SUPPORTED_PLAYERS = 5;//The view is designed to only display up to 5 people
     IGameEndPresenter presenter = new GameEndPresenter(this);
+    String[] playerNames = new String[MAX_SUPPORTED_PLAYERS];
+    String[] claimedRoutePnts = new String[MAX_SUPPORTED_PLAYERS];
+    String[] destCardPnts = new String[MAX_SUPPORTED_PLAYERS];
+    String[] longestRoutePnts = new String[MAX_SUPPORTED_PLAYERS];
+    String[] totalPnts = new String[MAX_SUPPORTED_PLAYERS];
+    String[] wonGame = new String[MAX_SUPPORTED_PLAYERS];
     TextView[] txtPlayerNames = new TextView[MAX_SUPPORTED_PLAYERS];
     TextView[] txtClaimedRoutePnts = new TextView[MAX_SUPPORTED_PLAYERS];
     TextView[] txtDestCardPnts = new TextView[MAX_SUPPORTED_PLAYERS];
@@ -42,19 +48,19 @@ public class GameEndActivity extends AppCompatActivity implements IGameEndView
             txtTotalPnts[i] = container.findViewWithTag("txtTotalP"+pN);
             txtWonGame[i] = container.findViewWithTag("txtWonP"+pN);
         }
+        updateSummaryViews();
     }
 
     /**
-     * @post This will take the player point summaries and load them into the view.
+     * @post This will take the player point summaries and store them (to be shown when the views are ready)
      * @post Can support displaying up to 5 players
      * @post If the list is empty, then no players will be shown
-     * @post None of the categorical labels are affected
-     * @pre This method should not be called until AFTER onCreate() has happened
      * @pre the list of playerPointSummaries should not be null.
      * @param playerPointSummaries the list of objects containing the summary of players' points and achievements to show at the end of the game
      */
     @Override
-    public void loadPointSummary(List<PlayerPointSummary> playerPointSummaries) {
+    public void loadPointSummary(List<PlayerPointSummary> playerPointSummaries)
+    {
         //load the point summaries so they are displayed in the grid view
         int numPlayers = playerPointSummaries.size();//get the number of players to display
         if (numPlayers > MAX_SUPPORTED_PLAYERS)//if we can't support that many
@@ -66,34 +72,46 @@ public class GameEndActivity extends AppCompatActivity implements IGameEndView
         }
         for (int i = 0; i < MAX_SUPPORTED_PLAYERS; i++)//Loop through all views, filling relevant ones with data and blanking out others
         {
-            String playerNames = "";
-            String claimedRoutePnts = "";
-            String destCardPnts = "";
-            String longestRoutePnts = "";
-            String totalPnts = "";
-            String wonGame = "";
+            playerNames[i] = "";
+            claimedRoutePnts[i] = "";
+            destCardPnts[i] = "";
+            longestRoutePnts[i] = "";
+            totalPnts[i] = "";
+            wonGame[i] = "";
             if (i < numPlayers)
             {
-                playerNames = playerPointSummaries.get(i).getPlayerId();
-                claimedRoutePnts = Integer.toString(playerPointSummaries.get(i).getClaimedRoutePoints());
-                destCardPnts = Integer.toString(playerPointSummaries.get(i).getDestCardPoints());
-                longestRoutePnts = Integer.toString(playerPointSummaries.get(i).getLongestRoutePoints());
-                totalPnts = Integer.toString(playerPointSummaries.get(i).getTotalPoints());
+                playerNames[i] = playerPointSummaries.get(i).getPlayerId();
+                claimedRoutePnts[i] = Integer.toString(playerPointSummaries.get(i).getClaimedRoutePoints());
+                destCardPnts[i] = Integer.toString(playerPointSummaries.get(i).getDestCardPoints());
+                longestRoutePnts[i] = Integer.toString(playerPointSummaries.get(i).getLongestRoutePoints());
+                totalPnts[i] = Integer.toString(playerPointSummaries.get(i).getTotalPoints());
                 if (playerPointSummaries.get(i).isWinner())
                 {
-                    wonGame = "YES";
+                    wonGame[i] = "YES";
                 }
                 else
                 {
-                    wonGame = "NO";
+                    wonGame[i] = "NO";
                 }
             }
-            txtPlayerNames[i].setText(playerNames);
-            txtClaimedRoutePnts[i].setText(claimedRoutePnts);
-            txtDestCardPnts[i].setText(destCardPnts);
-            txtLongestRoutePnts[i].setText(longestRoutePnts);
-            txtTotalPnts[i].setText(totalPnts);
-            txtWonGame[i].setText(wonGame);
+        }
+    }
+
+    /**
+     * @pre This method should not be called until AFTER onCreate() has happened
+     * @pre This method should not be called until AFTER loadPointSummary() has been called
+     * @post updates the summary views to contain the data loaded after loadPointSummary was called
+     */
+    public void updateSummaryViews()
+    {
+        for (int i = 0; i < MAX_SUPPORTED_PLAYERS; i++)//Loop through all views, filling relevant ones with data and blanking out others
+        {
+            if (txtPlayerNames[i] != null) txtPlayerNames[i].setText(playerNames[i]);
+            if (txtClaimedRoutePnts[i] != null) txtClaimedRoutePnts[i].setText(claimedRoutePnts[i]);
+            if (txtClaimedRoutePnts[i] != null) txtDestCardPnts[i].setText(destCardPnts[i]);
+            if (txtLongestRoutePnts[i] != null) txtLongestRoutePnts[i].setText(longestRoutePnts[i]);
+            if (txtTotalPnts[i] != null) txtTotalPnts[i].setText(totalPnts[i]);
+            if (txtWonGame[i]!= null) txtWonGame[i].setText(wonGame[i]);
         }
     }
 }

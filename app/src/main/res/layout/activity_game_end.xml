@@ -13,9 +13,10 @@
         android:id="@+id/gameEndGrid"
         app:layout_constraintVertical_weight="20"
         app:layout_constraintTop_toTopOf="@id/gameEndLayout"
-        app:layout_constraintBottom_toTopOf="@id/returnToLobbyBtn"
+        app:layout_constraintBottom_toBottomOf="@id/gameEndLayout"
         app:layout_constraintLeft_toLeftOf="@id/gameEndLayout"
         app:layout_constraintRight_toRightOf="@id/gameEndLayout">
+        <!--app:layout_constraintBottom_toTopOf="@id/returnToLobbyBtn"-->
         <TextView
             android:text="Points"
             android:layout_column="0"
@@ -264,7 +265,7 @@
             android:tag="txtWonP5"/>
     </GridLayout>
 
-    <Button
+    <!--Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Return to Lobby"
@@ -274,5 +275,5 @@
         app:layout_constraintTop_toBottomOf="@id/gameEndGrid"
         app:layout_constraintBottom_toBottomOf="@id/gameEndLayout"
         app:layout_constraintVertical_weight="1"
-        />
+        /-->
 </android.support.constraint.ConstraintLayout>

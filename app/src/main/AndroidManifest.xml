@@ -39,7 +39,8 @@
             </intent-filter
             -->
         </activity>
-        <activity android:name=".Views.GameEndActivity"></activity>
+        <activity android:name=".Views.GameEndActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

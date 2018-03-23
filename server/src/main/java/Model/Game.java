@@ -794,7 +794,7 @@ public class Game {
             return "There is no such player.";
         }
 
-        if (_destinationCards.size() < DESTINATION_CARD_DEAL){
+        if (_destinationCards.size() == 0){
             // there are not enough cards left on the server
             return "There are not enough cards to choose from. Please try a different action.";
         }

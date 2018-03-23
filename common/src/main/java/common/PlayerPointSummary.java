@@ -1,6 +1,7 @@
 package common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -93,6 +94,7 @@ public class PlayerPointSummary {
      *
      * @return the total number of points earned
      */
+    @JsonIgnore
     public int getTotalPoints() {
         return claimedRoutePoints + destCardPoints + longestRoutePoints;
     }

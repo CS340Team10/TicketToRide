@@ -901,7 +901,7 @@ public class Game {
      */
     private void determineWinner(){
 
-        int highestPoints = 0;
+        int highestPoints = Integer.MIN_VALUE;
         List<Integer> winnerIndexes = new ArrayList<Integer>();
         int finalWinnerIndex = -1;
 

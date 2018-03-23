@@ -38,12 +38,12 @@ public class Game {
     /**
      * The number of wild train cards in the deck (14)
      */
-    public final static int WILD_TRAIN_CARDS_COUNT = 2;
+    public final static int WILD_TRAIN_CARDS_COUNT = 14;
 
     /**
      * The number of normal train cards of each color in the deck (12)
      */
-    public final static int NORMAL_TRAIN_CARDS_COUNT = 2;
+    public final static int NORMAL_TRAIN_CARDS_COUNT = 12;
 
     /**
      * The maximum number of wild cards that are available in the face up deck (2)

@@ -54,6 +54,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
 
         if (offeredCards != null && offeredCards.size() > 0)
         {
+            if (minSelect > offeredCards.size()) {minSelect = offeredCards.size();}
             mView.offerDestCards(offeredCards, minSelect);
             mView.dialogCreateAndShow();
         }
@@ -65,6 +66,10 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
     {
         if (result.succeeded()) {
             ClientModel.getInstance().setOfferedDestCards(new ArrayList<DestCard>());
+        }
+        else
+        {
+            mView.showToast(result.getError());
         }
     }
 }

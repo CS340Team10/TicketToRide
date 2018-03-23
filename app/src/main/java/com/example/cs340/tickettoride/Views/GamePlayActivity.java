@@ -77,9 +77,9 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
         public void onClick(View v) {
             // Fake like the game is over for testing the score screen
             List<PlayerPointSummary> pps = new ArrayList<>();
-            pps.add(new PlayerPointSummary("pid1", 1, 2, 3, false));
-            pps.add(new PlayerPointSummary("pid2", 55, 66, 77, true));
-            pps.add(new PlayerPointSummary("pid3", 5, 4, 3, false));
+            pps.add(new PlayerPointSummary("pid1", "p1", 1, 2, 3, false));
+            pps.add(new PlayerPointSummary("pid2", "p2", 55, 66, 77, true));
+            pps.add(new PlayerPointSummary("pid3", "p3", 5, 4, 3, false));
             GameNotificationService.getInstance().gameOverStatistics(pps);
         }
     }

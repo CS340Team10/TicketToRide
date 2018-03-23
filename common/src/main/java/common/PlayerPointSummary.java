@@ -12,10 +12,21 @@ public class PlayerPointSummary {
     private static final int LONGEST_ROUTE_BONUS = 10;
 
     private String playerId;
+    private String username;
     private int claimedRoutePoints;
     private int destCardPoints;
     private int longestRoutePoints;
     private boolean isWinner;
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
 
     public String getPlayerId() {
         return playerId;
@@ -50,8 +61,14 @@ public class PlayerPointSummary {
     }
 
     @JsonCreator
-    public PlayerPointSummary(@JsonProperty("playerId") String playerId, @JsonProperty("claimedRoutePoints") int claimedRoutePoints, @JsonProperty("destCardPoints") int destCardPoints, @JsonProperty("longestRoutePoints") int longestRoutePoints, @JsonProperty("isWinner") boolean isWinner) {
+    public PlayerPointSummary(@JsonProperty("playerId") String playerId,
+                              @JsonProperty("username") String username,
+                              @JsonProperty("claimedRoutePoints") int claimedRoutePoints,
+                              @JsonProperty("destCardPoints") int destCardPoints,
+                              @JsonProperty("longestRoutePoints") int longestRoutePoints,
+                              @JsonProperty("isWinner") boolean isWinner) {
         this.playerId = playerId;
+        this.username = username;
         this.claimedRoutePoints = claimedRoutePoints;
         this.destCardPoints = destCardPoints;
         this.longestRoutePoints = longestRoutePoints;

@@ -284,7 +284,7 @@ public class Player {
             cardPoints -= card.getPointValue();
         }
 
-        _pointSummary = new PlayerPointSummary(getPlayerID(), routePoints, cardPoints, 0, false);
+        _pointSummary = new PlayerPointSummary(getPlayerID(), getUsername(), routePoints, cardPoints, 0, false);
     }
 
     /**

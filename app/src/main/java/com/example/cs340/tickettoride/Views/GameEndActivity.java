@@ -80,7 +80,7 @@ public class GameEndActivity extends AppCompatActivity implements IGameEndView
             wonGame[i] = "";
             if (i < numPlayers)
             {
-                playerNames[i] = playerPointSummaries.get(i).getPlayerId();
+                playerNames[i] = playerPointSummaries.get(i).getUsername();
                 claimedRoutePnts[i] = Integer.toString(playerPointSummaries.get(i).getClaimedRoutePoints());
                 destCardPnts[i] = Integer.toString(playerPointSummaries.get(i).getDestCardPoints());
                 longestRoutePnts[i] = Integer.toString(playerPointSummaries.get(i).getLongestRoutePoints());

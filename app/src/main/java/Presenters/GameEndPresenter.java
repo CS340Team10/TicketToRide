@@ -36,14 +36,14 @@ public class GameEndPresenter implements IGameEndPresenter, Observer
     public void update(Observable o, Object arg)
     {
         List<PlayerPointSummary> pointSummaries = ClientModel.getInstance().getPointSummaries();
-        for (PlayerPointSummary pps : pointSummaries)
+        /*for (PlayerPointSummary pps : pointSummaries)
         {
             Player p = ClientModel.getInstance().getPlayerByID(pps.getPlayerId());
             if (p != null)
             {
                 pps.setPlayerId(p.getUsername());
             }
-        }
+        }*/
         gameEndView.loadPointSummary(pointSummaries);
     }
 }

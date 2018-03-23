@@ -331,7 +331,7 @@ public class Player {
         // get all of the routes claimed by the Player
         List<Route> routes = new ArrayList<Route>();
         for (Route route : allRoutes){
-            if (route.getOwnedByPlayerID().equals(getPlayerID())){
+            if ((route.getOwnedByPlayerID() != null) && (route.getOwnedByPlayerID().equals(getPlayerID()))){
                 routes.add(route);
             }
         }

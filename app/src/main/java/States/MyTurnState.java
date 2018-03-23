@@ -28,7 +28,9 @@ public class MyTurnState extends IState {
     @Override
     public void choseTrainCard(IPresenter presenter, TrainCard card){
         GamePlayService.getInstance().selectTrainCard(presenter, card);
-        if(card != null && card.getColor().equals(TrainCard.Colors.wildcard))
+        if(
+                (card != null && card.getColor().equals(TrainCard.Colors.wildcard)) ||
+                (ClientModel.getInstance().getGame().getFaceupTrainCards().size() == 1))
         {
             GamePlayService.getInstance().turnEnded(presenter);
             ClientModel.getInstance().setState(new NotMyTurnState());

@@ -20,9 +20,14 @@ import common.TrainCard;
 public class MyTurnState extends IState {
     @Override
     public void enableDisableButtons(IGamePlayView view) {
-        view.enableTrainCardButton();
-        view.enableDrawRouteButton();
         view.enableClaimRouteButton();
+        if(ClientModel.getInstance().getGame().getDestCardDeckNum() > 0) { // There are still dest cards to draw
+            view.enableDrawRouteButton();
+        }
+
+        if(ClientModel.getInstance().getGame().getFaceupTrainCards().size() + ClientModel.getInstance().getGame().getTrainCardDeckNum() > 0) {
+            view.enableTrainCardButton();
+        }
     }
 
     @Override

@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cs340.tickettoride.R;
@@ -87,6 +90,16 @@ public class RegisterLoginActivity extends AppCompatActivity implements IRegiste
                     ClientCommunicator.getInstance().setIPAddress(ipAddress.getText().toString());
                     Toast.makeText(getApplicationContext(), "IP Address set to " + ClientCommunicator.getInstance().getIPAddress(), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        ipAddress.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    setIp.performClick();
+                }
+                return false;
             }
         });
     }

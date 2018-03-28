@@ -69,23 +69,18 @@ public class GamePlayService {
 
     public List<Route> getClaimableRoutes() {
         List<Route> routes = ClientModel.getInstance().getGameRoutes();
-        List<Route> claimable = new ArrayList<>();
 
-        for (Route route: routes) {
-            // Claimable = not already claimed + have enough of the right cards to claim it.
-            if (route.getOwnedByPlayerID() == null && cardsSufficient(route, ClientModel.getInstance().getUser().getTrainCards())) {
-                claimable.add(route);
-            }
-        }
-
-        // Check for special rules:
-        // 1. if numPlayers <= 3, double routes disappear.
-        // 2. Player can claim only 1 of double routes
-
+        // 1. if numPlayers <= 3, double routes disappear if one is already chosen.
         List<Route> rule1 = new ArrayList<>();
-        for(Route r : claimable) {
+        for(Route r : routes) {
             if (ClientModel.getInstance().getGame().getPlayers().size() <= 3) {
-                if (!r.getRouteID().endsWith("2")) {
+                if (isDoubleRoute(r)) {
+                    Route dual = getDual(r);
+                    if (dual.getOwnedByPlayerID() == null && r.getOwnedByPlayerID() == null) {
+                        // Both unclaimed, so send them.
+                        rule1.add(r);
+                    }
+                } else {
                     rule1.add(r);
                 }
             } else {
@@ -93,16 +88,20 @@ public class GamePlayService {
             }
         }
 
+        List<Route> claimable = new ArrayList<>();
+        for (Route route: rule1) {
+            // Claimable = not already claimed + have enough of the right cards to claim it.
+            if (route.getOwnedByPlayerID() == null && cardsSufficient(route, ClientModel.getInstance().getUser().getTrainCards())) {
+                claimable.add(route);
+            }
+        }
+
+        // 2. Player can claim only 1 of double routes
+
         List<Route> rule2 = new ArrayList<>();
         for (Route r : rule1) {
-            String routeId = r.getRouteID();
-            if(routeId.endsWith("1")) {
-                Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "2");
-                if(dup.getOwnedByPlayerID() == null || !dup.getOwnedByPlayerID().equals(ClientModel.getInstance().getUser().getId())) {
-                    rule2.add(r);
-                }
-            } else if(r.getRouteID().endsWith("2")) {
-                Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "1");
+            if(isDoubleRoute(r)) {
+                Route dup = getDual(r);
                 if(dup.getOwnedByPlayerID() == null || !dup.getOwnedByPlayerID().equals(ClientModel.getInstance().getUser().getId())) {
                     rule2.add(r);
                 }
@@ -114,12 +113,32 @@ public class GamePlayService {
         // Rule 3 : Can't claim a route longer than number of train cards left
         List<Route> rule3 = new ArrayList<>();
         for (Route r : rule2) {
-            if (ClientModel.getInstance().getUser().getTrainsLeft() > r.getRouteLength()) {
+            if (ClientModel.getInstance().getUser().getTrainsLeft() >= r.getRouteLength()) {
                 rule3.add(r);
             }
         }
 
         return rule3;
+    }
+
+    private boolean isDoubleRoute(Route r) {
+        return r.getRouteID().endsWith("1") || r.getRouteID().endsWith("2");
+    }
+
+    // Return the dual of the double route passed in.
+    private Route getDual(Route r) {
+        assert isDoubleRoute(r);
+        String routeId = r.getRouteID();
+
+        if(routeId.endsWith("1")) {
+            Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "2");
+            return dup;
+        } else if(r.getRouteID().endsWith("2")) {
+            Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "1");
+            return dup;
+        }
+
+        return null;
     }
 
     private boolean cardsSufficient(Route route, Deck deck) {

@@ -99,7 +99,7 @@ public class GamePlayService {
         // 2. Player can claim only 1 of double routes
 
         List<Route> rule2 = new ArrayList<>();
-        for (Route r : rule1) {
+        for (Route r : claimable) {
             if(isDoubleRoute(r)) {
                 Route dup = getDual(r);
                 if(dup.getOwnedByPlayerID() == null || !dup.getOwnedByPlayerID().equals(ClientModel.getInstance().getUser().getId())) {

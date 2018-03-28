@@ -303,6 +303,9 @@ public class Game {
                         // inform the clients that the route has been claimed
                         _gameHistory.addCommand(ClientCommandFactory.createRouteClaimedCommand(playerID, routeID, cardsUsed));
 
+                        // make sure that the discarded cards are shuffled in again if needed
+                        checkTrainCardDeck();
+
                         return "";
                     }
                     else {
@@ -375,6 +378,7 @@ public class Game {
         }
 
         _gameHistory.addCommand(ClientCommandFactory.createDestCardsChosenCommand(playerID, keep));
+        _gameHistory.addCommand(ClientCommandFactory.createDestCardDeckUpdatedCommand(_destinationCards.size()));
 
         return "";
     }
@@ -555,6 +559,7 @@ public class Game {
             }
         }
 
+        // shuffle all of the train cards
         _trainCards.shuffle();
 
     }
@@ -755,14 +760,7 @@ public class Game {
             // draw from the deck
 
 
-            if (_trainCards.size() < 1) {
-                // shuffle the discarded train cards
-                _discardedTrainCards.copyToDeck(_trainCards);
-                _discardedTrainCards.clear();
-                _trainCards.shuffle();
-            }
-
-            if (_trainCards.size() < 1) {
+            if (!checkTrainCardDeck()){
                 // there are not enough cards
                 return "There are not enough cards to choose from. Please try a different action.";
             }
@@ -778,6 +776,26 @@ public class Game {
         repopulateFaceUpCards();
 
         return "";
+    }
+
+    private boolean checkTrainCardDeck(){
+        if (_trainCards.size() < 1) {
+            // shuffle the discarded train cards
+            _discardedTrainCards.copyToDeck(_trainCards);
+            _discardedTrainCards.clear();
+            _trainCards.shuffle();
+
+
+            ArrayList<TrainCard> faceUpCards = (ArrayList<TrainCard>)_faceUpTrainCards.toList(TrainCard.class);
+            _gameHistory.addCommand(ClientCommandFactory.createTrainCardDeckUpdatedCommand(faceUpCards, _trainCards.size()));
+        }
+
+        if (_trainCards.size() < 1) {
+            // there are no more cards
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -822,7 +840,6 @@ public class Game {
         currPlayer.offerDestinationCards(destCards);
 
         _gameHistory.addCommand(ClientCommandFactory.createOfferDestCardsCommand(playerID, destCards));
-        _gameHistory.addCommand(ClientCommandFactory.createDestCardDeckUpdatedCommand(_destinationCards.size()));
 
         // everything was successful
         return "";

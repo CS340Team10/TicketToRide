@@ -370,7 +370,8 @@ public class Game {
 
         List<? extends ICard> returnCards = currPlayer.acceptDestinationCards(keep);
         for (int count = 0; count < returnCards.size(); count++){
-            _discardedDestinationCards.addCard(returnCards.get(count));
+            //_discardedDestinationCards.addCard(returnCards.get(count));
+            _destinationCards.addCard(returnCards.get(count));
         }
 
         _gameHistory.addCommand(ClientCommandFactory.createDestCardsChosenCommand(playerID, keep));
@@ -799,6 +800,18 @@ public class Game {
             return "There are not enough cards to choose from. Please try a different action.";
         }
 
+
+        // ensure that there are enough destination cards left
+        /*if (_destinationCards.size() < DESTINATION_CARD_DEAL + 1){
+
+            System.out.println("discard size: " + _discardedDestinationCards.size());
+
+            _discardedDestinationCards.copyToDeck(_destinationCards);
+            _discardedDestinationCards.clear();
+            _destinationCards.shuffle();
+            System.out.println("shuffle cards - " + _destinationCards.size());
+        }*/
+
         int dealSize = ((_destinationCards.size() >= DESTINATION_CARD_DEAL) ? DESTINATION_CARD_DEAL : _destinationCards.size());
 
         ArrayList<DestCard> destCards = new ArrayList<DestCard>();
@@ -807,17 +820,6 @@ public class Game {
         }
 
         currPlayer.offerDestinationCards(destCards);
-
-        // ensure that there are enough destination cards left
-        if (_destinationCards.size() < DESTINATION_CARD_DEAL + 1){
-
-            System.out.println("discard size: " + _discardedDestinationCards.size());
-
-            _discardedDestinationCards.copyToDeck(_destinationCards);
-            _discardedDestinationCards.clear();
-            _destinationCards.shuffle();
-            System.out.println("shuffle cards - " + _destinationCards.size());
-        }
 
         _gameHistory.addCommand(ClientCommandFactory.createOfferDestCardsCommand(playerID, destCards));
         _gameHistory.addCommand(ClientCommandFactory.createDestCardDeckUpdatedCommand(_destinationCards.size()));
@@ -879,7 +881,6 @@ public class Game {
         for (Player currPlayer : _players){
             playerPoints.add(currPlayer.getPlayerPoints());
         }
-
         _gameHistory.addCommand(ClientCommandFactory.createGameOverStatisticsCommand(playerPoints));
     }
 

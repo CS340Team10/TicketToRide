@@ -111,7 +111,15 @@ public class GamePlayService {
             }
         }
 
-        return rule2;
+        // Rule 3 : Can't claim a route longer than number of train cards left
+        List<Route> rule3 = new ArrayList<>();
+        for (Route r : rule2) {
+            if (r.getRouteLength() > ClientModel.getInstance().getUser().getTrainsLeft()) {
+                rule3.add(r);
+            }
+        }
+
+        return rule3;
     }
 
     private boolean cardsSufficient(Route route, Deck deck) {

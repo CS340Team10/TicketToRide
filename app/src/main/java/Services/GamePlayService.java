@@ -114,7 +114,7 @@ public class GamePlayService {
         // Rule 3 : Can't claim a route longer than number of train cards left
         List<Route> rule3 = new ArrayList<>();
         for (Route r : rule2) {
-            if (r.getRouteLength() > ClientModel.getInstance().getUser().getTrainsLeft()) {
+            if (ClientModel.getInstance().getUser().getTrainsLeft() > r.getRouteLength()) {
                 rule3.add(r);
             }
         }

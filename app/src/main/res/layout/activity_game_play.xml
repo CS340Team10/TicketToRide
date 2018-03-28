@@ -101,13 +101,6 @@
                 android:id="@+id/claimRouteButton"
                 android:layout_below="@id/drawDestCardsButton"
                 android:layout_alignRight="@id/drawDestCardsButton"/>
-            <Button
-                android:layout_width="100dp"
-                android:id="@+id/phase2PassoffButton"
-                android:text="Game over trigger"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/lastRoundWarningTxt"
                 android:layout_width="wrap_content"
@@ -115,6 +108,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:text="Last Round!"
+                android:textColor="@color/colorRed"
                 android:background="@color/colorWhite"
                 android:textSize="20sp"
                 android:visibility="invisible"/>

@@ -12,12 +12,9 @@ import android.widget.TextView;
 import com.example.cs340.tickettoride.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import Presenters.GamePlayPresenter;
 import Presenters.IGamePlayPresenter;
-import Services.GameNotificationService;
-import common.PlayerPointSummary;
 
 public class GamePlayActivity extends AppCompatActivity implements IGamePlayView {
 
@@ -64,24 +61,6 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
             getSupportFragmentManager().beginTransaction().replace(R.id.leftDrawer, (Fragment) handView).commit();
         }
         drawerLayout.closeDrawers();
-
-        // Just for testing
-        Button phase2TestButton = findViewById(R.id.phase2PassoffButton);
-        phase2TestButton.setOnClickListener(new Phase2OnClickListener());
-    }
-
-    private class Phase2OnClickListener implements View.OnClickListener
-    {
-
-        @Override
-        public void onClick(View v) {
-            // Fake like the game is over for testing the score screen
-            List<PlayerPointSummary> pps = new ArrayList<>();
-            pps.add(new PlayerPointSummary("pid1", "p1", 1, 2, 3, false));
-            pps.add(new PlayerPointSummary("pid2", "p2", 55, 66, 77, true));
-            pps.add(new PlayerPointSummary("pid3", "p3", 5, 4, 3, false));
-            GameNotificationService.getInstance().gameOverStatistics(pps);
-        }
     }
 
     @Override

@@ -729,10 +729,10 @@ public class Game {
             _faceUpTrainCards.copyToDeck(_discardedTrainCards);
             _faceUpTrainCards.clear();
             repopulateFaceUpCards();
+        } else {
+            // update the face up cards on the clients
+            _gameHistory.addCommand(ClientCommandFactory.createTrainCardDeckUpdatedCommand(faceUpList, _trainCards.size()));
         }
-
-        // update the face up cards on the clients
-        _gameHistory.addCommand(ClientCommandFactory.createTrainCardDeckUpdatedCommand(faceUpList, _trainCards.size()));
 
     }
 

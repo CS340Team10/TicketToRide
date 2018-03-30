@@ -728,6 +728,8 @@ public class Game {
             // there are too many wilds, so discard all of them and redraw
             _faceUpTrainCards.copyToDeck(_discardedTrainCards);
             _faceUpTrainCards.clear();
+
+            // if there will always be too many wild cards left, will this enter an infinite loop?
             repopulateFaceUpCards();
         } else {
             // update the face up cards on the clients
@@ -786,8 +788,9 @@ public class Game {
             _trainCards.shuffle();
 
 
-            ArrayList<TrainCard> faceUpCards = (ArrayList<TrainCard>)_faceUpTrainCards.toList(TrainCard.class);
-            _gameHistory.addCommand(ClientCommandFactory.createTrainCardDeckUpdatedCommand(faceUpCards, _trainCards.size()));
+            //ArrayList<TrainCard> faceUpCards = (ArrayList<TrainCard>)_faceUpTrainCards.toList(TrainCard.class);
+            //_gameHistory.addCommand(ClientCommandFactory.createTrainCardDeckUpdatedCommand(faceUpCards, _trainCards.size()));
+            repopulateFaceUpCards();
         }
 
         if (_trainCards.size() < 1) {

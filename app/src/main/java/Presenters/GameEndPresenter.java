@@ -26,12 +26,12 @@ public class GameEndPresenter implements IGameEndPresenter, Observer
     @Override
     public void setup(AppCompatActivity activity)
     {
-        gameEndView.loadPointSummary(ClientModel.getInstance().getPointSummaries());
+        gameEndView.loadPointSummary(ClientModel.getInstance().getPointSummaries(), ClientModel.getInstance().getGame().getPlayers());
     }
 
     @Override
     public void update(Observable o, Object arg)
     {
-        gameEndView.loadPointSummary(ClientModel.getInstance().getPointSummaries());
+        gameEndView.loadPointSummary(ClientModel.getInstance().getPointSummaries(), ClientModel.getInstance().getGame().getPlayers());
     }
 }

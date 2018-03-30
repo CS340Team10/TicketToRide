@@ -1,7 +1,9 @@
 package com.example.cs340.tickettoride.Views;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import ClientModel.Player;
 import common.PlayerPointSummary;
 
 /**
@@ -10,5 +12,5 @@ import common.PlayerPointSummary;
 
 public interface IGameEndView
 {
-    void loadPointSummary(List<PlayerPointSummary> playerPointSummaries);
+    void loadPointSummary(List<PlayerPointSummary> playerPointSummaries, ArrayList<Player> players);
 }

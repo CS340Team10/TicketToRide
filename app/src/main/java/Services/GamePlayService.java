@@ -217,19 +217,18 @@ public class GamePlayService {
     }
 
     /**
-     * Tells you whether the given cards match the given route. Takes wildcards and wild routes into
-     * account, so that if the route is a wild, cards of any color will match.
-     * And wildcards can be applied to any route, even in combination with other valid colors.
+     * Tells you whether the given cards match the given route. Takes wildcards into
+     * account, so that wildcards can be applied to any route.
+     * All colors must be the same, with the exception of wildcards. This is true even when claiming
+     * a gray route.
      * @param route the route you want to check against
      * @param cards the cards you want to see if they can be used to claim the route
      * @return
      */
     private boolean isMatchingColor(Route route, Map<ICard, Integer> cards)
     {
-        if (route.getPathColor().equals(TrainCard.Colors.wildcard))
-        {
-            return true;
-        }
+        TrainCard.Colors firstColor = TrainCard.Colors.wildcard;
+        boolean firstColorWasSet = false;
         for (ICard card : cards.keySet())
         {
             if (card.getClass() != TrainCard.class)
@@ -237,10 +236,24 @@ public class GamePlayService {
                 return false;
             }
             TrainCard tCard = (TrainCard) card;
-            if (!tCard.getColor().equals(route.getPathColor())
-                    && (!tCard.getColor().equals(TrainCard.Colors.wildcard)))
+            if (!firstColorWasSet)
             {
-                return false;
+                firstColor = tCard.getColor();
+                firstColorWasSet = true;
+            }
+            if (!tCard.getColor().equals(TrainCard.Colors.wildcard))//if the card is not wild (because wildcards always match)
+            {
+                if (route.getPathColor().equals(TrainCard.Colors.wildcard))//If the route is gray
+                {
+                    if (!tCard.getColor().equals(firstColor))//all cards must match the first color in the set
+                    {
+                        return false;
+                    }
+                }
+                else if (!tCard.getColor().equals(route.getPathColor()))//if the route is not gray, all cards must match that route's color
+                {
+                    return false;
+                }
             }
         }
         return true;

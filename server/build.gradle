@@ -3,6 +3,7 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':common')
+    implementation project(':plugin_common')
     implementation project(':jackson-core-2.9.4')
     implementation project(':jackson-databind-2.9.4')
     implementation project(':jackson-annotations-2.9.4')

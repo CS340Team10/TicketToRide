@@ -21,5 +21,4 @@ public abstract class IState {
     public void choseTrainCard(IPresenter presenter, TrainCard card){}
     public void requestedDestCards(IPresenter presenter){}
     public void claimedRoute(IPresenter presenter, Route route, Map<ICard, Integer> usedCards){}
-
 }

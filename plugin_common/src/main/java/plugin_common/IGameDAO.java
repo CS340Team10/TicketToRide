@@ -5,4 +5,10 @@ package plugin_common;
  */
 
 public interface IGameDAO {
+
+    void save(String gameName, byte[] gameBytes);
+
+    byte[] getGame(String gameName);
+
+    void clearGames();
 }

@@ -5,4 +5,12 @@ package plugin_common;
  */
 
 public interface ICommandDAO {
+
+    void save(String gameName, byte[] commandBytes);
+
+    byte[][] getCommands(String gameName);
+
+    void clearCommands(String gameName);
+
+    void clearCommands();
 }

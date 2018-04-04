@@ -1,5 +1,7 @@
 package Server;
 
+import Plugins.PluginLoader;
+
 public class Main {
 
     /**
@@ -28,14 +30,16 @@ public class Main {
      * @param args the arguments for the server
      */
     public static void main(String[] args){
-        // Steps in method:
-        // 1. Start the server
+        if (args.length < 2) {
+            return;
+        }
 
-        if (args.length > 0){
-            new ServerCommunicator().run(parseInt(args[0]));
-        }
-        else {
-            new ServerCommunicator().run();
-        }
+        String pluginName = args[0];
+        String commandsBetweenCheckpoints = args[1];
+        boolean clear = args.length == 3;
+
+        PluginLoader.getInstance().loadPersistancePlugin(pluginName);
+
+        new ServerCommunicator().run();
     }
 }

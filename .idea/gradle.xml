@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$/jgrapht-io-1.1.0" />
             <option value="$PROJECT_DIR$/jgrapht-io-1.1.0-uber" />
             <option value="$PROJECT_DIR$/jgraphx-2.0.0.1" />
+            <option value="$PROJECT_DIR$/plugin_common" />
             <option value="$PROJECT_DIR$/server" />
           </set>
         </option>

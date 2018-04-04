@@ -5,4 +5,8 @@ package plugin_common;
  */
 
 public interface IPersistanceProvider {
+
+    IPlayerDAO getPlayerDao();
+    IGameDAO getGameDao();
+    ICommandDAO getCommandDao();
 }

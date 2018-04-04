@@ -17,7 +17,7 @@
             android:orientation="vertical">
             <EditText
                 android:id="@+id/loginUsername"
-                android:maxLength="20"
+                android:maxLength="10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
@@ -63,7 +63,7 @@
                 android:id="@+id/registerUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="20"
+                android:maxLength="10"
                 android:inputType="textWebEmailAddress"
                 android:hint="Username"
                 />

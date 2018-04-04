@@ -43,15 +43,16 @@ public class PickDestCardView implements IPickDestCardView
     @Override
     public void offerDestCards(Deck cards, int minNumSelected)
     {
-        this.offeredCards = cards;
-        cardChoicesText = new String[offeredCards.size()];
-        cardChoicesSelected = new boolean[offeredCards.size()];
-        for (int i = 0; i < offeredCards.size(); i++)
-        {
-            cardChoicesText[i] = offeredCards.viewCard(i).toString();
-            cardChoicesSelected[i] = false;
+        if(!isShowing) {
+            this.offeredCards = cards;
+            cardChoicesText = new String[offeredCards.size()];
+            cardChoicesSelected = new boolean[offeredCards.size()];
+            for (int i = 0; i < offeredCards.size(); i++) {
+                cardChoicesText[i] = offeredCards.viewCard(i).toString();
+                cardChoicesSelected[i] = false;
+            }
+            this.minNumSelected = minNumSelected;
         }
-        this.minNumSelected = minNumSelected;
     }
 
     @Override

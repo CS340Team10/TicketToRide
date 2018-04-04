@@ -69,23 +69,18 @@ public class GamePlayService {
 
     public List<Route> getClaimableRoutes() {
         List<Route> routes = ClientModel.getInstance().getGameRoutes();
-        List<Route> claimable = new ArrayList<>();
 
-        for (Route route: routes) {
-            // Claimable = not already claimed + have enough of the right cards to claim it.
-            if (route.getOwnedByPlayerID() == null && cardsSufficient(route, ClientModel.getInstance().getUser().getTrainCards())) {
-                claimable.add(route);
-            }
-        }
-
-        // Check for special rules:
-        // 1. if numPlayers <= 3, double routes disappear.
-        // 2. Player can claim only 1 of double routes
-
+        // 1. if numPlayers <= 3, double routes disappear if one is already chosen.
         List<Route> rule1 = new ArrayList<>();
-        for(Route r : claimable) {
+        for(Route r : routes) {
             if (ClientModel.getInstance().getGame().getPlayers().size() <= 3) {
-                if (!r.getRouteID().endsWith("2")) {
+                if (isDoubleRoute(r)) {
+                    Route dual = getDual(r);
+                    if (dual.getOwnedByPlayerID() == null && r.getOwnedByPlayerID() == null) {
+                        // Both unclaimed, so send them.
+                        rule1.add(r);
+                    }
+                } else {
                     rule1.add(r);
                 }
             } else {
@@ -93,16 +88,20 @@ public class GamePlayService {
             }
         }
 
+        List<Route> claimable = new ArrayList<>();
+        for (Route route: rule1) {
+            // Claimable = not already claimed + have enough of the right cards to claim it.
+            if (route.getOwnedByPlayerID() == null && cardsSufficient(route, ClientModel.getInstance().getUser().getTrainCards())) {
+                claimable.add(route);
+            }
+        }
+
+        // 2. Player can claim only 1 of double routes
+
         List<Route> rule2 = new ArrayList<>();
-        for (Route r : rule1) {
-            String routeId = r.getRouteID();
-            if(routeId.endsWith("1")) {
-                Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "2");
-                if(dup.getOwnedByPlayerID() == null || !dup.getOwnedByPlayerID().equals(ClientModel.getInstance().getUser().getId())) {
-                    rule2.add(r);
-                }
-            } else if(r.getRouteID().endsWith("2")) {
-                Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "1");
+        for (Route r : claimable) {
+            if(isDoubleRoute(r)) {
+                Route dup = getDual(r);
                 if(dup.getOwnedByPlayerID() == null || !dup.getOwnedByPlayerID().equals(ClientModel.getInstance().getUser().getId())) {
                     rule2.add(r);
                 }
@@ -114,12 +113,32 @@ public class GamePlayService {
         // Rule 3 : Can't claim a route longer than number of train cards left
         List<Route> rule3 = new ArrayList<>();
         for (Route r : rule2) {
-            if (r.getRouteLength() > ClientModel.getInstance().getUser().getTrainsLeft()) {
+            if (ClientModel.getInstance().getUser().getTrainsLeft() >= r.getRouteLength()) {
                 rule3.add(r);
             }
         }
 
         return rule3;
+    }
+
+    private boolean isDoubleRoute(Route r) {
+        return r.getRouteID().endsWith("1") || r.getRouteID().endsWith("2");
+    }
+
+    // Return the dual of the double route passed in.
+    private Route getDual(Route r) {
+        assert isDoubleRoute(r);
+        String routeId = r.getRouteID();
+
+        if(routeId.endsWith("1")) {
+            Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "2");
+            return dup;
+        } else if(r.getRouteID().endsWith("2")) {
+            Route dup = ClientModel.getInstance().getRouteById(routeId.substring(0, routeId.length() - 1) + "1");
+            return dup;
+        }
+
+        return null;
     }
 
     private boolean cardsSufficient(Route route, Deck deck) {
@@ -198,19 +217,18 @@ public class GamePlayService {
     }
 
     /**
-     * Tells you whether the given cards match the given route. Takes wildcards and wild routes into
-     * account, so that if the route is a wild, cards of any color will match.
-     * And wildcards can be applied to any route, even in combination with other valid colors.
+     * Tells you whether the given cards match the given route. Takes wildcards into
+     * account, so that wildcards can be applied to any route.
+     * All colors must be the same, with the exception of wildcards. This is true even when claiming
+     * a gray route.
      * @param route the route you want to check against
      * @param cards the cards you want to see if they can be used to claim the route
      * @return
      */
     private boolean isMatchingColor(Route route, Map<ICard, Integer> cards)
     {
-        if (route.getPathColor().equals(TrainCard.Colors.wildcard))
-        {
-            return true;
-        }
+        TrainCard.Colors firstColor = TrainCard.Colors.wildcard;
+        boolean firstColorWasSet = false;
         for (ICard card : cards.keySet())
         {
             if (card.getClass() != TrainCard.class)
@@ -218,10 +236,24 @@ public class GamePlayService {
                 return false;
             }
             TrainCard tCard = (TrainCard) card;
-            if (!tCard.getColor().equals(route.getPathColor())
-                    && (!tCard.getColor().equals(TrainCard.Colors.wildcard)))
+            if (!firstColorWasSet)
             {
-                return false;
+                firstColor = tCard.getColor();
+                firstColorWasSet = true;
+            }
+            if (!tCard.getColor().equals(TrainCard.Colors.wildcard))//if the card is not wild (because wildcards always match)
+            {
+                if (route.getPathColor().equals(TrainCard.Colors.wildcard))//If the route is gray
+                {
+                    if (!tCard.getColor().equals(firstColor))//all cards must match the first color in the set
+                    {
+                        return false;
+                    }
+                }
+                else if (!tCard.getColor().equals(route.getPathColor()))//if the route is not gray, all cards must match that route's color
+                {
+                    return false;
+                }
             }
         }
         return true;

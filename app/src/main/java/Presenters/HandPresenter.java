@@ -1,6 +1,5 @@
 package Presenters;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.cs340.tickettoride.Views.IHandView;
@@ -39,7 +38,7 @@ public class HandPresenter implements IHandPresenter, Observer
     public void update(Observable o, Object arg)
     {
         if (handView != null) {
-            ClientModel model = (ClientModel) o;
+            ClientModel model = ClientModel.getInstance();
             Deck destHand = model.getUser().getDestCards();
             List<DestCard> dCards = (List<DestCard>) destHand.toList(DestCard.class);
             handView.updateDestHand(dCards);

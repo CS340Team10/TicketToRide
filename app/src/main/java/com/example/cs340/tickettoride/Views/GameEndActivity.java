@@ -1,15 +1,17 @@
 package com.example.cs340.tickettoride.Views;
 
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.example.cs340.tickettoride.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import ClientModel.Player;
 import Presenters.GameEndPresenter;
 import Presenters.IGameEndPresenter;
 import common.PlayerPointSummary;
@@ -59,7 +61,7 @@ public class GameEndActivity extends AppCompatActivity implements IGameEndView
      * @param playerPointSummaries the list of objects containing the summary of players' points and achievements to show at the end of the game
      */
     @Override
-    public void loadPointSummary(List<PlayerPointSummary> playerPointSummaries)
+    public void loadPointSummary(List<PlayerPointSummary> playerPointSummaries, ArrayList<Player> players)
     {
         //load the point summaries so they are displayed in the grid view
         int numPlayers = playerPointSummaries.size();//get the number of players to display
@@ -80,7 +82,12 @@ public class GameEndActivity extends AppCompatActivity implements IGameEndView
             wonGame[i] = "";
             if (i < numPlayers)
             {
-                playerNames[i] = playerPointSummaries.get(i).getUsername();
+                String id = playerPointSummaries.get(i).getPlayerId();
+                for(Player player : players) {
+                    if (player.getId().equals(id)) {
+                        playerNames[i] = player.getUsername();
+                    }
+                }
                 claimedRoutePnts[i] = Integer.toString(playerPointSummaries.get(i).getClaimedRoutePoints());
                 destCardPnts[i] = Integer.toString(playerPointSummaries.get(i).getDestCardPoints());
                 longestRoutePnts[i] = Integer.toString(playerPointSummaries.get(i).getLongestRoutePoints());

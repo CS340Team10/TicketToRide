@@ -30,4 +30,13 @@ public class PluginConfig {
     public String getClassName() {
         return className;
     }
+
+    @Override
+    public String toString() {
+        return "PluginConfig{" +
+                "name='" + name + '\'' +
+                ", jarPath='" + jarPath + '\'' +
+                ", className='" + className + '\'' +
+                '}';
+    }
 }

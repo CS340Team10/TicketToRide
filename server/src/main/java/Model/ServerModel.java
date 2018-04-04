@@ -316,6 +316,17 @@ public class ServerModel {
         }
     }
 
+
+    /**
+     * Returns whether a player is in a game
+     * @param playerID the player ID of the player in question
+     *
+     * @return true if there is a Game that involves the player, false otherwise
+     */
+    public boolean isPlayerInGame(String playerID){
+        return (getGameForPlayer(playerID) != null);
+    }
+
     /**
      * Returns a String representation of the sever model
      *

@@ -8,4 +8,5 @@ public class PlayerDTO {
 
     public String username;
     public String password;
+    public boolean isLoggedIn;
 }

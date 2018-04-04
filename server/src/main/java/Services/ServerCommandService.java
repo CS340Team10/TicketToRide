@@ -61,7 +61,7 @@ public class ServerCommandService implements IServer {
 
         if (returnValue == null){
             // the username has not been taken
-            tempPlayer.setPlayerID(username + "_registered");
+            tempPlayer.setPlayerID(username);// + "_registered");
             _serverModel.register(tempPlayer);
             _serverModel.setLoggedIn(tempPlayer);
             returnValue = new Results(true, tempPlayer.getPlayerID(), "");
@@ -82,19 +82,26 @@ public class ServerCommandService implements IServer {
         Player tempPlayer = new Player(username, password);
 
         // Don't log in someone who's already logged in (maybe on another device)
-        ArrayList<Player> loggedIn = _serverModel.getLoggedInPlayers();
+        /*ArrayList<Player> loggedIn = _serverModel.getLoggedInPlayers();
         if (loggedIn.contains(tempPlayer)) {
             return new Results(false, "", "This user already logged in");
-        }
+        }*/
 
         // iterate through the registered users to find the requested User
         ArrayList<Player> registered = _serverModel.getRegisteredPlayers();
 
         for (Player currPlayer : registered){
             if (currPlayer.equals(tempPlayer)){
-                tempPlayer.setPlayerID(username + "_loggedIn");
+                tempPlayer.setPlayerID(username);// + "_loggedIn");
                 _serverModel.setLoggedIn(tempPlayer);
-                returnValue = new Results(true, tempPlayer.getPlayerID(), "");
+
+                // check if the player is already involved in a game
+                if (_serverModel.isPlayerInGame(tempPlayer.getPlayerID())){
+                    returnValue = new Results(true, tempPlayer.getPlayerID(), "The player is already in a game.");
+                }
+                else {
+                    returnValue = new Results(true, tempPlayer.getPlayerID(), "");
+                }
                 break;
             }
             else if (currPlayer.getUsername().equals(tempPlayer.getUsername())){

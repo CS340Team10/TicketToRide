@@ -18,6 +18,7 @@ public class SqliteCommandDAO implements ICommandDAO {
 
     public SqliteCommandDAO() {
         try {
+            Class.forName("org.sqlite.JDBC");
             Connection connection = ConnectionManager.newConnection();
             String createStatement = "CREATE TABLE IF NOT EXISTS Commands (" +
                     "gameName TEXT NOT NULL," +

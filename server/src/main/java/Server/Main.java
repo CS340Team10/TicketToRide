@@ -72,7 +72,7 @@ public class Main {
 
         Command command = new Command("testClass", "testMethod", new String[]{"testType"}, new Object[]{"testValue"});
         bytes = SerializationUtils.serialize(command);
-        cDAO.save(g.getName(), bytes);
+        cDAO.save(g.getName(), bytes, 0);
         byte[][] commands = cDAO.getCommands(g.getName());
 
         assert commands.length == 1;

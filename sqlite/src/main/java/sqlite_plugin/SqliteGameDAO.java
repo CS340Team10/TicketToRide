@@ -15,6 +15,7 @@ public class SqliteGameDAO implements IGameDAO {
 
     public SqliteGameDAO() {
         try {
+            Class.forName("org.sqlite.JDBC");
             Connection connection = ConnectionManager.newConnection();
             connection.setAutoCommit(true);
             String createStatement = "CREATE TABLE IF NOT EXISTS Games (" +

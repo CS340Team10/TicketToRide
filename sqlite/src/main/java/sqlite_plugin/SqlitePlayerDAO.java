@@ -18,7 +18,7 @@ public class SqlitePlayerDAO implements IPlayerDAO {
 
     public SqlitePlayerDAO() {
         try {
-
+            Class.forName("org.sqlite.JDBC");
             Connection connection = ConnectionManager.newConnection();
             String createStatement = "CREATE TABLE IF NOT EXISTS Players (" +
                     "username TEXT NOT NULL," +

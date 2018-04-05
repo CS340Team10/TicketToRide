@@ -1,6 +1,15 @@
 package Server;
 
+import org.apache.commons.lang3.SerializationUtils;
+
+import Model.Game;
 import Plugins.PluginLoader;
+import common.Command;
+import data_transfer.PlayerDTO;
+import plugin_common.ICommandDAO;
+import plugin_common.IGameDAO;
+import plugin_common.IPersistanceProvider;
+import plugin_common.IPlayerDAO;
 
 public class Main {
 
@@ -39,7 +48,47 @@ public class Main {
         boolean clear = args.length == 3;
 
         PluginLoader.getInstance().loadPersistancePlugin(pluginName);
+        testPlugin();
 
         new ServerCommunicator().run();
+    }
+
+    private static void testPlugin() {
+        IPersistanceProvider provider = PluginLoader.getInstance().getPersistanceProvider();
+        ICommandDAO cDAO = provider.getCommandDao();
+        IGameDAO gDAO = provider.getGameDao();
+        IPlayerDAO pDAO = provider.getPlayerDao();
+
+
+        Game g = new Game("gameName", 5);
+
+        byte[] bytes = SerializationUtils.serialize(g);
+
+        gDAO.save(g.getName(), bytes);
+        Game back = SerializationUtils.deserialize(gDAO.getGame(g.getName()));
+        boolean same = g.equals(back);
+        assert same;
+
+
+        Command command = new Command("testClass", "testMethod", new String[]{"testType"}, new Object[]{"testValue"});
+        bytes = SerializationUtils.serialize(command);
+        cDAO.save(g.getName(), bytes);
+        byte[][] commands = cDAO.getCommands(g.getName());
+
+        assert commands.length == 1;
+        for (byte[] b : commands) {
+            Command backC = SerializationUtils.deserialize(b);
+            assert backC.equals(command);
+        }
+
+        PlayerDTO pdto = new PlayerDTO();
+        pdto.isLoggedIn = false;
+        pdto.username = "uname";
+        pdto.password = "pass";
+
+        pDAO.save(pdto);
+        PlayerDTO pdtoBack = pDAO.getPlayer(pdto.username);
+        assert pdto.equals(pdtoBack);
+
     }
 }

@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/commons-lang3-3.5" />
             <option value="$PROJECT_DIR$/gson-2.8.2" />
+            <option value="$PROJECT_DIR$/inmemory" />
             <option value="$PROJECT_DIR$/jackson-annotations-2.9.4" />
             <option value="$PROJECT_DIR$/jackson-core-2.9.4" />
             <option value="$PROJECT_DIR$/jackson-databind-2.9.4" />

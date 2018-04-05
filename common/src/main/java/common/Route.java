@@ -1,10 +1,12 @@
 package common;
 
+import java.io.Serializable;
+
 /**
  * Created by ephraimkunz on 2/21/18.
  */
 
-public class Route {
+public class Route implements Serializable {
     private String routeID;
     private String startCity;
     private String endCity;

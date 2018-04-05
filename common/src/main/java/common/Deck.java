@@ -1,5 +1,6 @@
 package common;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * Created by ephraimkunz on 2/21/18.
  */
 
-public class Deck {
+public class Deck implements Serializable {
 
     private List<ICard> _cards = new ArrayList<ICard>();
 

@@ -1,17 +1,17 @@
 [
     {
         "name": "sqlite",
-        "jarPath": "./sqlite.jar",
+        "jarPath": "configsqlite.jar",
         "className": "testing"
     },
     {
         "name": "flatfile",
-        "jarPath": "./flatfile.jar",
+        "jarPath": "flatfile.jar",
         "className": ""
     },
     {
         "name": "inmemory",
-        "jarPath": "./inmemory.jar",
-        "className": ""
+        "jarPath": "inmemory_combined.jar",
+        "className": "inmemory_plugin.InMemoryPersistanceProvider"
     }
 ]

@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import common.TrainCard;
  * Created by Brian on 2/1/18.
  */
 
-public class Game {
+public class Game implements Serializable {
 
     /**
      * The number of cards that are face up at any point in the game (5)

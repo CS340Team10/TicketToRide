@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import common.ICommand;
  * Keeps a record of commands in sequential order, or the order they need to execute
  */
 
-public class CommandHistory
+public class CommandHistory implements Serializable
 {
     private List<ICommand> history = new ArrayList<>();
 

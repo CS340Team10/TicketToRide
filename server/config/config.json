@@ -1,8 +1,8 @@
 [
     {
         "name": "sqlite",
-        "jarPath": "configsqlite.jar",
-        "className": "testing"
+        "jarPath": "sqlite_combined.jar",
+        "className": "sqlite_plugin.SqlitePersistanceProvider"
     },
     {
         "name": "flatfile",

@@ -27,6 +27,8 @@
             <option value="$PROJECT_DIR$/jgraphx-2.0.0.1" />
             <option value="$PROJECT_DIR$/plugin_common" />
             <option value="$PROJECT_DIR$/server" />
+            <option value="$PROJECT_DIR$/sqlite" />
+            <option value="$PROJECT_DIR$/sqlite-jdbc-3.21.0" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

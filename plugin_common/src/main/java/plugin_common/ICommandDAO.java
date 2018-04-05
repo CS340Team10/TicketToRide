@@ -6,7 +6,7 @@ package plugin_common;
 
 public interface ICommandDAO {
 
-    void save(String gameName, byte[] commandBytes);
+    void save(String gameName, byte[] commandBytes, int seqNumber);
 
     byte[][] getCommands(String gameName);
 

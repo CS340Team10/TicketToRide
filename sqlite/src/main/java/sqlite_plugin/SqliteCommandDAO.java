@@ -34,14 +34,13 @@ public class SqliteCommandDAO implements ICommandDAO {
     }
 
     @Override
-    public void save(String gameName, byte[] commandBytes, int seqNumber) {
-        String insertStatement = "INSERT into Commands(gameName, seqNumber, commandBlob) VALUES (?, ?, ?)";
+    public void save(String gameName, byte[] commandBytes) {
+        String insertStatement = "INSERT into Commands(gameName, commandBlob) VALUES (?, ?)";
         try {
             Connection connection = ConnectionManager.newConnection();
             PreparedStatement ps = connection.prepareStatement(insertStatement);
             ps.setString(1, gameName);
-            ps.setInt(2, seqNumber);
-            ps.setBytes(3, commandBytes);
+            ps.setBytes(2, commandBytes);
             ps.executeUpdate();
             connection.close();
         } catch (Exception e) {

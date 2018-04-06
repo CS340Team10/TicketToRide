@@ -17,7 +17,7 @@ public class InMemoryCommandDAO implements ICommandDAO {
 
 
     @Override
-    public void save(String gameName, byte[] commandBytes, int seqNumber) {
+    public void save(String gameName, byte[] commandBytes) {
         if (!data.containsKey(gameName)) {
             data.put(gameName, new ArrayList<List<Byte>>());
         }

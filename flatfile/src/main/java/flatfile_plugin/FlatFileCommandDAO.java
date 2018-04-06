@@ -8,7 +8,7 @@ import plugin_common.ICommandDAO;
 
 public class FlatFileCommandDAO implements ICommandDAO {
     @Override
-    public void save(String gameName, byte[] commandBytes, int seqNumber) {
+    public void save(String gameName, byte[] commandBytes) {
 
     }
 

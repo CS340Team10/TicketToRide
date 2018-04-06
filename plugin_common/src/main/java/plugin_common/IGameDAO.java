@@ -10,5 +10,7 @@ public interface IGameDAO {
 
     byte[] getGame(String gameName);
 
+    byte[][] getGames();
+
     void clearGames();
 }

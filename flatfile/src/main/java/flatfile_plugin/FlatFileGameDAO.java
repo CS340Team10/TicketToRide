@@ -18,6 +18,11 @@ public class FlatFileGameDAO implements IGameDAO {
     }
 
     @Override
+    public byte[][] getGames() {
+        return new byte[0][];
+    }
+
+    @Override
     public void clearGames() {
 
     }

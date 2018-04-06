@@ -25,6 +25,13 @@ public class InMemoryGameDAO implements IGameDAO {
     }
 
     @Override
+    public byte[][] getGames() {
+        byte[][] returnValues = new byte[data.values().size()][];
+        data.values().toArray(returnValues);
+        return returnValues;
+    }
+
+    @Override
     public void clearGames() {
         data.clear();
     }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import plugin_common.IGameDAO;
 
@@ -63,6 +65,33 @@ public class SqliteGameDAO implements IGameDAO {
         }
 
         return new byte[0];
+    }
+
+    @Override
+    public byte[][] getGames() {
+        String selectStatement = "SELECT gameBlob FROM Games";
+        try {
+            Connection connection = ConnectionManager.newConnection();
+            PreparedStatement ps = connection.prepareStatement(selectStatement);
+            ResultSet rs = ps.executeQuery();
+
+            List<byte[]> results = new ArrayList<>();
+            while(rs.next()) {
+                byte[] blob = rs.getBytes("gameBlob");
+                results.add(blob);
+            }
+
+            rs.close();
+            connection.close();
+
+            byte[][] resultArray = new byte[results.size()][];
+            results.toArray(resultArray);
+            return resultArray;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new byte[0][];
     }
 
     @Override

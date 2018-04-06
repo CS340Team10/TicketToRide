@@ -142,7 +142,7 @@ public class ServerCommandService implements IServer {
      * @param playerID the player ID of the player to join the game
      * @return
      */
-    public Results joinGame(String gameName, String playerID){
+    public Results joinGame(String playerID, String gameName){
         Results returnValue = new Results(false, "", "Unknown error occurred");
 
         if (_serverModel.isPlayerLoggedIn(playerID)){

@@ -28,8 +28,15 @@ public class ServerRestore {
             commandDAO.clearCommands();
         }
 
+        // Restore players if any are in database.
+        PlayerDTO[] players = playerDAO.getPlayers();
+        for (PlayerDTO pdto : players) {
+            // TODO: Create player from PlayerDTO
+            // TODO: Save player in model
+        }
+
         // Restore games if any are in database.
-        byte[][] games = gameDAO.getGames();gameDAO.getGames();
+        byte[][] games = gameDAO.getGames();
         for (byte[] gameBytes : games) {
             Game game = SerializationUtils.deserialize(gameBytes);
 
@@ -42,13 +49,6 @@ public class ServerRestore {
 
             // TODO: Store game in client model
             // TODO: Delete old game and commands, store newly restored game
-        }
-
-        // Restore players if any are in database.
-        PlayerDTO[] players = playerDAO.getPlayers();
-        for (PlayerDTO pdto : players) {
-            // TODO: Create player from PlayerDTO
-            // TODO: Save player in model
         }
     }
 }

@@ -114,6 +114,15 @@ public class Command implements ICommand, Serializable
     }
 
     @Override
+    public String playerId() {
+        if (methodName.equals("login") || methodName.equals("register") || methodName.equals("createGame")) {
+            return ""; // No playerId for these methods.
+        }
+
+        return (String) paramValues[0]; // First argument is a playerId.
+    }
+
+    @Override
     public String toString(){
         String returnString = "";
 

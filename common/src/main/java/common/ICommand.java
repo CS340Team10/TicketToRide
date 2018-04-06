@@ -6,4 +6,5 @@ package common;
 
 public interface ICommand {
     Results execute();
+    String playerId();
 }

@@ -36,7 +36,7 @@ public class ServerCommandFactory {
     public static ICommand createJoinGameCommand(String gameName, String playerID)
     {
         String[] objects = {"java.lang.String", "java.lang.String"};
-        Object[] values = {gameName, playerID};
+        Object[] values = {playerID, gameName};
         return new Command("Services.ServerCommandService", "joinGame", objects, values);
     }
 

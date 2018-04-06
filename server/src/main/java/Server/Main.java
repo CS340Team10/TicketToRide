@@ -69,16 +69,32 @@ public class Main {
         boolean same = g.equals(back);
         assert same;
 
+        byte[][] games = gDAO.getGames();
 
-        Command command = new Command("testClass", "testMethod", new String[]{"testType"}, new Object[]{"testValue"});
-        bytes = SerializationUtils.serialize(command);
+        assert games.length == 1;
+        for (byte[] b : games) {
+            Game backC = SerializationUtils.deserialize(b);
+            assert backC.equals(g);
+        }
+
+
+        Command[] commandsIn = new Command[2];
+
+        commandsIn[0] = new Command("testClass", "testMethod", new String[]{"testType"}, new Object[]{"testValue"});
+        commandsIn[1] = new Command("test1", "test2", new String[]{"test3"}, new Object[]{"test4"});
+
+        bytes = SerializationUtils.serialize(commandsIn[0]);
+        cDAO.save(g.getName(), bytes);
+        bytes = SerializationUtils.serialize(commandsIn[1]);
         cDAO.save(g.getName(), bytes);
         byte[][] commands = cDAO.getCommands(g.getName());
 
         assert commands.length == 1;
+        int i = 0;
         for (byte[] b : commands) {
             Command backC = SerializationUtils.deserialize(b);
-            assert backC.equals(command);
+            assert backC.equals(commandsIn[i]);
+            i ++;
         }
 
         PlayerDTO pdto = new PlayerDTO();
@@ -89,6 +105,5 @@ public class Main {
         pDAO.save(pdto);
         PlayerDTO pdtoBack = pDAO.getPlayer(pdto.username);
         assert pdto.equals(pdtoBack);
-
     }
 }

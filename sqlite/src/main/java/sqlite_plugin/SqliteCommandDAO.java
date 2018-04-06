@@ -22,9 +22,8 @@ public class SqliteCommandDAO implements ICommandDAO {
             Connection connection = ConnectionManager.newConnection();
             String createStatement = "CREATE TABLE IF NOT EXISTS Commands (" +
                     "gameName TEXT NOT NULL," +
-                    "seqNumber INTEGER NOT NULL," +
-                    "commandBlob BLOB NOT NULL," +
-                    "PRIMARY KEY (gameName, seqNumber));";
+                    "seqNumber INTEGER PRIMARY KEY," +
+                    "commandBlob BLOB NOT NULL)";
             Statement statement = connection.createStatement();
             statement.execute(createStatement);
             connection.close();

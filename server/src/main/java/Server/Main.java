@@ -4,6 +4,7 @@ import org.apache.commons.lang3.SerializationUtils;
 
 import Model.Game;
 import Plugins.PluginLoader;
+import Plugins.ServerRestore;
 import common.Command;
 import data_transfer.PlayerDTO;
 import plugin_common.ICommandDAO;
@@ -45,10 +46,11 @@ public class Main {
 
         String pluginName = args[0];
         String commandsBetweenCheckpoints = args[1];
-        boolean clear = args.length == 3;
+        boolean clearDbData = args.length == 3 && args[2].equals("-c");
 
         PluginLoader.getInstance().loadPersistancePlugin(pluginName);
-        testPlugin();
+        ServerRestore.restoreIfNecessary(clearDbData);
+
 
         new ServerCommunicator().run();
     }

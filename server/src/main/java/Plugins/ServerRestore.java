@@ -3,6 +3,7 @@ package Plugins;
 import org.apache.commons.lang3.SerializationUtils;
 
 import Model.Game;
+import Services.ServerCommandService;
 import common.Command;
 import data_transfer.PlayerDTO;
 import plugin_common.ICommandDAO;
@@ -28,27 +29,37 @@ public class ServerRestore {
             commandDAO.clearCommands();
         }
 
-        // Restore players if any are in database.
+        // Restore players if any are in database. Do this first, because we will use these players
+        // later as we try to restore the game.
         PlayerDTO[] players = playerDAO.getPlayers();
         for (PlayerDTO pdto : players) {
-            // TODO: Create player from PlayerDTO
-            // TODO: Save player in model
+            ServerCommandService.getInstance().register(pdto.username, pdto.password);
         }
 
         // Restore games if any are in database.
         byte[][] games = gameDAO.getGames();
         for (byte[] gameBytes : games) {
             Game game = SerializationUtils.deserialize(gameBytes);
+            ServerCommandService.getInstance().getServerModel().addGame(game);
+        }
 
-            byte[][] commands = commandDAO.getCommands(game.getName());
-            for(byte[] commandBytes : commands) {
+        // Replay each saved command. These should modify any Games accordingly.
+        for (byte[] gameBytes : games) {
+            Game game = SerializationUtils.deserialize(gameBytes);
+            String name = game.getName();
+
+            byte[][] commands = commandDAO.getCommands(name);
+            for (byte[] commandBytes : commands) {
                 Command command = SerializationUtils.deserialize(commandBytes);
-
-                // TODO: Replay commands onto game
+                command.execute();
             }
+        }
 
-            // TODO: Store game in client model
-            // TODO: Delete old game and commands, store newly restored game
+        // Cleanup old games and commands for it, then store new games.
+        gameDAO.clearGames();
+        commandDAO.clearCommands();
+        for(Game g: ServerCommandService.getInstance().getServerModel().getGames()) {
+            gameDAO.save(g.getName(), SerializationUtils.serialize(g));
         }
     }
 }

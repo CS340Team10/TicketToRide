@@ -28,6 +28,10 @@ public class ServerCommandService implements IServer {
         _serverModel = new ServerModel();
     }
 
+    public ServerModel getServerModel() {
+        return _serverModel;
+    }
+
     /**
      * Returns the instance of ServerCommandInstance
      *

@@ -3,10 +3,9 @@ package Server;
 import org.apache.commons.lang3.SerializationUtils;
 
 import Model.Game;
-import Plugins.PluginLoader;
-import Plugins.ServerRestore;
 import common.Command;
 import data_transfer.PlayerDTO;
+import flatfile_plugin.FlatFilePersistanceProvider;
 import plugin_common.ICommandDAO;
 import plugin_common.IGameDAO;
 import plugin_common.IPersistanceProvider;
@@ -48,15 +47,16 @@ public class Main {
         String commandsBetweenCheckpoints = args[1];
         boolean clearDbData = args.length == 3 && args[2].equals("-c");
 
-        PluginLoader.getInstance().loadPersistancePlugin(pluginName);
-        ServerRestore.restoreIfNecessary(clearDbData);
+//        PluginLoader.getInstance().loadPersistancePlugin(pluginName);
+//        ServerRestore.restoreIfNecessary(clearDbData);
+        testPlugin();
 
 
         new ServerCommunicator().run();
     }
 
     private static void testPlugin() {
-        IPersistanceProvider provider = PluginLoader.getInstance().getPersistanceProvider();
+        IPersistanceProvider provider = new FlatFilePersistanceProvider();//PluginLoader.getInstance().getPersistanceProvider();
         ICommandDAO cDAO = provider.getCommandDao();
         IGameDAO gDAO = provider.getGameDao();
         IPlayerDAO pDAO = provider.getPlayerDao();

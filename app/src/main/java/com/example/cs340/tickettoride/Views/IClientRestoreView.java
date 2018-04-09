@@ -6,4 +6,5 @@ package com.example.cs340.tickettoride.Views;
 
 public interface IClientRestoreView {
     public void displayMessage(String message);
+    public void switchToView(Class<?> newViewClass);
 }

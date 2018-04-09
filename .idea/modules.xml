@@ -8,8 +8,10 @@
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/commons-lang3-3.5/commons-lang3-3.5.iml" filepath="$PROJECT_DIR$/commons-lang3-3.5/commons-lang3-3.5.iml" />
       <module fileurl="file://$PROJECT_DIR$/flatfile/flatfile.iml" filepath="$PROJECT_DIR$/flatfile/flatfile.iml" />
+      <module fileurl="file://F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\flatfile\flatfile.iml" filepath="F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\flatfile\flatfile.iml" />
       <module fileurl="file://$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" filepath="$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" />
       <module fileurl="file://$PROJECT_DIR$/inmemory/inmemory.iml" filepath="$PROJECT_DIR$/inmemory/inmemory.iml" />
+      <module fileurl="file://F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\inmemory\inmemory.iml" filepath="F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\inmemory\inmemory.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-annotations-2.9.4/jackson-annotations-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-annotations-2.9.4/jackson-annotations-2.9.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-core-2.9.4/jackson-core-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-core-2.9.4/jackson-core-2.9.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-databind-2.9.4/jackson-databind-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-databind-2.9.4/jackson-databind-2.9.4.iml" />
@@ -24,7 +26,9 @@
       <module fileurl="file://$PROJECT_DIR$/plugin_common/plugin_common.iml" filepath="$PROJECT_DIR$/plugin_common/plugin_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
       <module fileurl="file://$PROJECT_DIR$/sqlite/sqlite.iml" filepath="$PROJECT_DIR$/sqlite/sqlite.iml" />
+      <module fileurl="file://F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\sqlite\sqlite.iml" filepath="F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\sqlite\sqlite.iml" />
       <module fileurl="file://$PROJECT_DIR$/sqlite-jdbc-3.21.0/sqlite-jdbc-3.21.0.iml" filepath="$PROJECT_DIR$/sqlite-jdbc-3.21.0/sqlite-jdbc-3.21.0.iml" />
+      <module fileurl="file://F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\sqlite-jdbc-3.21.0\sqlite-jdbc-3.21.0.iml" filepath="F:\Joseph\BYU\Winter2018\CS340\TicketToRide\TicketToRide\sqlite-jdbc-3.21.0\sqlite-jdbc-3.21.0.iml" />
     </modules>
   </component>
 </project>

@@ -1,5 +1,6 @@
 package Presenters;
 
+import com.example.cs340.tickettoride.Views.ClientRestoreActivity;
 import com.example.cs340.tickettoride.Views.CreateJoinGameActivity;
 import com.example.cs340.tickettoride.Views.IRegisterLoginView;
 
@@ -85,13 +86,23 @@ public class RegisterLoginPresenter implements IRegisterLoginPresenter, IPresent
     public void onPostExecute(Results result) {
         if (result != null)
         {
-            if (result.succeeded()) {
+            if (result.succeeded())
+            {
                 // Save playerId from the data.
                 GUIService.getInstance().getClientModel().getUser().setId(result.getData());
 
                 // Move to next screen.
-                view.switchToView(CreateJoinGameActivity.class);
-            } else {
+                if (result.getError().equals(""))//If there was no error, proceed to the join/create game lobby
+                {
+                    view.switchToView(CreateJoinGameActivity.class);
+                }
+                else//If an error message was received, but the results are successful, then there was an interruption and the game needs to be restored
+                {
+                    view.switchToView(ClientRestoreActivity.class);
+                }
+            }
+            else
+            {
                 // Show error
                 waitingForServer = false;
                 textChanged(); // Re-enable buttons immediately if necessary

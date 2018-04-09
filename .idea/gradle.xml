@@ -12,7 +12,9 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/commons-lang3-3.5" />
+            <option value="$PROJECT_DIR$/flatfile" />
             <option value="$PROJECT_DIR$/gson-2.8.2" />
+            <option value="$PROJECT_DIR$/inmemory" />
             <option value="$PROJECT_DIR$/jackson-annotations-2.9.4" />
             <option value="$PROJECT_DIR$/jackson-core-2.9.4" />
             <option value="$PROJECT_DIR$/jackson-databind-2.9.4" />
@@ -26,6 +28,8 @@
             <option value="$PROJECT_DIR$/jgraphx-2.0.0.1" />
             <option value="$PROJECT_DIR$/plugin_common" />
             <option value="$PROJECT_DIR$/server" />
+            <option value="$PROJECT_DIR$/sqlite" />
+            <option value="$PROJECT_DIR$/sqlite-jdbc-3.21.0" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

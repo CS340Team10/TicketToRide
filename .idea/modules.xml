@@ -7,7 +7,9 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/commons-lang3-3.5/commons-lang3-3.5.iml" filepath="$PROJECT_DIR$/commons-lang3-3.5/commons-lang3-3.5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/flatfile/flatfile.iml" filepath="$PROJECT_DIR$/flatfile/flatfile.iml" />
       <module fileurl="file://$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" filepath="$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inmemory/inmemory.iml" filepath="$PROJECT_DIR$/inmemory/inmemory.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-annotations-2.9.4/jackson-annotations-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-annotations-2.9.4/jackson-annotations-2.9.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-core-2.9.4/jackson-core-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-core-2.9.4/jackson-core-2.9.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackson-databind-2.9.4/jackson-databind-2.9.4.iml" filepath="$PROJECT_DIR$/jackson-databind-2.9.4/jackson-databind-2.9.4.iml" />
@@ -21,6 +23,8 @@
       <module fileurl="file://$PROJECT_DIR$/jgraphx-2.0.0.1/jgraphx-2.0.0.1.iml" filepath="$PROJECT_DIR$/jgraphx-2.0.0.1/jgraphx-2.0.0.1.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugin_common/plugin_common.iml" filepath="$PROJECT_DIR$/plugin_common/plugin_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sqlite/sqlite.iml" filepath="$PROJECT_DIR$/sqlite/sqlite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sqlite-jdbc-3.21.0/sqlite-jdbc-3.21.0.iml" filepath="$PROJECT_DIR$/sqlite-jdbc-3.21.0/sqlite-jdbc-3.21.0.iml" />
     </modules>
   </component>
 </project>

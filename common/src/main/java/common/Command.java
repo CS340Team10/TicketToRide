@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 
@@ -11,7 +12,7 @@ import java.lang.reflect.Method;
 /**
  * Created by Joseph on 2/2/2018.
  */
-public class Command implements ICommand
+public class Command implements ICommand, Serializable
 {
     private String className = "";
     private String methodName = "";
@@ -110,6 +111,15 @@ public class Command implements ICommand
         finally {
             return result;
         }
+    }
+
+    @Override
+    public String playerId() {
+        if (methodName.equals("login") || methodName.equals("register") || methodName.equals("createGame")) {
+            return ""; // No playerId for these methods.
+        }
+
+        return (String) paramValues[0]; // First argument is a playerId.
     }
 
     @Override

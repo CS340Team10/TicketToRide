@@ -3,6 +3,9 @@ package Plugins;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -50,6 +53,25 @@ public class PluginLoader {
 
         PluginConfig pluginConfig = findPluginByName(configs, pluginName);
 
+        try {
+            final String dir = System.getProperty("user.dir");
+
+            // Getting the jar URL which contains target class
+            URL[] classLoaderUrls = new URL[]{new URL(String.format("file://%s/server/config/%s", dir, pluginConfig.getJarPath()))};
+
+            // Create a new URLClassLoader
+            URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls);
+
+            // Load the target class
+            Class<?> aClass = urlClassLoader.loadClass(pluginConfig.getClassName());
+
+            // Create a new instance from the loaded class
+            Constructor<?> constructor = aClass.getConstructor();
+            Object anObj = constructor.newInstance();
+            persistanceProvider = (IPersistanceProvider) anObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public IPersistanceProvider getPersistanceProvider() {

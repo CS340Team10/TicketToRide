@@ -3,11 +3,13 @@ package common;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 /**
  * Created by ephraimkunz on 2/21/18.
  */
 
-public class TrainCard implements ICard {
+public class TrainCard implements ICard, Serializable {
     public enum Colors {
         red,
         orange,

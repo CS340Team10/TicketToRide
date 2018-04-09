@@ -14,7 +14,7 @@ public interface IServer {
 
     public Results createGame(String gameName, Integer numPlayers);
 
-    public Results joinGame(String gameName, String playerID);
+    public Results joinGame(String playerID, String gameName);
 
     public Results claimRoute(String playerId, String routeId, List<TrainCard> cardsUsed);
 

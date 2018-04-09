@@ -1,5 +1,7 @@
 package flatfile_plugin;
 
+import java.io.File;
+
 import plugin_common.ICommandDAO;
 import plugin_common.IGameDAO;
 import plugin_common.IPersistanceProvider;
@@ -23,5 +25,18 @@ public class FlatFilePersistanceProvider implements IPersistanceProvider {
     @Override
     public ICommandDAO getCommandDao() {
         return new FlatFileCommandDAO();
+    }
+
+    public FlatFilePersistanceProvider() {
+        // Create directory structure
+        final String base = System.getProperty("user.dir");
+        String[] subfolders = new String[]{"players", "games", "commands"};
+
+        for(String subfolder: subfolders) {
+            File directory = new File(String.format("%s/server/config/flatfile/%s", base, subfolder));
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+        }
     }
 }

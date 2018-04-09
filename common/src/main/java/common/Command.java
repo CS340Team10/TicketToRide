@@ -131,4 +131,18 @@ public class Command implements ICommand, Serializable
 
         return returnString;
     }
+
+    @Override
+    public String getMethodName() {
+        return methodName;
+    }
+
+    @Override
+    public String getGameName() {
+        if (paramValues.length >= 2) {
+            return (String)paramValues[1];
+        }
+
+        return "You did a very bad thing by not calling getMethodName() first";
+    }
 }

@@ -79,7 +79,7 @@ public class Poller {
      *
      * @return command list if successful, null otherwise
      */
-    private List<ICommand> fetchCommands()
+    public List<ICommand> fetchCommands()
     {
         ClientCommunicator communicator = ClientCommunicator.getInstance(); // get communicator instance
         String playerID = ClientModel.getInstance().getUser().getId();

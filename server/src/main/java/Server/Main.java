@@ -3,6 +3,8 @@ package Server;
 import org.apache.commons.lang3.SerializationUtils;
 
 import Model.Game;
+import Plugins.PluginLoader;
+import Plugins.ServerRestore;
 import common.Command;
 import data_transfer.PlayerDTO;
 import flatfile_plugin.FlatFilePersistanceProvider;
@@ -47,9 +49,9 @@ public class Main {
         String commandsBetweenCheckpoints = args[1];
         boolean clearDbData = args.length == 3 && args[2].equals("-c");
 
-//        PluginLoader.getInstance().loadPersistancePlugin(pluginName);
-//        ServerRestore.restoreIfNecessary(clearDbData);
-        testPlugin();
+        PluginLoader.getInstance().loadPersistancePlugin(pluginName);
+        ServerRestore.restoreIfNecessary(clearDbData);
+        //testPlugin();
 
 
         new ServerCommunicator().run();

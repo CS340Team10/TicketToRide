@@ -6,6 +6,7 @@ import java.util.List;
 import Model.Game;
 import Model.Player;
 import Model.ServerModel;
+import common.Deck;
 import common.DestCard;
 import common.ICommand;
 import common.IServer;
@@ -384,5 +385,9 @@ public class ServerCommandService implements IServer {
             // there was an error sending the message
             return new Results(false, "", "The message was not sent");
         }
+    }
+
+    public void restoreDeck(String gameName, Game.DeckShufflType event, Deck restoreDeck){
+        _serverModel.restoreDeck(gameName, event, restoreDeck);
     }
 }

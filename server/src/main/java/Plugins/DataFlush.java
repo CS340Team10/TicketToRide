@@ -38,6 +38,7 @@ public class DataFlush {
      * @param command the Command to save
      */
     public static void saveCommand(String gameName, Command command){
+        System.out.println("[saving] " + command.toString());
         _instance.saveCommandPrivate(gameName, command);
     }
 
@@ -49,6 +50,8 @@ public class DataFlush {
      * @param command the Command to save
      */
     private void saveCommandPrivate(String gameName, Command command){
+
+        System.out.println("saving " + command.toString());
 
         // get the persistence provider
         IPersistanceProvider persistenceProvider = PluginLoader.getInstance().getPersistanceProvider();

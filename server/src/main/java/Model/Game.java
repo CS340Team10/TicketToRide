@@ -1,5 +1,7 @@
 package Model;
 
+import org.apache.commons.lang3.SerializationUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import Plugins.DataFlush;
+import Plugins.PluginLoader;
 import Services.ClientCommandFactory;
 import Services.ServerCommandFactory;
 import common.Command;
@@ -26,7 +29,7 @@ import common.TrainCard;
 
 public class Game implements Observer, Serializable {
 
-    public enum DeckShuffleEvent {
+    public static enum DeckShufflType {
         DESTINATION_DECK, TRAIN_DECK
     }
 
@@ -101,6 +104,8 @@ public class Game implements Observer, Serializable {
         // initialize the destination cards
         setUpDestCards();
 
+        // save the initial game state
+        PluginLoader.getInstance().getPersistanceProvider().getGameDao().save(getName(), getSerialized());
     }
 
     /**
@@ -421,6 +426,34 @@ public class Game implements Observer, Serializable {
     }
 
     /**
+     * Restores the specified deck after a restart
+     *
+     * @param deckType DESTINATION_DECK or TRAIN_DECK
+     * @param newDeck the new Deck to use
+     */
+    public void restoreDeck(DeckShufflType deckType, Deck newDeck){
+        switch (deckType){
+            case DESTINATION_DECK:
+                _destinationCards = newDeck;
+                break;
+            case TRAIN_DECK:
+                _trainCards = newDeck;
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Returns a serialized version of the game
+     *
+     * @return a serialized version of the game
+     */
+    public byte[] getSerialized(){
+        return SerializationUtils.serialize(this);
+    }
+
+    /**
      * This fires when an Observable updates
      *
      * @param obj the Observable that updated
@@ -432,12 +465,12 @@ public class Game implements Observer, Serializable {
             // this is a shuffle event, so create a command for the correct Deck
 
             Deck currDeck = (Deck)obj;
-            DeckShuffleEvent deckEvent = null;
+            DeckShufflType deckEvent = null;
             if (currDeck == _destinationCards){
-                deckEvent = DeckShuffleEvent.DESTINATION_DECK;
+                deckEvent = DeckShufflType.DESTINATION_DECK;
             }
             else {
-                deckEvent = DeckShuffleEvent.TRAIN_DECK;
+                deckEvent = DeckShufflType.TRAIN_DECK;
             }
 
             // save the command via the data persistence subsystem

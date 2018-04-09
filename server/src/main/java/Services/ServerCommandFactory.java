@@ -1,12 +1,9 @@
 package Services;
 
-import java.util.List;
-
 import Model.Game;
 import common.Command;
 import common.Deck;
 import common.ICommand;
-import static sun.audio.AudioPlayer.player;
 
 /**
  * Created by Brian on 2/8/18.
@@ -15,8 +12,8 @@ import static sun.audio.AudioPlayer.player;
 public class ServerCommandFactory {
 
 
-    public static ICommand createDeckShuffledCommand(String gameName, Game.DeckShuffleEvent deckEvent, Deck currDeck) {
-        Command command = new Command("Services.ServerCommandService", "restoreDeck", new String[]{"java.lang.String", "common.Game.DeckShuffledEvent", "common.Deck"}, new Object[]{gameName, deckEvent, currDeck} );
+    public static ICommand createDeckShuffledCommand(String gameName, Game.DeckShufflType deckType, Deck currDeck) {
+        Command command = new Command("Services.ServerCommandService", "restoreDeck", new String[]{"java.lang.String", "Model.Game.DeckShuffledType", "common.Deck"}, new Object[]{gameName, deckType, currDeck} );
         return command;
     }
 }

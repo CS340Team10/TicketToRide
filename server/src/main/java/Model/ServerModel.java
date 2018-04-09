@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.SerializationUtils;
 
+import common.Deck;
 import common.DestCard;
-import common.ICard;
 import common.ICommand;
 import common.TrainCard;
 
@@ -364,7 +364,7 @@ public class ServerModel {
         }
 
         if (currGame != null){
-            return SerializationUtils.serialize(currGame);
+            return currGame.getSerialized();
         }
         else {
             return new byte[0];
@@ -457,5 +457,22 @@ public class ServerModel {
 
         // if this point is reached, there was no game with the player in it
         return null;
+    }
+
+
+    public void restoreDeck(String gameName, Game.DeckShufflType deckType, Deck restoreDeck){
+        // get the correct game
+        Game modifyGame = null;
+        for (int count = 0; count < _currentGames.size(); count++){
+            if (_currentGames.get(count).getName().equals(gameName)){
+                modifyGame = _currentGames.get(count);
+                break;
+            }
+        }
+
+        // restore the deck
+        if (modifyGame != null){
+            modifyGame.restoreDeck(deckType, restoreDeck);
+        }
     }
 }

@@ -30,11 +30,22 @@ public class ExecCommandHandler extends GenericHandler {
 
         // save the command for the game
         if (!request.playerId().equals("")){
+            System.out.println("saving for " + request.playerId());
             String gameName = ServerCommandService.getGameNameForPlayerID(request.playerId());
 
             if (!gameName.equals("")){
                 DataFlush.saveCommand(gameName, request);
             }
+            else {
+                // check if this is a joinGame command
+                if (request.getMethodName().equals("joinGame")){
+                    DataFlush.saveCommand(request.getGameName(), request);
+                }
+                System.out.println("no such game");
+            }
+        }
+        else {
+            System.out.println("ignoring " + request.toString());
         }
 
         // execute the command against the running server

@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.SerializationUtils;
 
 import common.DestCard;
 import common.ICard;
@@ -325,6 +326,49 @@ public class ServerModel {
      */
     public boolean isPlayerInGame(String playerID){
         return (getGameForPlayer(playerID) != null);
+    }
+
+    /**
+     * Returns the name of the game that the player is in, or a blank string if there is no game for the player
+     *
+     * @param playerID the player ID to use to search
+     *
+     * @return the name of the game associated with the player, or a blank string if there is no such game
+     */
+    public String getGameNameForPlayerID(String playerID){
+        Game game = getGameForPlayer(playerID);
+
+        if (game != null){
+            return game.getName();
+        }
+        else {
+            return "";
+        }
+    }
+
+    /**
+     * Returns the bytes for the requested game, or an empty array if there is no such game
+     *
+     * @param gameName the name of the game to look for
+     *
+     * @return an array of bytes representing the Game, or an emtpy array if there was no such game
+     */
+    public byte[] getGameBytes(String gameName){
+        Game currGame = null;
+
+        for (int count = 0; count < _currentGames.size(); count++){
+            if (_currentGames.get(count).getName().equals(gameName)){
+                currGame = _currentGames.get(count);
+                break;
+            }
+        }
+
+        if (currGame != null){
+            return SerializationUtils.serialize(currGame);
+        }
+        else {
+            return new byte[0];
+        }
     }
 
     /**

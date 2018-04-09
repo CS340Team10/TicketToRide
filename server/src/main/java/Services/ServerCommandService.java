@@ -42,6 +42,33 @@ public class ServerCommandService implements IServer {
     }
 
     /**
+     * Returns the game name for a player ID
+     *
+     * @param playerID the player ID to use to search
+     *
+     * @return the name of the game associated with the player
+     */
+    public static String getGameNameForPlayerID(String playerID){
+
+        ServerModel model = getInstance().getServerModel();
+
+        return model.getGameNameForPlayerID(playerID);
+    }
+
+    /**
+     * Returns the bytes for a Game from the model
+     *
+     * @param gameName the name of the game to return for
+     *
+     * @return the bytes for a Game from the model, or an empty byte array if there is no such game
+     */
+    public static byte[] getGameBytes(String gameName){
+        ServerModel model = getInstance().getServerModel();
+
+        return model.getGameBytes(gameName);
+    }
+
+    /**
      * Attempts to register the user in the system
      *
      * @param username the username

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 
+import Plugins.DataFlush;
+import Services.ServerCommandService;
 import common.Command;
 import common.Results;
 import common.Serializer;
@@ -25,6 +27,17 @@ public class ExecCommandHandler extends GenericHandler {
     public void handle(HttpExchange exchange) throws IOException{
 
         Command request = (Command) Serializer.getInstance().deserializeInputStream(exchange.getRequestBody(), Command.class);
+
+        // save the command for the game
+        if (!request.playerId().equals("")){
+            String gameName = ServerCommandService.getGameNameForPlayerID(request.playerId());
+
+            if (!gameName.equals("")){
+                DataFlush.saveCommand(gameName, request);
+            }
+        }
+
+        // execute the command against the running server
         Results results = request.execute();
 
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);

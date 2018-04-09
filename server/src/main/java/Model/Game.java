@@ -3,8 +3,13 @@ package Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
+import Plugins.DataFlush;
 import Services.ClientCommandFactory;
+import Services.ServerCommandFactory;
+import common.Command;
 import common.Deck;
 import common.DestCard;
 import common.GameRoutes;
@@ -19,7 +24,11 @@ import common.TrainCard;
  * Created by Brian on 2/1/18.
  */
 
-public class Game implements Serializable {
+public class Game implements Observer, Serializable {
+
+    public enum DeckShuffleEvent {
+        DESTINATION_DECK, TRAIN_DECK
+    }
 
     /**
      * The number of cards that are face up at any point in the game (5)
@@ -409,6 +418,31 @@ public class Game implements Serializable {
      */
     public void addChatCommand(String playerID, String message){
         _gameHistory.addCommand(ClientCommandFactory.createChatCommand(playerID, message));
+    }
+
+    /**
+     * This fires when an Observable updates
+     *
+     * @param obj the Observable that updated
+     * @param args the arguement that was passed back from the Observer
+     */
+    @Override
+    public void update(Observable obj, Object args){
+        if (args == Deck.ObserverEvents.SHUFFLE){
+            // this is a shuffle event, so create a command for the correct Deck
+
+            Deck currDeck = (Deck)obj;
+            DeckShuffleEvent deckEvent = null;
+            if (currDeck == _destinationCards){
+                deckEvent = DeckShuffleEvent.DESTINATION_DECK;
+            }
+            else {
+                deckEvent = DeckShuffleEvent.TRAIN_DECK;
+            }
+
+            // save the command via the data persistence subsystem
+            DataFlush.saveCommand(getName(), (Command)ServerCommandFactory.createDeckShuffledCommand(getName(), deckEvent, currDeck));
+        }
     }
 
     @Override

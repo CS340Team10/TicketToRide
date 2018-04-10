@@ -6,12 +6,7 @@
     },
     {
         "name": "flatfile",
-        "jarPath": "flatfile.jar",
-        "className": ""
-    },
-    {
-        "name": "inmemory",
-        "jarPath": "inmemory_combined.jar",
-        "className": "inmemory_plugin.InMemoryPersistanceProvider"
+        "jarPath": "flatfile_combined.jar",
+        "className": "flatfile_plugin.FlatFilePersistanceProvider"
     }
 ]

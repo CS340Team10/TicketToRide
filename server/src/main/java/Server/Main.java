@@ -1,17 +1,7 @@
 package Server;
 
-import org.apache.commons.lang3.SerializationUtils;
-
-import Model.Game;
 import Plugins.PluginLoader;
 import Plugins.ServerRestore;
-import common.Command;
-import data_transfer.PlayerDTO;
-import flatfile_plugin.FlatFilePersistanceProvider;
-import plugin_common.ICommandDAO;
-import plugin_common.IGameDAO;
-import plugin_common.IPersistanceProvider;
-import plugin_common.IPlayerDAO;
 
 public class Main {
 
@@ -46,68 +36,68 @@ public class Main {
         }
 
         String pluginName = args[0];
-        String commandsBetweenCheckpoints = args[1];
+        int commandsBetweenCheckpoints = parseInt(args[1]);
         boolean clearDbData = args.length == 3 && args[2].equals("-c");
 
         PluginLoader.getInstance().loadPersistancePlugin(pluginName);
         ServerRestore.restoreIfNecessary(clearDbData);
-        //testPlugin();
-
 
         new ServerCommunicator().run();
     }
 
-    private static void testPlugin() {
-        IPersistanceProvider provider = new FlatFilePersistanceProvider();//PluginLoader.getInstance().getPersistanceProvider();
-        ICommandDAO cDAO = provider.getCommandDao();
-        IGameDAO gDAO = provider.getGameDao();
-        IPlayerDAO pDAO = provider.getPlayerDao();
-
-
-        Game g = new Game("gameName", 5);
-
-        byte[] bytes = SerializationUtils.serialize(g);
-
-        gDAO.save(g.getName(), bytes);
-        Game back = SerializationUtils.deserialize(gDAO.getGame(g.getName()));
-        boolean same = g.equals(back);
-        assert same;
-
-        byte[][] games = gDAO.getGames();
-
-        assert games.length == 1;
-        for (byte[] b : games) {
-            Game backC = SerializationUtils.deserialize(b);
-            assert backC.equals(g);
-        }
-
-
-        Command[] commandsIn = new Command[2];
-
-        commandsIn[0] = new Command("testClass", "testMethod", new String[]{"testType"}, new Object[]{"testValue"});
-        commandsIn[1] = new Command("test1", "test2", new String[]{"test3"}, new Object[]{"test4"});
-
-        bytes = SerializationUtils.serialize(commandsIn[0]);
-        cDAO.save(g.getName(), bytes);
-        bytes = SerializationUtils.serialize(commandsIn[1]);
-        cDAO.save(g.getName(), bytes);
-        byte[][] commands = cDAO.getCommands(g.getName());
-
-        assert commands.length == 1;
-        int i = 0;
-        for (byte[] b : commands) {
-            Command backC = SerializationUtils.deserialize(b);
-            assert backC.equals(commandsIn[i]);
-            i ++;
-        }
-
-        PlayerDTO pdto = new PlayerDTO();
-        pdto.isLoggedIn = false;
-        pdto.username = "uname";
-        pdto.password = "pass";
-
-        pDAO.save(pdto);
-        PlayerDTO pdtoBack = pDAO.getPlayer(pdto.username);
-        assert pdto.equals(pdtoBack);
-    }
+//    private static void testPlugin() {
+//        IPersistanceProvider provider = new FlatFilePersistanceProvider();//PluginLoader.getInstance().getPersistanceProvider();
+//        ICommandDAO cDAO = provider.getCommandDao();
+//        IGameDAO gDAO = provider.getGameDao();
+//        IPlayerDAO pDAO = provider.getPlayerDao();
+//
+//
+//        Game g = new Game("gameName", 5);
+//
+//        byte[] bytes = SerializationUtils.serialize(g);
+//
+//        gDAO.save(g.getName(), bytes);
+//        Game back = SerializationUtils.deserialize(gDAO.getGame(g.getName()));
+//        boolean same = g.equals(back);
+//        assert same;
+//
+//        byte[][] games = gDAO.getGames();
+//
+//        assert games.length == 1;
+//        for (byte[] b : games) {
+//            Game backC = SerializationUtils.deserialize(b);
+//            assert backC.equals(g);
+//        }
+//
+//
+//        Command[] commandsIn = new Command[2];
+//
+//        commandsIn[0] = new Command("testClass", "testMethod", new String[]{"testType"}, new Object[]{"testValue"});
+//        commandsIn[1] = new Command("test1", "test2", new String[]{"test3"}, new Object[]{"test4"});
+//
+//        bytes = SerializationUtils.serialize(commandsIn[0]);
+//        cDAO.save(g.getName(), bytes);
+//        bytes = SerializationUtils.serialize(commandsIn[1]);
+//        cDAO.save(g.getName(), bytes);
+//        byte[][] commands = cDAO.getCommands(g.getName());
+//
+//        assert commands.length == 1;
+//        int i = 0;
+//        for (byte[] b : commands) {
+//            Command backC = SerializationUtils.deserialize(b);
+//            assert backC.equals(commandsIn[i]);
+//            i ++;
+//        }
+//
+//        cDAO.clearCommands();
+//
+//        PlayerDTO pdto = new PlayerDTO();
+//        pdto.isLoggedIn = false;
+//        pdto.username = "uname";
+//        pdto.password = "pass";
+//
+//        pDAO.save(pdto);
+//        PlayerDTO pdtoBack = pDAO.getPlayer(pdto.username);
+//        assert pdto.equals(pdtoBack);
+//    }
 }

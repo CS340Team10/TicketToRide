@@ -35,13 +35,14 @@ public class ExecCommandHandler extends GenericHandler {
 
             if (!gameName.equals("")){
                 DataFlush.saveCommand(gameName, request);
+                System.out.println("saving command");
             }
             else {
                 // check if this is a joinGame command
-                if (request.getMethodName().equals("joinGame")){
-                    DataFlush.saveCommand(request.getGameName(), request);
+                if (request.methodName().equals("joinGame")){
+                    System.out.println("joining game");
+                    DataFlush.saveCommand(request.gameName(), request);
                 }
-                System.out.println("no such game");
             }
         }
         else {

@@ -4,6 +4,7 @@ import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import common.TrainCard;
  * Created by Brian on 2/1/18.
  */
 
-public class Player {
+public class Player implements Serializable{
 
     private String _username;
     private String _password;

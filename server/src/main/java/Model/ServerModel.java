@@ -2,7 +2,6 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.SerializationUtils;
 
 import common.Deck;
 import common.DestCard;
@@ -97,14 +96,14 @@ public class ServerModel {
     /**
      * Returns whether the game already exists
      *
-     * @param compareGame the Game to compare to
+     * @param gameName the Game to compare to
      *
      * @return true if the Game already exists, false otherwise
      */
-    public boolean gameExists(Game compareGame){
+    public boolean gameExists(String gameName){
 
         for (Game game : _currentGames){
-            if (game.getName().equals(compareGame.getName())){
+            if (game.getName().equals(gameName)){
                 return true;
             }
         }

@@ -59,7 +59,7 @@ public class DataFlush {
         // check the number of commands that have been saved for the game
         Integer gameCommands = _gameFlushControl.get(gameName);
         if (gameCommands == null){
-            // the game exists in the map
+            // the game does not exist in the map
             gameCommands = 0;
         }
 
@@ -69,6 +69,7 @@ public class DataFlush {
 
             if (gameBytes.length > 0){
                 persistenceProvider.getGameDao().save(gameName, gameBytes);
+                persistenceProvider.getCommandDao().clearCommands(gameName);
             }
 
             // all of the commands should now be cleared for this game
@@ -77,7 +78,7 @@ public class DataFlush {
 
         // save the new command
         byte[] bytes = SerializationUtils.serialize(command);
-        persistenceProvider.getCommandDao().save(gameName, null);
+        persistenceProvider.getCommandDao().save(gameName, bytes);
 
         // update the number of commands that have been saved
         _gameFlushControl.put(gameName, gameCommands + 1);

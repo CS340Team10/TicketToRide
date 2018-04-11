@@ -6,12 +6,14 @@ import java.util.List;
 import Model.Game;
 import Model.Player;
 import Model.ServerModel;
+import Plugins.PluginLoader;
 import common.Deck;
 import common.DestCard;
 import common.ICommand;
 import common.IServer;
 import common.Results;
 import common.TrainCard;
+import data_transfer.PlayerDTO;
 
 /**
  * Created by Brian on 2/1/18.
@@ -99,6 +101,13 @@ public class ServerCommandService implements IServer {
             returnValue = new Results(true, tempPlayer.getPlayerID(), "");
         }
 
+        // save the user to the database
+        PlayerDTO dto = new PlayerDTO();
+        dto.isLoggedIn = true;
+        dto.password = password;
+        dto.username = username;
+        PluginLoader.getInstance().getPersistanceProvider().getPlayerDao().save(dto);
+
         return returnValue;
     }
 
@@ -155,11 +164,11 @@ public class ServerCommandService implements IServer {
     public Results createGame(String gameName, Integer numOfPlayers) {
         Results returnValue = new Results(false, "", "Unknown error occurred");
 
-        Game newGame = new Game(gameName, numOfPlayers);
-        if (_serverModel.gameExists(newGame)){
+        if (_serverModel.gameExists(gameName)){
             returnValue = new Results(false, "", "The game \"" + gameName + "\" already exists. Please try a different name");
         }
         else {
+            Game newGame = new Game(gameName, numOfPlayers);
             _serverModel.addGame(newGame);
             returnValue = new Results(true, "", "");
         }

@@ -87,21 +87,25 @@ public class SqlitePlayerDAO implements IPlayerDAO {
             PreparedStatement ps = connection.prepareStatement(selectStatement);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-            rs.next();
+            boolean exists = rs.next();
 
-            PlayerDTO dto = new PlayerDTO();
-            dto.username = rs.getString("username");
-            dto.password = rs.getString("password");
-            dto.isLoggedIn = Boolean.parseBoolean(rs.getString("loggedIn"));
+            if (exists) {
+                PlayerDTO dto = new PlayerDTO();
+                dto.username = rs.getString("username");
+                dto.password = rs.getString("password");
+                dto.isLoggedIn = Boolean.parseBoolean(rs.getString("loggedIn"));
 
-            rs.close();
-            connection.close();
-            return dto;
+                rs.close();
+                connection.close();
+                return dto;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new PlayerDTO();
+        return null;
     }
 
     @Override

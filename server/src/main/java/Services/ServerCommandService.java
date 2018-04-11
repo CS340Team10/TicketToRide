@@ -14,6 +14,8 @@ import common.IServer;
 import common.Results;
 import common.TrainCard;
 import data_transfer.PlayerDTO;
+import plugin_common.IPersistanceProvider;
+import plugin_common.IPlayerDAO;
 
 /**
  * Created by Brian on 2/1/18.
@@ -106,7 +108,11 @@ public class ServerCommandService implements IServer {
         dto.isLoggedIn = true;
         dto.password = password;
         dto.username = username;
-        PluginLoader.getInstance().getPersistanceProvider().getPlayerDao().save(dto);
+
+        IPlayerDAO playerDAO = PluginLoader.getInstance().getPersistanceProvider().getPlayerDao();
+        if (playerDAO.getPlayer(username) == null) {
+            playerDAO.save(dto);
+        }
 
         return returnValue;
     }

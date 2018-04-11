@@ -22,13 +22,13 @@ public class ServerModel {
      */
     public ServerModel(){
         // add some default registered players for now
-        Player player1 = new Player("player1", "password");
+        /*Player player1 = new Player("player1", "password");
         Player player2 = new Player("player2", "secret");
         Player player3 = new Player("player3", "my_precious");
 
         _registeredPlayers.add(player1);
         _registeredPlayers.add(player2);
-        _registeredPlayers.add(player3);
+        _registeredPlayers.add(player3);*/
     }
 
     /**

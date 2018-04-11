@@ -8,7 +8,6 @@ import Plugins.PluginLoader;
 import Plugins.ServerRestore;
 import common.Command;
 import data_transfer.PlayerDTO;
-import flatfile_plugin.FlatFilePersistanceProvider;
 import plugin_common.ICommandDAO;
 import plugin_common.IGameDAO;
 import plugin_common.IPersistanceProvider;
@@ -61,7 +60,7 @@ public class Main {
     }
 
     private static void testPlugin() {
-        IPersistanceProvider provider = new FlatFilePersistanceProvider();//PluginLoader.getInstance().getPersistanceProvider();
+        IPersistanceProvider provider = PluginLoader.getInstance().getPersistanceProvider();
         ICommandDAO cDAO = provider.getCommandDao();
         IGameDAO gDAO = provider.getGameDao();
         IPlayerDAO pDAO = provider.getPlayerDao();

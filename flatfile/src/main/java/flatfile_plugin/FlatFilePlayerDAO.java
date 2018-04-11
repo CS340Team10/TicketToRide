@@ -49,6 +49,10 @@ public class FlatFilePlayerDAO implements IPlayerDAO {
     @Override
     public PlayerDTO getPlayer(String username) {
         String gamePath = getPlayersFilepath() + username;
+        if (!new File(gamePath).exists()) {
+            return null;
+        }
+
         try {
             FileInputStream fis = new FileInputStream(gamePath);
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();

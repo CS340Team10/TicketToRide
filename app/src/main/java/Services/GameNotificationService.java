@@ -1,5 +1,6 @@
 package Services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ClientModel.ClientModel;
@@ -60,8 +61,8 @@ public class GameNotificationService {
 
     public void destCardsChosen(String playerId, List<DestCard> cards) {
         historyService.playerChoseDestCards(playerId, cards);
-
         model.setChosenDestCards(playerId, cards);
+        model.setOfferedDestCards(new ArrayList<DestCard>());
     }
 
     public void trainCardChosen(String playerId, TrainCard card) {

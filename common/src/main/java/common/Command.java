@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 
-
 /**
  * Created by Joseph on 2/2/2018.
  */
@@ -130,5 +129,19 @@ public class Command implements ICommand, Serializable
         returnString += "Method: " + methodName;
 
         return returnString;
+    }
+
+    @Override
+    public String methodName() {
+        return methodName;
+    }
+
+    @Override
+    public String gameName() {
+        if (paramValues.length >= 2) {
+            return (String)paramValues[1];
+        }
+
+        return "You did a very bad thing by not calling methodName() first";
     }
 }

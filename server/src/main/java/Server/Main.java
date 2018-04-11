@@ -3,6 +3,7 @@ package Server;
 import org.apache.commons.lang3.SerializationUtils;
 
 import Model.Game;
+import Plugins.DataFlush;
 import Plugins.PluginLoader;
 import Plugins.ServerRestore;
 import common.Command;
@@ -48,8 +49,11 @@ public class Main {
         String commandsBetweenCheckpoints = args[1];
         boolean clearDbData = args.length == 3 && args[2].equals("-c");
 
-        //PluginLoader.getInstance().loadPersistancePlugin(pluginName);
-        //ServerRestore.restoreIfNecessary(clearDbData);
+        PluginLoader.getInstance().loadPersistancePlugin(pluginName);
+        ServerRestore.restoreIfNecessary(clearDbData);
+//        testPlugin();
+
+        DataFlush.setCommandsBetweenCheckpoints(Integer.parseInt(commandsBetweenCheckpoints));
 
 
         new ServerCommunicator().run();

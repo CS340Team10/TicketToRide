@@ -6,11 +6,16 @@ import java.util.List;
 import Model.Game;
 import Model.Player;
 import Model.ServerModel;
+import Plugins.PluginLoader;
+import common.Deck;
 import common.DestCard;
 import common.ICommand;
 import common.IServer;
 import common.Results;
 import common.TrainCard;
+import data_transfer.PlayerDTO;
+import plugin_common.IPersistanceProvider;
+import plugin_common.IPlayerDAO;
 
 /**
  * Created by Brian on 2/1/18.
@@ -42,6 +47,33 @@ public class ServerCommandService implements IServer {
     }
 
     /**
+     * Returns the game name for a player ID
+     *
+     * @param playerID the player ID to use to search
+     *
+     * @return the name of the game associated with the player
+     */
+    public static String getGameNameForPlayerID(String playerID){
+
+        ServerModel model = getInstance().getServerModel();
+
+        return model.getGameNameForPlayerID(playerID);
+    }
+
+    /**
+     * Returns the bytes for a Game from the model
+     *
+     * @param gameName the name of the game to return for
+     *
+     * @return the bytes for a Game from the model, or an empty byte array if there is no such game
+     */
+    public static byte[] getGameBytes(String gameName){
+        ServerModel model = getInstance().getServerModel();
+
+        return model.getGameBytes(gameName);
+    }
+
+    /**
      * Attempts to register the user in the system
      *
      * @param username the username
@@ -69,6 +101,17 @@ public class ServerCommandService implements IServer {
             _serverModel.register(tempPlayer);
             _serverModel.setLoggedIn(tempPlayer);
             returnValue = new Results(true, tempPlayer.getPlayerID(), "");
+        }
+
+        // save the user to the database
+        PlayerDTO dto = new PlayerDTO();
+        dto.isLoggedIn = true;
+        dto.password = password;
+        dto.username = username;
+
+        IPlayerDAO playerDAO = PluginLoader.getInstance().getPersistanceProvider().getPlayerDao();
+        if (playerDAO.getPlayer(username) == null) {
+            playerDAO.save(dto);
         }
 
         return returnValue;
@@ -127,11 +170,11 @@ public class ServerCommandService implements IServer {
     public Results createGame(String gameName, Integer numOfPlayers) {
         Results returnValue = new Results(false, "", "Unknown error occurred");
 
-        Game newGame = new Game(gameName, numOfPlayers);
-        if (_serverModel.gameExists(newGame)){
+        if (_serverModel.gameExists(gameName)){
             returnValue = new Results(false, "", "The game \"" + gameName + "\" already exists. Please try a different name");
         }
         else {
+            Game newGame = new Game(gameName, numOfPlayers);
             _serverModel.addGame(newGame);
             returnValue = new Results(true, "", "");
         }
@@ -357,5 +400,9 @@ public class ServerCommandService implements IServer {
             // there was an error sending the message
             return new Results(false, "", "The message was not sent");
         }
+    }
+
+    public void restoreDeck(String gameName, Game.DeckShufflType event, Deck restoreDeck){
+        _serverModel.restoreDeck(gameName, event, restoreDeck);
     }
 }

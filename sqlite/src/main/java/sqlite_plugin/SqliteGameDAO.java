@@ -34,7 +34,7 @@ public class SqliteGameDAO implements IGameDAO {
 
     @Override
     public void save(String gameName, byte[] gameBytes) {
-        String insertStatement = "INSERT into Games(gameName, gameBlob) VALUES (?, ?)";
+        String insertStatement = "INSERT OR REPLACE into Games(gameName, gameBlob) VALUES (?, ?)";
         try {
             Connection connection = ConnectionManager.newConnection();
             PreparedStatement ps = connection.prepareStatement(insertStatement);

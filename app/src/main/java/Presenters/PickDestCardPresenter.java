@@ -64,10 +64,7 @@ public class PickDestCardPresenter implements IPresenter, IPickDestCardPresenter
     @Override
     public void onPostExecute(Results result)
     {
-        if (result.succeeded()) {
-            ClientModel.getInstance().setOfferedDestCards(new ArrayList<DestCard>());
-        }
-        else
+        if (!result.succeeded())
         {
             mView.showToast(result.getError());
         }

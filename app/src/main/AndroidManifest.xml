@@ -25,6 +25,9 @@
             android:name=".Views.CreateJoinGameActivity"
             android:screenOrientation="landscape" />
         <activity
+            android:name=".Views.ClientRestoreActivity"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".Views.WaitForGameActivity"
             android:screenOrientation="landscape" />
         <activity

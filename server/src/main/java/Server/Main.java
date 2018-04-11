@@ -48,8 +48,8 @@ public class Main {
         String commandsBetweenCheckpoints = args[1];
         boolean clearDbData = args.length == 3 && args[2].equals("-c");
 
-        PluginLoader.getInstance().loadPersistancePlugin(pluginName);
-        ServerRestore.restoreIfNecessary(clearDbData);
+        //PluginLoader.getInstance().loadPersistancePlugin(pluginName);
+        //ServerRestore.restoreIfNecessary(clearDbData);
 
 
         new ServerCommunicator().run();

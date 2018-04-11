@@ -4,12 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by ephraimkunz on 2/21/18.
  */
 
-public class Deck implements Serializable {
+public class Deck extends Observable implements Serializable {
+
+    public enum ObserverEvents {
+        CARD_ADDED, CARD_DRAWN, SHUFFLE, CLEAR
+    }
 
     private List<ICard> _cards = new ArrayList<ICard>();
 
@@ -39,6 +44,10 @@ public class Deck implements Serializable {
         for (int count = 0; count < cards.size(); count++){
             _cards.add(cards.get(count));
         }
+
+        // notify the Observers
+        setChanged();
+        notifyObservers(ObserverEvents.CARD_ADDED);
     }
 
     /**
@@ -52,6 +61,10 @@ public class Deck implements Serializable {
         {
             _cards.add(cards.viewCard(count));
         }
+
+        // notify the Observers
+        setChanged();
+        notifyObservers(ObserverEvents.CARD_ADDED);
     }
 
     /**
@@ -100,6 +113,10 @@ public class Deck implements Serializable {
             // remove the card from the deck
             _cards.remove(position);
 
+            // notify the Observers
+            setChanged();
+            notifyObservers(ObserverEvents.CARD_DRAWN);
+
             // return the card
             return returnValue;
         }
@@ -139,6 +156,12 @@ public class Deck implements Serializable {
      */
     public void shuffle(){
         Collections.shuffle(_cards);
+
+
+
+        // notify the Observers
+        setChanged();
+        notifyObservers(ObserverEvents.SHUFFLE);
     }
 
     /**
@@ -146,6 +169,11 @@ public class Deck implements Serializable {
      */
     public void clear(){
         _cards.clear();
+
+
+        // notify the Observers
+        setChanged();
+        notifyObservers(ObserverEvents.CLEAR);
     }
 
     /**

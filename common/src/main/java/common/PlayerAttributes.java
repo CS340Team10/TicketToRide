@@ -1,10 +1,12 @@
 package common;
 
+import java.io.Serializable;
+
 /**
  * Created by ephraimkunz on 2/21/18.
  */
 
-public class PlayerAttributes {
+public class PlayerAttributes implements Serializable {
     public enum Color {
         blue,
         red,

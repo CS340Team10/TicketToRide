@@ -3,8 +3,8 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.Deck;
 import common.DestCard;
-import common.ICard;
 import common.ICommand;
 import common.TrainCard;
 
@@ -22,13 +22,13 @@ public class ServerModel {
      */
     public ServerModel(){
         // add some default registered players for now
-        Player player1 = new Player("player1", "password");
+        /*Player player1 = new Player("player1", "password");
         Player player2 = new Player("player2", "secret");
         Player player3 = new Player("player3", "my_precious");
 
         _registeredPlayers.add(player1);
         _registeredPlayers.add(player2);
-        _registeredPlayers.add(player3);
+        _registeredPlayers.add(player3);*/
     }
 
     /**
@@ -96,14 +96,14 @@ public class ServerModel {
     /**
      * Returns whether the game already exists
      *
-     * @param compareGame the Game to compare to
+     * @param gameName the Game to compare to
      *
      * @return true if the Game already exists, false otherwise
      */
-    public boolean gameExists(Game compareGame){
+    public boolean gameExists(String gameName){
 
         for (Game game : _currentGames){
-            if (game.getName().equals(compareGame.getName())){
+            if (game.getName().equals(gameName)){
                 return true;
             }
         }
@@ -328,6 +328,49 @@ public class ServerModel {
     }
 
     /**
+     * Returns the name of the game that the player is in, or a blank string if there is no game for the player
+     *
+     * @param playerID the player ID to use to search
+     *
+     * @return the name of the game associated with the player, or a blank string if there is no such game
+     */
+    public String getGameNameForPlayerID(String playerID){
+        Game game = getGameForPlayer(playerID);
+
+        if (game != null){
+            return game.getName();
+        }
+        else {
+            return "";
+        }
+    }
+
+    /**
+     * Returns the bytes for the requested game, or an empty array if there is no such game
+     *
+     * @param gameName the name of the game to look for
+     *
+     * @return an array of bytes representing the Game, or an emtpy array if there was no such game
+     */
+    public byte[] getGameBytes(String gameName){
+        Game currGame = null;
+
+        for (int count = 0; count < _currentGames.size(); count++){
+            if (_currentGames.get(count).getName().equals(gameName)){
+                currGame = _currentGames.get(count);
+                break;
+            }
+        }
+
+        if (currGame != null){
+            return currGame.getSerialized();
+        }
+        else {
+            return new byte[0];
+        }
+    }
+
+    /**
      * Returns a String representation of the sever model
      *
      * @return a String representation of the server model
@@ -413,5 +456,22 @@ public class ServerModel {
 
         // if this point is reached, there was no game with the player in it
         return null;
+    }
+
+
+    public void restoreDeck(String gameName, Game.DeckShufflType deckType, Deck restoreDeck){
+        // get the correct game
+        Game modifyGame = null;
+        for (int count = 0; count < _currentGames.size(); count++){
+            if (_currentGames.get(count).getName().equals(gameName)){
+                modifyGame = _currentGames.get(count);
+                break;
+            }
+        }
+
+        // restore the deck
+        if (modifyGame != null){
+            modifyGame.restoreDeck(deckType, restoreDeck);
+        }
     }
 }

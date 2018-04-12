@@ -78,7 +78,6 @@ public class Game implements Observer, Serializable {
     private Deck _destinationCards = new Deck();
     private Deck _faceUpTrainCards = new Deck();
     private Deck _discardedTrainCards = new Deck();
-    private Deck _discardedDestinationCards = new Deck();
 
     private String _name;
     private int _numOfPlayers;
@@ -103,6 +102,9 @@ public class Game implements Observer, Serializable {
 
         // initialize the destination cards
         setUpDestCards();
+
+        _trainCards.addObserver(this);
+        _destinationCards.addObserver(this);
 
         // save the initial game state
         PluginLoader.getInstance().getPersistanceProvider().getGameDao().save(getName(), getSerialized());

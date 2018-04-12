@@ -14,7 +14,6 @@ import common.IServer;
 import common.Results;
 import common.TrainCard;
 import data_transfer.PlayerDTO;
-import plugin_common.IPersistanceProvider;
 import plugin_common.IPlayerDAO;
 
 /**
@@ -402,7 +401,8 @@ public class ServerCommandService implements IServer {
         }
     }
 
-    public void restoreDeck(String gameName, Game.DeckShufflType event, Deck restoreDeck){
-        _serverModel.restoreDeck(gameName, event, restoreDeck);
+    public void restoreDeck(String gameName, String event, Deck restoreDeck){
+        Game.DeckShufflType shufflType = Game.DeckShufflType.valueOf(event);
+        _serverModel.restoreDeck(gameName, shufflType, restoreDeck);
     }
 }

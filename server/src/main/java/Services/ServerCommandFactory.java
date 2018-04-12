@@ -13,7 +13,7 @@ public class ServerCommandFactory {
 
 
     public static ICommand createDeckShuffledCommand(String gameName, Game.DeckShufflType deckType, Deck currDeck) {
-        Command command = new Command("Services.ServerCommandService", "restoreDeck", new String[]{"java.lang.String", "Model.Game.DeckShuffledType", "common.Deck"}, new Object[]{gameName, deckType, currDeck} );
+        Command command = new Command("Services.ServerCommandService", "restoreDeck", new String[]{"java.lang.String", "java.lang.String", "common.Deck"}, new Object[]{gameName, deckType.toString(), currDeck} );
         return command;
     }
 }

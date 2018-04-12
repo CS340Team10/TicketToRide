@@ -29,7 +29,7 @@ public class HandView extends Fragment implements IHandView, TabLayout.OnTabSele
 {
     private final String TRAIN_TAB = "Train Cards";
     private final String DEST_TAB = "Dest Cards";
-    private IHandPresenter presenter = new HandPresenter(this);
+    private IHandPresenter presenter;
     private boolean showingTrainCards = true;
     private TabLayout tabs;
     private TabLayout.Tab trainTab;
@@ -58,6 +58,8 @@ public class HandView extends Fragment implements IHandView, TabLayout.OnTabSele
         View v = inflater.inflate(R.layout.fragment_hand_view, container, false);
         //if you would like to test this call the following: loadTestData()
         getSubviews(v);
+
+        presenter =  new HandPresenter(this);
         return v;
     }
 

@@ -1,7 +1,5 @@
 package Presenters;
 
-import android.content.Intent;
-
 import com.example.cs340.tickettoride.Views.IGamePlayView;
 
 import java.util.Observable;
@@ -21,8 +19,8 @@ public class GamePlayPresenter implements Observer, IPresenter, IGamePlayPresent
 
     public GamePlayPresenter(IGamePlayView view) {
         this.view = view;
-        update(null, null);
         ClientModel.getInstance().addObserver(this);
+        update(null, null);
     }
 
     @Override

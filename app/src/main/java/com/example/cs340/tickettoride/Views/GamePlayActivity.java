@@ -13,6 +13,7 @@ import com.example.cs340.tickettoride.R;
 
 import java.util.ArrayList;
 
+import Communication.Poller;
 import Presenters.GamePlayPresenter;
 import Presenters.IGamePlayPresenter;
 
@@ -61,6 +62,9 @@ public class GamePlayActivity extends AppCompatActivity implements IGamePlayView
             getSupportFragmentManager().beginTransaction().replace(R.id.leftDrawer, (Fragment) handView).commit();
         }
         drawerLayout.closeDrawers();
+
+        // Start command poller if not already started (coming from restore)
+        Poller.getInstance().startCommandPoll();
     }
 
     @Override

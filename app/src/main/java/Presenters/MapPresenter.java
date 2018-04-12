@@ -21,6 +21,7 @@ public class MapPresenter implements IMapPresenter, IPresenter, Observer {
     public MapPresenter(IMapView view) {
         this.view = view;
         ClientModel.getInstance().addObserver(this);
+        update(null, null);
     }
 
     @Override

@@ -31,6 +31,8 @@ public class PlayerPresenter implements IPlayerPresenter, IPresenter, Observer {
     {
         this.playerView = playerView;
         ClientModel.getInstance().addObserver(this);
+
+        update(null, null);
     }
 
     /**

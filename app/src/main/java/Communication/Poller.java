@@ -26,6 +26,7 @@ public class Poller {
     private static ScheduledExecutorService _threadInstance; // separate thread to complete polling
     protected enum pollTypes {COMMAND, GAME}
     private static pollTypes currentPollType = pollTypes.GAME;
+    private boolean commandPollRunning = false;
 
     public static Poller getInstance() {
         return _instance;
@@ -36,19 +37,22 @@ public class Poller {
      * Starts a poller that will keep Command list updated
      */
     public void startCommandPoll() {
-        if(_threadInstance != null)
-        {
-            _threadInstance.shutdown();
+        if(!commandPollRunning) {
+            if (_threadInstance != null) {
+                _threadInstance.shutdown();
+            }
+            currentPollType = pollTypes.COMMAND; // set polling type
+            _threadInstance = Executors.newSingleThreadScheduledExecutor(); //create polling thread
+            ScheduledFuture future = _threadInstance.scheduleWithFixedDelay(new PollerThread(), 0, pollPeriodMS, TimeUnit.MILLISECONDS); //start polling thread
+            commandPollRunning = true;
         }
-        currentPollType = pollTypes.COMMAND; // set polling type
-        _threadInstance = Executors.newSingleThreadScheduledExecutor(); //create polling thread
-        ScheduledFuture future = _threadInstance.scheduleWithFixedDelay(new PollerThread(), 0, pollPeriodMS, TimeUnit.MILLISECONDS); //start polling thread
     }
 
     /**
      * Stops the poller that will keep Command list updated
      */
     public void stopCommandPoll() {
+        commandPollRunning = false;
         _threadInstance.shutdown();
     }
 

@@ -29,7 +29,7 @@ public class MapView implements IMapView{
     Map<String, Point[]> routeIdToPoints;
     Bitmap bitmap;
 
-    IMapPresenter presenter = new MapPresenter(this);
+    IMapPresenter presenter;
 
     @Override
     public void drawRouteAsClaimed(String routeId, Player.PlayerColors playerColor) {
@@ -65,6 +65,7 @@ public class MapView implements IMapView{
         this.iv = activity.findViewById(R.id.mapView);
 
         setupBitmap();
+         presenter = new MapPresenter(this);
     }
 
     private void setupBitmap() {

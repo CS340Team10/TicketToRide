@@ -49,7 +49,6 @@ public class PlayerView implements IPlayerView {
 
     public void setup(final Activity activity, int viewNum) {
         this.activity = activity;
-        this.presenter = new PlayerPresenter(this);
         this.viewNum = viewNum;
         switch(viewNum)
         {
@@ -80,6 +79,10 @@ public class PlayerView implements IPlayerView {
         }
         linearLayout.setBackgroundColor(hexColor);
         textView.setText(infoString);
+
+        // Constructing presenter will cause methods in this class to be called that require bound views.
+        // So we must do this last.
+        this.presenter = new PlayerPresenter(this);
     }
 
     public void update()

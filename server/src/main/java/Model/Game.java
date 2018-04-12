@@ -30,7 +30,7 @@ import common.TrainCard;
 public class Game implements Observer, Serializable {
 
     public static enum DeckShufflType {
-        DESTINATION_DECK, TRAIN_DECK
+        FACEDOWN, FACEUP
     }
 
     /**
@@ -51,12 +51,12 @@ public class Game implements Observer, Serializable {
     /**
      * The number of wild train cards in the deck (14)
      */
-    public final static int WILD_TRAIN_CARDS_COUNT = 14;
+    public final static int WILD_TRAIN_CARDS_COUNT = 2;
 
     /**
      * The number of normal train cards of each color in the deck (12)
      */
-    public final static int NORMAL_TRAIN_CARDS_COUNT = 12;
+    public final static int NORMAL_TRAIN_CARDS_COUNT = 2;
 
     /**
      * The maximum number of wild cards that are available in the face up deck (2)
@@ -430,20 +430,14 @@ public class Game implements Observer, Serializable {
     /**
      * Restores the specified deck after a restart
      *
-     * @param deckType DESTINATION_DECK or TRAIN_DECK
      * @param newDeck the new Deck to use
      */
-    public void restoreDeck(DeckShufflType deckType, Deck newDeck){
-        switch (deckType){
-            case DESTINATION_DECK:
-                _destinationCards = newDeck;
-                break;
-            case TRAIN_DECK:
-                _trainCards = newDeck;
-                break;
-            default:
-                break;
-        }
+    public void restoreFaceup(Deck newDeck){
+        _faceUpTrainCards = newDeck;
+    }
+
+    public void restoreFacedown(Deck newDeck){
+        _trainCards = newDeck;
     }
 
     /**
@@ -463,21 +457,7 @@ public class Game implements Observer, Serializable {
      */
     @Override
     public void update(Observable obj, Object args){
-        if (args == Deck.ObserverEvents.SHUFFLE){
-            // this is a shuffle event, so create a command for the correct Deck
 
-            Deck currDeck = (Deck)obj;
-            DeckShufflType deckEvent = null;
-            if (currDeck == _destinationCards){
-                deckEvent = DeckShufflType.DESTINATION_DECK;
-            }
-            else {
-                deckEvent = DeckShufflType.TRAIN_DECK;
-            }
-
-            // save the command via the data persistence subsystem
-            DataFlush.saveCommand(getName(), (Command)ServerCommandFactory.createDeckShuffledCommand(getName(), deckEvent, currDeck));
-        }
     }
 
     @Override
@@ -773,7 +753,7 @@ public class Game implements Observer, Serializable {
     /**
      * Resets the face up cards to have 5 cards showing and triggers an update command
      */
-    private void repopulateFaceUpCards(){
+    public void repopulateFaceUpCards(){
 
         for (int count = _faceUpTrainCards.size(); count < FACE_UP_CARD_MAX; count++){
             if (_trainCards.size() > 0) {
@@ -861,6 +841,7 @@ public class Game implements Observer, Serializable {
             //ArrayList<TrainCard> faceUpCards = (ArrayList<TrainCard>)_faceUpTrainCards.toList(TrainCard.class);
             //_gameHistory.addCommand(ClientCommandFactory.createTrainCardDeckUpdatedCommand(faceUpCards, _trainCards.size()));
             repopulateFaceUpCards();
+            DataFlush.saveCommand(getName(), (Command)ServerCommandFactory.createRestoreTrainDeckCommand(getName(), _faceUpTrainCards, _trainCards));
         }
 
         if (_trainCards.size() < 1) {

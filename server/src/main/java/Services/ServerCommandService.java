@@ -401,8 +401,7 @@ public class ServerCommandService implements IServer {
         }
     }
 
-    public void restoreDeck(String gameName, String event, Deck restoreDeck){
-        Game.DeckShufflType shufflType = Game.DeckShufflType.valueOf(event);
-        _serverModel.restoreDeck(gameName, shufflType, restoreDeck);
+    public void restoreTrainDeck(String gameName, Deck faceup, Deck facedown) {
+        _serverModel.restoreTrainDeck(gameName, faceup, facedown);
     }
 }

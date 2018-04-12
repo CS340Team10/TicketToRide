@@ -1,6 +1,5 @@
 package Services;
 
-import Model.Game;
 import common.Command;
 import common.Deck;
 import common.ICommand;
@@ -10,10 +9,8 @@ import common.ICommand;
  */
 
 public class ServerCommandFactory {
-
-
-    public static ICommand createDeckShuffledCommand(String gameName, Game.DeckShufflType deckType, Deck currDeck) {
-        Command command = new Command("Services.ServerCommandService", "restoreDeck", new String[]{"java.lang.String", "java.lang.String", "common.Deck"}, new Object[]{gameName, deckType.toString(), currDeck} );
+    public static ICommand createRestoreTrainDeckCommand(String gameName, Deck faceup, Deck facedown) {
+        Command command = new Command("Services.ServerCommandService", "restoreTrainDeck", new String[]{"java.lang.String", "common.Deck", "common.Deck"}, new Object[]{gameName, faceup, facedown} );
         return command;
     }
 }

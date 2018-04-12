@@ -459,7 +459,7 @@ public class ServerModel {
     }
 
 
-    public void restoreDeck(String gameName, Game.DeckShufflType deckType, Deck restoreDeck){
+    public void restoreTrainDeck(String gameName, Deck faceup, Deck facedown){
         // get the correct game
         Game modifyGame = null;
         for (int count = 0; count < _currentGames.size(); count++){
@@ -471,7 +471,8 @@ public class ServerModel {
 
         // restore the deck
         if (modifyGame != null){
-            modifyGame.restoreDeck(deckType, restoreDeck);
+            modifyGame.restoreFaceup(faceup);
+            modifyGame.restoreFacedown(facedown);
         }
     }
 }
